@@ -1,0 +1,27 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Luminescence"
+             x:Class="Luminescence.App">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+
+        <!-- Default Style -->
+        <FluentTheme Mode="Light" />
+
+        <!-- Packages Styles -->
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+        <StyleInclude Source="resm:OxyPlot.Avalonia.Themes.Default.xaml?assembly=OxyPlot.Avalonia" />
+
+        <!-- Common Styles -->
+        <StyleInclude Source="avares://Luminescence/Styles/Common/CommonStyle.axaml" />
+
+        <!-- Variables -->
+        <StyleInclude Source="avares://Luminescence/Styles/VariablesStyle.axaml" />
+
+    </Application.Styles>
+    
+</Application>

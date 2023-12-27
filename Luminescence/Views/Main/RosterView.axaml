@@ -1,0 +1,188 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="clr-namespace:Luminescence.Views"
+             xmlns:vm="clr-namespace:Luminescence.ViewModels"
+             xmlns:converters="clr-namespace:Luminescence.Converters"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.RosterView"
+             x:DataType="vm:RosterViewModel"
+             x:CompileBindings="True"
+             Height="164"
+             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0.5">
+
+    <Design.DataContext>
+        <vm:RosterViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/RosterViewStyle.axaml" />
+    </UserControl.Styles>
+
+    <UserControl.Resources>
+        <converters:DictionaryEntryConverter x:Key="ControlConverter" />
+    </UserControl.Resources>
+
+    <Panel Classes="Roster">
+        <Grid HorizontalAlignment="Stretch" RowDefinitions="164" ColumnDefinitions="454,200,*">
+
+            <TabControl Classes="Tabs" Grid.Row="0" Grid.Column="0">
+
+                <TabItem Header="ТЛ">
+                    <Border Margin="-12 0 0 0" Padding="12 0 0 0"
+                            Height="164"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0.5 0 0 0">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel Orientation="Vertical">
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeaterOff'}" />
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearHeating'}" />
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureMaintenance'}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='FinalTemperature'}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatingRate'}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem Header="ОСЛ">
+                    <Border Margin="-12 0 0 0" Padding="12 0 0 0"
+                            Height="164"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0.5 0 0 0">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel Orientation="Vertical">
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedOff'}" />
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearIncreaseCurrent'}" />
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CurrentMaintenance'}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='InitialCurrent'}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='FinalCurrent'}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CurrentRiseRate'}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem Header="Режим ФЭУ">
+                    <Border Margin="-12 0 0 0" Padding="12 0 0 0"
+                            Height="164"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0.5 0 0 0">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel Orientation="Vertical">
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Automatic'}" />
+                                <v:RadioControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ControlVoltage'}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel>
+                                    <v:TextControlView
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Label'}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+            </TabControl>
+
+            <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0.5 0 0 0"
+                    Grid.Row="0" Grid.Column="1">
+                <StackPanel Classes="Table">
+
+                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="4,0,0,4"
+                                Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Температура" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,1,1"
+                                CornerRadius="0,4,4,0"
+                                Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding Form.Temperature, StringFormat={}{0} °C}" />
+                        </Border>
+                    </Grid>
+
+                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="4,0,0,4"
+                                Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Код АЦП ФЭУ" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,1,1"
+                                CornerRadius="0,4,4,0"
+                                Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding Form.Code}" />
+                        </Border>
+                    </Grid>
+
+                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="4,0,0,4"
+                                Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Ufeu" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,1,1"
+                                CornerRadius="0,4,4,0"
+                                Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding Form.VoltagePmt, StringFormat={}{0} В}" />
+                        </Border>
+                    </Grid>
+
+                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="4,0,0,4"
+                                Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Ток" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,1,1"
+                                CornerRadius="0,4,4,0"
+                                Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding Form.Current, StringFormat={}{0} A}" />
+                        </Border>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+
+            <TextBox Classes="Info"
+                     IsReadOnly="True" TextWrapping="Wrap"
+                     Grid.Row="0" Grid.Column="2"
+                     Text="{Binding Form.Description}" />
+        </Grid>
+    </Panel>
+
+</UserControl>

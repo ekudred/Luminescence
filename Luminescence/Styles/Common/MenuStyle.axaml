@@ -1,0 +1,56 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="MenuItem">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundDefault}" />
+        <Setter Property="MinHeight" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="8 4" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Menu > MenuItem">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
+    </Style>
+
+    <Style Selector="MenuItem > AccessText">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="LineHeight" Value="16" />
+    </Style>
+
+    <Style Selector="MenuItem > Separator">
+        <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="Margin" Value="0 4 0 4" />
+    </Style>
+    
+    <Style Selector="MenuItem:pointerover /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" />
+    </Style>
+
+    <Style Selector="MenuItem:pressed /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundPressed}" />
+    </Style>
+    
+    <Style Selector="MenuItem:selected /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" />
+    </Style>
+    
+    <!-- <Style Selector="MenuItem:focus /template/ Border#PART_LayoutRoot"> -->
+    <!--     <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" /> -->
+    <!-- </Style> -->
+    
+    <Style Selector="MenuItem:disabled /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundDisabled}" />
+    </Style>
+    
+    <Style Selector="MenuItem > MenuItem">
+        <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+    </Style>
+
+</Styles>

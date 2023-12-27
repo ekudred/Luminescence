@@ -1,0 +1,54 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Luminescence.ViewModels"
+             xmlns:md="using:Material.Icons.Avalonia"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.ToolBarView"
+             x:DataType="vm:ToolBarViewModel"
+             x:CompileBindings="True"
+             Height="32"
+             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0.5">
+
+    <Design.DataContext>
+        <vm:ToolBarViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ToolBarViewStyle.axaml" />
+    </UserControl.Styles>
+
+    <Panel Classes="ToolBar">
+        <DockPanel>
+
+            <StackPanel Classes="Menu" DockPanel.Dock="Left" Orientation="Horizontal">
+                <Menu>
+                    <MenuItem Header="Файл">
+                        <MenuItem Header="Новый" />
+                        <MenuItem Header="Открыть" />
+                        <Separator />
+                        <MenuItem Header="Сохранить" />
+                    </MenuItem>
+                    <MenuItem Header="Настройки" Command="{Binding OpenOptionsDialogCommand}" />
+                </Menu>
+            </StackPanel>
+
+            <StackPanel Classes="Activity" Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding !IsActive}">
+                    <md:MaterialIcon Kind="Play" Classes="Play" />
+                </Button>
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding IsActive}">
+                    <md:MaterialIcon Kind="Stop" Classes="Stop" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right">
+                <md:MaterialIcon Kind="WarningCircle" Classes="WarningCircle" />
+                <TextBlock Text="{Binding ConnectionStatus}" />
+            </StackPanel>
+
+        </DockPanel>
+    </Panel>
+
+</UserControl>
