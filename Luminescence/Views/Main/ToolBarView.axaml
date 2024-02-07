@@ -35,10 +35,10 @@
             </StackPanel>
 
             <StackPanel Classes="Activity" Orientation="Horizontal" DockPanel.Dock="Left">
-                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding !IsActive}">
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding !Active}">
                     <md:MaterialIcon Kind="Play" Classes="Play" />
                 </Button>
-                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding IsActive}">
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding Active}">
                     <md:MaterialIcon Kind="Stop" Classes="Stop" />
                 </Button>
             </StackPanel>

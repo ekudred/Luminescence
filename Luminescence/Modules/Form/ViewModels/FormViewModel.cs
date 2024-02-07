@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Luminescence.ViewModels;
-using ReactiveUI;
 
 namespace Luminescence.Form.ViewModels;
 
@@ -24,12 +23,7 @@ public class FormViewModel<TFormModel> : BaseViewModel
     {
         GetControls(new List<FormControlBaseViewModel>())
             .ForEach(control => _controls.Add(control.Name, control));
-        
-        // Controls
-        //     .Select(x => x.Value.ValueChanges)
-        //     .Merge()
-        //     .Subscribe(_ => { A += 1; });
-        
+
         ChangeModel(_model);
         OnInitialize();
     }
@@ -55,16 +49,16 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
     protected virtual void ChangeModel(TFormModel model)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     protected virtual List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     protected virtual void OnInitialize()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

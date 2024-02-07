@@ -19,14 +19,23 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
         ));
-        services.RegisterLazySingleton(() => new RosterFormService());
-        services.RegisterLazySingleton(() => new OptionsDialogFormService());
+        services.RegisterLazySingleton(() => new RosterFormService(
+            resolver.GetService<ExpUsbDeviceService>()
+        ));
+        services.RegisterLazySingleton(() => new OptionsDialogFormService(
+            resolver.GetService<ExpUsbDeviceService>()
+        ));
+        services.RegisterLazySingleton(() => new ExpUsbDeviceService());
+        services.RegisterLazySingleton(() => new ExpChartService(
+            resolver.GetService<ExpUsbDeviceService>()
+        ));
     }
 
     private static void RegisterViewModels(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new ChartPanelViewModel(
-            resolver.GetService<MainWindowViewModel>()
+            resolver.GetService<MainWindowViewModel>(),
+            resolver.GetService<ExpChartService>()
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel());
         services.RegisterLazySingleton(() => new OptionsDialogViewModel(
@@ -36,7 +45,8 @@ public static class Bootstrapper
             resolver.GetService<RosterFormService>()
         ));
         services.RegisterLazySingleton(() => new ToolBarViewModel(
-            resolver.GetService<DialogService>()
+            resolver.GetService<DialogService>(),
+            resolver.GetService<ExpUsbDeviceService>()
         ));
     }
 }

@@ -43,7 +43,9 @@ public partial class MainWindow : Window
     {
         MainWindowViewModel viewModel = Locator.Current.GetService<MainWindowViewModel>();
 
-        this.WhenAnyValue(view => view.Width).Subscribe(width => { viewModel.Width = width; });
-        this.WhenAnyValue(view => view.Height).Subscribe(height => { viewModel.Height = height; });
+        this.WhenAnyValue(view => view.Width)
+            .Subscribe(width => { viewModel.Width = width; });
+        this.WhenAnyValue(view => view.Height)
+            .Subscribe(height => { viewModel.Height = height; });
     }
 }

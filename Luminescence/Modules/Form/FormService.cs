@@ -6,7 +6,7 @@ public abstract class FormService<TFormViewModel, TFormModel>
     where TFormViewModel : FormViewModel<TFormModel>
     where TFormModel : FormBaseModel
 {
-    public void Initialize(TFormViewModel model)
+    public virtual void Initialize(TFormViewModel model)
     {
         model.Initialize();
     }
