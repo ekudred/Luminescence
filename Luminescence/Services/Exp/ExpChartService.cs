@@ -49,7 +49,7 @@ public class ExpChartService : ReactiveObject
         ChartIntensityTemperatureModel = new ChartModel("Интенсивность", "Температура, °C");
         ChartIntensityCurrentModel = new ChartModel("Интенсивность", "Ток светодиода, мА");
 
-        this.WhenAnyValue(x => x._expUsbDeviceService.Data)
-            .Subscribe((ReadableDataStructure data) => { });
+        // this.WhenAnyValue(x => x._expUsbDeviceService.Data)
+        // .Subscribe((ReadableDataStructure data) => { });
     }
 }

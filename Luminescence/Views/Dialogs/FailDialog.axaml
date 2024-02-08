@@ -1,0 +1,29 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Luminescence.ViewModels"
+        mc:Ignorable="d"
+        x:Class="Luminescence.Views.FailDialog"
+        x:DataType="vm:FailDialogViewModel"
+        x:CompileBindings="True"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        Width="500" Height="200"
+        HasSystemDecorations="True"
+        CanResize="False"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Fail | TlOsl">
+
+    <Design.DataContext>
+        <vm:FailDialogViewModel />
+    </Design.DataContext>
+
+    <!-- <Window.Styles> -->
+    <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
+    <!-- </Window.Styles> -->
+    <!-- Fail -->
+
+    <TextBlock Text="{Binding Model.Message}" />
+
+</Window>

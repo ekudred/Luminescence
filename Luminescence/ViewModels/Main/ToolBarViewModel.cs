@@ -1,5 +1,6 @@
 ﻿using System.Reactive;
 using Luminescence.Dialog;
+using Luminescence.Models;
 using Luminescence.Services;
 using Luminescence.Views;
 using ReactiveUI;
@@ -37,12 +38,13 @@ public class ToolBarViewModel : BaseViewModel
 
             return;
         }
-        
+
         _expDeviceUsbService.DestroyDevice();
     }
 
     public void OpenOptionsDialog()
     {
+        // _dialogService.ShowDialog(new FailDialog());
         _dialogService.ShowDialog(new OptionsDialog());
     }
 }

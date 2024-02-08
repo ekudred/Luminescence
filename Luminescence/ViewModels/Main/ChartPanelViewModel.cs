@@ -44,7 +44,8 @@ public class ChartPanelViewModel : BaseViewModel
     {
         _mainWindowViewModel = mainWindowViewModel;
         _expChartService = expChartService;
-        
+
+        _expChartService.Initialize();
         InitializeChartSizes();
     }
 

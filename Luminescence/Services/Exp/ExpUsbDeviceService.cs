@@ -1,9 +1,11 @@
 ﻿using System;
 using Avalonia.Threading;
+using Luminescence.Dialog;
 using Luminescence.Usb;
 using Luminescence.Enums;
 using Luminescence.Models;
 using Luminescence.Utils;
+using Luminescence.Views;
 using ReactiveUI;
 
 namespace Luminescence.Services;
@@ -61,6 +63,20 @@ public class ExpUsbDeviceService : ReactiveObject
     private DispatcherTimer _timer;
 
     private readonly int _scanDelay = 1;
+
+    private readonly DialogService _dialogService;
+
+    public ExpUsbDeviceService(DialogService dialogService)
+    {
+        _dialogService = dialogService;
+        // App.RegisterHandler(DisposeUSBDevice);
+    }
+
+    // public void DisposeUSBDevice()
+    // {
+    //     Device.StopAsyncRead();
+    //     Device.Dispose();
+    // }
 
     // public void Initialize()
     // {
@@ -128,18 +144,21 @@ public class ExpUsbDeviceService : ReactiveObject
         catch (Exception exception)
         {
             Console.WriteLine(exception);
+            _dialogService.ShowDialog(new FailDialog());
         }
     }
 
-    public void PushData(WritableDataStructure data)
+    public void PushData(ReadableDataStructure data)
     {
         try
         {
+            Console.WriteLine(data);
             Device.Write(StructUtil.StructToByte(data));
         }
         catch (Exception exception)
         {
             Console.WriteLine(exception);
+            _dialogService.ShowDialog(new FailDialog());
         }
     }
 
@@ -160,6 +179,7 @@ public class ExpUsbDeviceService : ReactiveObject
             catch (Exception exception)
             {
                 DestroyDevice();
+                _dialogService.ShowDialog(new FailDialog());
             }
         };
         _timer.Start();

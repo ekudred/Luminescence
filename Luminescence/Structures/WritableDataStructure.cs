@@ -2,57 +2,57 @@
 
 namespace Luminescence.Models;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 63)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
 public struct WritableDataStructure
 {
-    // 00     стандартный репорт передачи данных от МК, номер типа репорта tReportStdInPC = 3
+    // 00     репорт приема команд и данных от ПК, номер типа репорта repStdOutPC = 1
     public uint ID_Report;
 
-    // 01     режим
-    public uint Mode;
+    // 01     команда
+    public uint Command;
 
-    // 02     фаза режима
-    public uint Phase;
-
-    // 03     параметр 0
+    // 02     параметр 0
     public uint Parameter0;
 
+    // 03     параметр 1
+    public uint Parameter1;
 
-    // 04-07  кол-во тиков после запуска нагрева
-    public uint Counter;
 
-
-    // 08     режим нагрева
+    // 04     режим нагрева (0 – отключение, 1 – линейный нагрев, 2 – поддержание)
     public uint HeaterMode;
 
-    // 09     скорость нагрева, C°/с
-    public uint HeatingRate;
-
-    // 10-11  скорость увеличения тока, 0,1мА/с (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1мА/с, 10 - 1мА/с, 20 - 2мА/с ... )
-    public uint LEDCurrentRate;
-
-
-    // 12-15  опорная температура
-    public float OpTemperature;
-
-    // 16-19  текущая температура
-    public float Temperature;
-
-    // 20-23  текущый ток, мА
-    public float LEDCurrent;
-
-
-    // 24-27  интенсивность свечения
-    public uint Intensity;
-
-    // 28     режим работы светодиодов для ОСЛ
+    // 05     режим работы светодиодов для ОСЛ (0 – отключение, 1 – линейное увеличение тока, 2 – поддержание тока)
     public uint LEDMode;
 
-    // 29     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В)
+    // 06     режим работы ФЭУ (0 – ФЭУ выключен, 1 – авто режим, 2 – постоянное Ufeu)
+    public uint PEMMode;
+
+    // 07     скорость нагрева (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1C°/с, 10 - 1C°/с, 20 - 2C°/с ... )
+    public uint HeatRate;
+
+
+    // 08-09  начальная температура, С°
+    public uint StartTemperature;
+
+    // 10-11  конечная температура, С°
+    public uint EndTemperature;
+
+
+    // 12-13  начальный ток, мА
+    public uint StartLEDCurrent;
+
+    // 14-15  конечный ток, мА
+    public uint EndLEDCurrent;
+
+
+    // 16-17  скорость роста тока (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1мА/с, 10 - 1мА/с, 20 - 2мА/с ... )
+    public uint LEDCurrentRate;
+
+    // 18     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В) коэф.
     public uint Upem;
 
 
-    // 30-62  Data[LengthDataInRepStdOutPC] ?? LengthDataInRepStdOutPC = 33
+    // 19-62  Data[LengthDataInRepStdOutPC] ?? LengthDataInRepStdOutPC = 43
     public uint Data;
 
     // 63     Ошибка
