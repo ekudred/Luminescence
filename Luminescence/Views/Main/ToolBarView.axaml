@@ -24,17 +24,20 @@
 
             <StackPanel Classes="Menu" DockPanel.Dock="Left" Orientation="Horizontal">
                 <Menu>
-                    <MenuItem Header="Файл">
+                    <MenuItem Header="Файл" IsEnabled="{Binding Connected}">
                         <MenuItem Header="Новый" />
                         <MenuItem Header="Открыть" />
                         <Separator />
                         <MenuItem Header="Сохранить" />
                     </MenuItem>
-                    <MenuItem Header="Настройки" Command="{Binding OpenOptionsDialogCommand}" />
+                    <MenuItem Header="Настройки"
+                              IsEnabled="{Binding Connected}"
+                              Command="{Binding OpenOptionsDialogCommand}" />
                 </Menu>
             </StackPanel>
 
-            <StackPanel Classes="Activity" Orientation="Horizontal" DockPanel.Dock="Left">
+            <StackPanel Classes="Activity" IsVisible="{Binding Connected}" Orientation="Horizontal"
+                        DockPanel.Dock="Left">
                 <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding !Active}">
                     <md:MaterialIcon Kind="Play" Classes="Play" />
                 </Button>
@@ -43,9 +46,37 @@
                 </Button>
             </StackPanel>
 
+            <!-- <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right"> -->
+            <!--     <Grid RowDefinitions="26" ColumnDefinitions="Auto,Auto"> -->
+            <!--         <Button IsEnabled="{Binding !Connected}" -->
+            <!--                 Command="{Binding ConnectCommand}"> -->
+            <!--             <StackPanel Orientation="Horizontal"> -->
+            <!--                 <md:MaterialIcon Kind="Connection" Classes="Connection" /> -->
+            <!--                 <TextBlock Text="{Binding ConnectionStatus}" /> -->
+            <!--             </StackPanel> -->
+            <!--         </Button> -->
+            <!--     </Grid> -->
+            <!-- </StackPanel> -->
+
             <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right">
-                <md:MaterialIcon Kind="WarningCircle" Classes="WarningCircle" />
-                <TextBlock Text="{Binding ConnectionStatus}" />
+                <Grid RowDefinitions="26" ColumnDefinitions="Auto,Auto">
+                    <Border Classes="StatusMessage"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="4,0,0,4"
+                            Grid.Row="0" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:MaterialIcon Kind="WarningCircle" Classes="WarningCircle" />
+                            <TextBlock Text="{Binding ConnectionStatus}" />
+                        </StackPanel>
+                    </Border>
+                    <Button Classes="Icon After Connect" Command="{Binding ConnectCommand}"
+                            Grid.Row="0" Grid.Column="1">
+                        <StackPanel Orientation="Vertical">
+                            <md:MaterialIcon Kind="Connection" IsVisible="{Binding !Connected}" Classes="Connection" />
+                            <md:MaterialIcon Kind="ConnectWithoutContact" IsVisible="{Binding Connected}" Classes="Connection" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </StackPanel>
 
         </DockPanel>

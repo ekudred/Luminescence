@@ -1,6 +1,18 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+    
+    <Style Selector="avalonia|MaterialIcon.Play">
+        <Setter Property="Foreground" Value="#22b937" />
+    </Style>
+
+    <Style Selector="avalonia|MaterialIcon.Connection">
+        <Setter Property="Foreground" Value="#22b937" />
+    </Style>
+
+    <Style Selector="avalonia|MaterialIcon.Stop">
+        <Setter Property="Foreground" Value="#c72525" />
+    </Style>
 
     <Style Selector="avalonia|MaterialIcon.WarningCircle">
         <Setter Property="RenderTransform">

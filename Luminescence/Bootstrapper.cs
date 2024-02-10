@@ -39,7 +39,9 @@ public static class Bootstrapper
             resolver.GetService<MainWindowViewModel>(),
             resolver.GetService<ExpChartService>()
         ));
-        services.RegisterLazySingleton(() => new MainWindowViewModel());
+        services.RegisterLazySingleton(() => new MainWindowViewModel(
+            resolver.GetService<ExpUsbDeviceService>()
+        ));
         services.RegisterLazySingleton(() => new OptionsDialogViewModel(
             resolver.GetService<OptionsDialogFormService>()
         ));

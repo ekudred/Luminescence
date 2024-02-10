@@ -1,5 +1,7 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 using Luminescence.Dialog;
+using Luminescence.Enums;
 using Luminescence.Models;
 using Luminescence.Services;
 using Luminescence.Views;
@@ -11,9 +13,29 @@ public class ToolBarViewModel : BaseViewModel
 {
     public ReactiveCommand<Unit, Unit> OpenOptionsDialogCommand { get; }
     public ReactiveCommand<Unit, Unit> ToggleActiveCommand { get; }
+    public ReactiveCommand<Unit, Unit> ConnectCommand { get; }
 
-    public string ConnectionStatus => _expDeviceUsbService.ConnectionStatus;
-    public bool Active => _expDeviceUsbService.Initialized;
+    public bool Active
+    {
+        get => _active;
+        set => this.RaiseAndSetIfChanged(ref _active, value);
+    }
+
+    public string ConnectionStatus
+    {
+        get => _connectionStatus;
+        set => this.RaiseAndSetIfChanged(ref _connectionStatus, value);
+    }
+
+    public bool Connected
+    {
+        get => _connected;
+        set => this.RaiseAndSetIfChanged(ref _connected, value);
+    }
+
+    private bool _active;
+    private string _connectionStatus;
+    private bool _connected;
 
     private readonly DialogService _dialogService;
     private readonly ExpUsbDeviceService _expDeviceUsbService;
@@ -26,25 +48,53 @@ public class ToolBarViewModel : BaseViewModel
         _dialogService = dialogService;
         _expDeviceUsbService = expDeviceUsbService;
 
+        this.WhenAnyValue(x => x._expDeviceUsbService.Active)
+            .Subscribe(active => { Active = active; });
+        this.WhenAnyValue(x => x._expDeviceUsbService.ConnectionStatusCode)
+            .Subscribe(connectionStatusCode =>
+            {
+                ConnectionStatus = GetUsbConnectionStatus(connectionStatusCode);
+                Connected = connectionStatusCode == UsbConnectionStatusCode.Connected;
+            });
+
         OpenOptionsDialogCommand = ReactiveCommand.Create(OpenOptionsDialog);
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
-    }
-
-    public void ToggleActive()
-    {
-        if (!_expDeviceUsbService.Initialized)
-        {
-            _expDeviceUsbService.InitDevice();
-
-            return;
-        }
-
-        _expDeviceUsbService.DestroyDevice();
+        ConnectCommand = ReactiveCommand.Create(Connect);
     }
 
     public void OpenOptionsDialog()
     {
         // _dialogService.ShowDialog(new FailDialog());
         _dialogService.ShowDialog(new OptionsDialog());
+    }
+
+    public void ToggleActive()
+    {
+        if (!_expDeviceUsbService.Active)
+        {
+            _expDeviceUsbService.StartScanDevice();
+
+            return;
+        }
+
+        _expDeviceUsbService.StopScanDevice();
+    }
+
+    public void Connect()
+    {
+        _expDeviceUsbService.ConnectDevice();
+    }
+
+    private string GetUsbConnectionStatus(UsbConnectionStatusCode status)
+    {
+        switch (status)
+        {
+            case UsbConnectionStatusCode.Connected:
+                return "Устройство подключено";
+            case UsbConnectionStatusCode.NoConnection:
+                return "Подключить устройство";
+            default:
+                return "";
+        }
     }
 }

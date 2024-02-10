@@ -29,6 +29,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="hidapi.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Update="Views\Main\RosterView.axaml.cs">
             <DependentUpon>RosterView.axaml</DependentUpon>
             <SubType>Code</SubType>

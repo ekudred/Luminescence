@@ -23,26 +23,36 @@
     <Style Selector="StackPanel.Activity">
         <Setter Property="Margin" Value="8 0 8 0" />
     </Style>
-    
+
     <Style Selector="StackPanel.Activity > Button">
         <Setter Property="Margin" Value="0 0 6 0" />
     </Style>
-    
+
     <Style Selector="StackPanel.Activity > Button:nth-last-child()">
         <Setter Property="Margin" Value="0" />
     </Style>
 
     <Style Selector="StackPanel.Status">
         <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <Style Selector="StackPanel.Status > avalonia|MaterialIcon">
-        <Setter Property="Margin" Value="0 0 8 0" />
+    <Style Selector="Border.StatusMessage">
+        <Setter Property="Padding" Value="8 0" />
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundDefault}" />
     </Style>
-    
-    <Style Selector="StackPanel.Status > TextBlock">
+
+    <Style Selector="Border.StatusMessage > StackPanel > avalonia|MaterialIcon">
+        <Setter Property="Margin" Value="0 0 6 0" />
+    </Style>
+
+    <Style Selector="Border.StatusMessage > StackPanel > TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style Selector="Button.Connect">
+        <Setter Property="Width" Value="56" />
     </Style>
 
 </Styles>

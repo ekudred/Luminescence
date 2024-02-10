@@ -1,9 +1,9 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
-    
+
     <!-- Button -->
-    
+
     <Style Selector="Button">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundDefault}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
@@ -23,7 +23,7 @@
         <Setter Property="Height" Value="16" />
         <Setter Property="LineHeight" Value="16" />
     </Style>
-    
+
     <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundPointerover}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
@@ -50,7 +50,7 @@
         <Setter Property="Opacity" Value="0.3" />
         <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    
+
     <!-- Button.Icon -->
 
     <Style Selector="Button.Icon">
@@ -59,18 +59,43 @@
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <Style Selector="Button > avalonia|MaterialIcon.Play">
+    <Style Selector="Button.Icon > avalonia|MaterialIcon.Play">
         <Setter Property="RenderTransform">
             <ScaleTransform ScaleX="1.3" ScaleY="1.3" />
         </Setter>
-        <Setter Property="Foreground" Value="#22b937" />
     </Style>
 
-    <Style Selector="Button > avalonia|MaterialIcon.Stop">
+    <Style Selector="Button.Icon > avalonia|MaterialIcon.Stop">
         <Setter Property="RenderTransform">
             <ScaleTransform ScaleX="1.3" ScaleY="1.3" />
         </Setter>
-        <Setter Property="Foreground" Value="#c72525" />
     </Style>
-    
+
+    <!-- Button.After -->
+
+    <Style Selector="Button.After">
+        <Setter Property="BorderThickness" Value="0 1 1 1" />
+        <Setter Property="CornerRadius" Value="0 4 4 0" />
+    </Style>
+
+    <Style Selector="Button.After:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderThickness" Value="0 1 1 1" />
+        <Setter Property="CornerRadius" Value="0 4 4 0" />
+    </Style>
+
+    <Style Selector="Button.After:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderThickness" Value="0 1 1 1" />
+        <Setter Property="CornerRadius" Value="0 4 4 0" />
+    </Style>
+
+    <Style Selector="Button.After:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+    </Style>
+
+    <Style
+        Selector="Button.After.Icon:disabled /template/ ContentPresenter#PART_ContentPresenter > avalonia|MaterialIcon">
+        <Setter Property="Opacity" Value="0.3" />
+    </Style>
+
 </Styles>
