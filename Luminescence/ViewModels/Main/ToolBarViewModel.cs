@@ -15,10 +15,16 @@ public class ToolBarViewModel : BaseViewModel
     public ReactiveCommand<Unit, Unit> ToggleActiveCommand { get; }
     public ReactiveCommand<Unit, Unit> ConnectCommand { get; }
 
-    public bool Active
+    public bool PlayEnabled
     {
-        get => _active;
-        set => this.RaiseAndSetIfChanged(ref _active, value);
+        get => _playEnabled;
+        set => this.RaiseAndSetIfChanged(ref _playEnabled, value);
+    }
+
+    public bool StopEnabled
+    {
+        get => _stopEnabled;
+        set => this.RaiseAndSetIfChanged(ref _stopEnabled, value);
     }
 
     public string ConnectionStatus
@@ -33,7 +39,8 @@ public class ToolBarViewModel : BaseViewModel
         set => this.RaiseAndSetIfChanged(ref _connected, value);
     }
 
-    private bool _active;
+    private bool _playEnabled;
+    private bool _stopEnabled;
     private string _connectionStatus;
     private bool _connected;
 
@@ -48,8 +55,14 @@ public class ToolBarViewModel : BaseViewModel
         _dialogService = dialogService;
         _expDeviceUsbService = expDeviceUsbService;
 
-        this.WhenAnyValue(x => x._expDeviceUsbService.Active)
-            .Subscribe(active => { Active = active; });
+        this.WhenAnyValue(x => x._expDeviceUsbService.Active, x => x.Connected)
+            .Subscribe(result =>
+            {
+                var (active, connected) = result;
+
+                PlayEnabled = !active && connected;
+                StopEnabled = active && connected;
+            });
         this.WhenAnyValue(x => x._expDeviceUsbService.ConnectionStatusCode)
             .Subscribe(connectionStatusCode =>
             {
@@ -83,6 +96,7 @@ public class ToolBarViewModel : BaseViewModel
     public void Connect()
     {
         _expDeviceUsbService.ConnectDevice();
+        // Connected = !Connected;
     }
 
     private string GetUsbConnectionStatus(UsbConnectionStatusCode status)

@@ -71,6 +71,33 @@
         </Setter>
     </Style>
 
+    <!-- Button.Before -->
+
+    <Style Selector="Button.Before">
+        <Setter Property="BorderThickness" Value="1 1 0 1" />
+        <Setter Property="CornerRadius" Value="4 0 0 4" />
+    </Style>
+
+    <Style Selector="Button.Before:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderThickness" Value="1 1 0 1" />
+        <Setter Property="CornerRadius" Value="4 0 0 4" />
+    </Style>
+
+    <Style Selector="Button.Before:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderThickness" Value="1 1 0 1" />
+        <Setter Property="CornerRadius" Value="4 0 0 4" />
+    </Style>
+
+    <Style Selector="Button.Before:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+    </Style>
+
+    <Style
+        Selector="Button.Before.Icon:disabled /template/ ContentPresenter#PART_ContentPresenter > avalonia|MaterialIcon">
+        <Setter Property="Opacity" Value="0.3" />
+    </Style>
+
     <!-- Button.After -->
 
     <Style Selector="Button.After">

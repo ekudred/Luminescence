@@ -47,11 +47,11 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel>
                                     <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='FinalTemperature'}" />
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndTemperature'}" />
                                 </StackPanel>
                                 <StackPanel>
                                     <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatingRate'}" />
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatRate'}" />
                                 </StackPanel>
                             </StackPanel>
 
@@ -77,15 +77,15 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel>
                                     <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='InitialCurrent'}" />
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='StartLEDCurrent'}" />
                                 </StackPanel>
                                 <StackPanel>
                                     <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='FinalCurrent'}" />
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndLEDCurrent'}" />
                                 </StackPanel>
                                 <StackPanel>
                                     <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CurrentRiseRate'}" />
+                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDCurrentRate'}" />
                                 </StackPanel>
                             </StackPanel>
 
@@ -103,7 +103,7 @@
                                 <v:RadioControlView
                                     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Automatic'}" />
                                 <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ControlVoltage'}" />
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Upem'}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Vertical">
@@ -123,7 +123,9 @@
                     Grid.Row="0" Grid.Column="1">
                 <StackPanel Classes="Table">
 
-                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                    <Grid Classes="TableRow"
+                          RowDefinitions="28" ColumnDefinitions="112,64"
+                          IsEnabled="{Binding Active}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -136,7 +138,9 @@
                         </Border>
                     </Grid>
 
-                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                    <Grid Classes="TableRow"
+                          RowDefinitions="28" ColumnDefinitions="112,64"
+                          IsEnabled="{Binding Active}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -149,7 +153,9 @@
                         </Border>
                     </Grid>
 
-                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                    <Grid Classes="TableRow"
+                          RowDefinitions="28" ColumnDefinitions="112,64"
+                          IsEnabled="{Binding Active}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -162,7 +168,9 @@
                         </Border>
                     </Grid>
 
-                    <Grid RowDefinitions="28" ColumnDefinitions="112,64">
+                    <Grid Classes="TableRow"
+                          RowDefinitions="28" ColumnDefinitions="112,64"
+                          IsEnabled="{Binding Active}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -179,7 +187,9 @@
             </Border>
 
             <TextBox Classes="Info"
-                     IsReadOnly="True" TextWrapping="Wrap"
+                     IsReadOnly="True"
+                     IsEnabled="{Binding Active}"
+                     TextWrapping="Wrap"
                      Grid.Row="0" Grid.Column="2"
                      Text="{Binding Form.Description}" />
         </Grid>

@@ -53,19 +53,19 @@ public class RosterFormViewModel : FormViewModel<RosterFormModel>
         model.HeaterOff = ((RadioControlViewModel)GetControl("HeaterOff")).Value;
         model.LinearHeating = ((RadioControlViewModel)GetControl("LinearHeating")).Value;
         model.TemperatureMaintenance = ((RadioControlViewModel)GetControl("TemperatureMaintenance")).Value;
-        model.FinalTemperature = ((TextControlViewModel)GetControl("FinalTemperature")).Value;
-        model.HeatingRate = ((TextControlViewModel)GetControl("HeatingRate")).Value;
+        model.EndTemperature = ((TextControlViewModel)GetControl("EndTemperature")).Value;
+        model.HeatRate = ((TextControlViewModel)GetControl("HeatRate")).Value;
 
         model.LedOff = ((RadioControlViewModel)GetControl("LedOff")).Value;
         model.LinearIncreaseCurrent = ((RadioControlViewModel)GetControl("LinearIncreaseCurrent")).Value;
         model.CurrentMaintenance = ((RadioControlViewModel)GetControl("CurrentMaintenance")).Value;
-        model.InitialCurrent = ((TextControlViewModel)GetControl("InitialCurrent")).Value;
-        model.FinalCurrent = ((TextControlViewModel)GetControl("FinalCurrent")).Value;
-        model.CurrentRiseRate = ((TextControlViewModel)GetControl("CurrentRiseRate")).Value;
+        model.StartLEDCurrent = ((TextControlViewModel)GetControl("StartLEDCurrent")).Value;
+        model.EndLEDCurrent = ((TextControlViewModel)GetControl("EndLEDCurrent")).Value;
+        model.LEDCurrentRate = ((TextControlViewModel)GetControl("LEDCurrentRate")).Value;
 
         model.Automatic = ((RadioControlViewModel)GetControl("Automatic")).Value;
-        model.ControlVoltage = ((RadioControlViewModel)GetControl("ControlVoltage")).Value;
-        model.FinalCurrent = ((TextControlViewModel)GetControl("Label")).Value;
+        model.Upem = ((RadioControlViewModel)GetControl("Upem")).Value;
+        model.EndLEDCurrent = ((TextControlViewModel)GetControl("Label")).Value;
     }
 
     protected override List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
@@ -76,9 +76,9 @@ public class RosterFormViewModel : FormViewModel<RosterFormModel>
             new RadioControlOptions { Label = "Линейный нагрев" }));
         list.Add(new RadioControlViewModel("TemperatureMaintenance", false,
             new RadioControlOptions { Label = "Поддержание температуры" }));
-        list.Add(new TextControlViewModel("FinalTemperature", "",
+        list.Add(new TextControlViewModel("EndTemperature", "",
             new TextControlOptions { Label = "Конечная температура, °C" }));
-        list.Add(new TextControlViewModel("HeatingRate", "",
+        list.Add(new TextControlViewModel("HeatRate", "",
             new TextControlOptions { Label = "Скорость нагрева, °C/сек" }));
 
         list.Add(new RadioControlViewModel("LedOff", true,
@@ -87,16 +87,16 @@ public class RosterFormViewModel : FormViewModel<RosterFormModel>
             new RadioControlOptions { Label = "Линейное увеличение тока" }));
         list.Add(new RadioControlViewModel("CurrentMaintenance", false,
             new RadioControlOptions { Label = "Поддержание тока" }));
-        list.Add(new TextControlViewModel("InitialCurrent", "",
-            new TextControlOptions { Label = "Скорость роста тока, мА/сек" }));
-        list.Add(new TextControlViewModel("FinalCurrent", "",
+        list.Add(new TextControlViewModel("StartLEDCurrent", "",
             new TextControlOptions { Label = "Начальный ток, мА" }));
-        list.Add(new TextControlViewModel("CurrentRiseRate", "",
+        list.Add(new TextControlViewModel("EndLEDCurrent", "",
             new TextControlOptions { Label = "Конечный ток, мА" }));
+        list.Add(new TextControlViewModel("LEDCurrentRate", "",
+            new TextControlOptions { Label = "Скорость роста тока, мА/сек" }));
 
         list.Add(new RadioControlViewModel("Automatic", true,
             new RadioControlOptions { Label = "Автоматический" }));
-        list.Add(new RadioControlViewModel("ControlVoltage", false,
+        list.Add(new RadioControlViewModel("Upem", false,
             new RadioControlOptions { Label = "Управляющее напряжение, В" }));
         list.Add(new TextControlViewModel("Label", "",
             new TextControlOptions { Label = "Label" }));

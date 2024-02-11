@@ -25,16 +25,32 @@ public class OptionsDialogFormService : FormService<OptionsDialogFormViewModel, 
             .Merge()
             .Distinct()
             .Throttle(new TimeSpan(400))
-            .Subscribe(_ => { model.ToModel(); });
-        
-        // _expUsbDeviceService.PushData();
+            .Subscribe(_ =>
+            {
+                // _expUsbDeviceService.PushData(ModelToStructure(model.ToModel()));
+            });
     }
 
-    public void ApplyChanges()
+    private WritableDataStructure ModelToStructure(OptionsDialogFormModel model)
     {
-    }
+        WritableDataStructure structure = new WritableDataStructure();
+        // structure.ID_Report =
+        // structure.Command =
+        // structure.Parameter0 = 
+        // structure.Parameter1 = 
+        // structure.HeaterMode =
+        // structure.LEDMode =
+        // structure.PEMMode =
+        // structure.HeatRate =
+        // structure.StartTemperature =
+        // structure.EndTemperature =
+        // structure.StartLEDCurrent =
+        // structure.EndLEDCurrent =
+        // structure.LEDCurrentRate =
+        // structure.Upem =
+        // structure.Data =
+        // structure.fError = 
 
-    public void CancelChanges()
-    {
+        return structure;
     }
 }

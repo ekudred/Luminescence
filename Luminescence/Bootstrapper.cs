@@ -46,6 +46,7 @@ public static class Bootstrapper
             resolver.GetService<OptionsDialogFormService>()
         ));
         services.RegisterLazySingleton(() => new RosterViewModel(
+            resolver.GetService<ExpUsbDeviceService>(),
             resolver.GetService<RosterFormService>()
         ));
         services.RegisterLazySingleton(() => new ToolBarViewModel(

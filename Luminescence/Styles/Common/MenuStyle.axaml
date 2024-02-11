@@ -28,7 +28,7 @@
         <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
         <Setter Property="Margin" Value="0 4 0 4" />
     </Style>
-    
+
     <Style Selector="MenuItem:pointerover /template/ Border#PART_LayoutRoot">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" />
     </Style>
@@ -36,19 +36,20 @@
     <Style Selector="MenuItem:pressed /template/ Border#PART_LayoutRoot">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundPressed}" />
     </Style>
-    
+
     <Style Selector="MenuItem:selected /template/ Border#PART_LayoutRoot">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" />
     </Style>
-    
+
     <!-- <Style Selector="MenuItem:focus /template/ Border#PART_LayoutRoot"> -->
     <!--     <Setter Property="Background" Value="{DynamicResource ControlBackgroundSelected}" /> -->
     <!-- </Style> -->
-    
+
     <Style Selector="MenuItem:disabled /template/ Border#PART_LayoutRoot">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundDisabled}" />
+        <Setter Property="Opacity" Value="0.3" />
     </Style>
-    
+
     <Style Selector="MenuItem > MenuItem">
         <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
     </Style>

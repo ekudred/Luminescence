@@ -13,4 +13,8 @@
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
     </Style>
 
+    <Style Selector="TextBox:disabled /template/ ContentPresenter#PART_ContentPresenter > Border">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
 </Styles>

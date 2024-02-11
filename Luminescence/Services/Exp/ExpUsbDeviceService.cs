@@ -129,7 +129,7 @@ public class ExpUsbDeviceService : ReactiveObject
         }
     }
 
-    public void PushData(ReadableDataStructure data)
+    public void PushData(WritableDataStructure data)
     {
         try
         {

@@ -5,16 +5,23 @@ namespace Luminescence.Models;
 
 public class OptionsDialogFormModel : FormBaseModel
 {
+    /** Смещение нуля ЦАП */
     public string LedCAPZeroOffset;
+    /** Коэффициент преобразования ЦАП */
     public string LedCAPCoefTransform;
+    /** Изменение кода ФЭУ */
     public string CodeChange;
+    /** Изменение температуры */
     public string TemperatureChange;
+    /** Смещение нуля АЦП */
     public string ThermocoupleACPZeroOffset;
+    /** Коэффициент преобразования АЦП */
     public string ThermocoupleACPCoefTransform;
+    /** * Очищать графики при запуске измерения */
     public bool ClearCharts;
-
+    /** Темновой ток Codes */
     public List<DarkCurrentItem> DarkCurrentList;
-
+    /** Коэффициенты чувствительности Coefs */
     public List<SensitivityCoefItem> SensitivityCoefList;
 }
 

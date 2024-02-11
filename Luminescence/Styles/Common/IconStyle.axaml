@@ -10,6 +10,10 @@
         <Setter Property="Foreground" Value="#22b937" />
     </Style>
 
+    <Style Selector="avalonia|MaterialIcon.RemoveBox">
+        <Setter Property="Foreground" Value="#c72525" />
+    </Style>
+
     <Style Selector="avalonia|MaterialIcon.Stop">
         <Setter Property="Foreground" Value="#c72525" />
     </Style>
