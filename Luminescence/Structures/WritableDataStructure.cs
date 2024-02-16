@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Luminescence.Models;
 
@@ -6,54 +7,72 @@ namespace Luminescence.Models;
 public struct WritableDataStructure
 {
     /** 00     репорт приема команд и данных от ПК, номер типа репорта repStdOutPC = 1 */
-    public uint ID_Report;
+    public byte ID_Report;
 
     /** 01     команда */
-    public uint Command;
+    public byte Command;
 
     /** 02     параметр 0 */
-    public uint Parameter0;
+    public byte Parameter0;
 
     /** 03     параметр 1 */
-    public uint Parameter1;
+    public byte Parameter1;
 
 
     /** 04     режим нагрева (0 – отключение, 1 – линейный нагрев, 2 – поддержание) */
-    public uint HeaterMode;
+    public byte HeaterMode;
 
     /** 05     режим работы светодиодов для ОСЛ (0 – отключение, 1 – линейное увеличение тока, 2 – поддержание тока) */
-    public uint LEDMode;
+    public byte LEDMode;
 
     /** 06     режим работы ФЭУ (0 – ФЭУ выключен, 1 – авто режим, 2 – постоянное Ufeu) */
-    public uint PEMMode;
+    public byte PEMMode;
 
     /** 07     скорость нагрева (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1C°/с, 10 - 1C°/с, 20 - 2C°/с ... ) */
-    public uint HeatRate;
+    public byte HeatingRate;
 
+    /** 08-09  ошибка температуры */
+    public UInt16 TemperatureError;
 
-    /** 08-09  начальная температура, С° */
-    public uint StartTemperature;
+    /** 10-11  скорость роста тока (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1мА/с, 10 - 1мА/с, 20 - 2мА/с ... ) */
+    public UInt16 LEDCurrentRate;
 
-    /** 10-11  конечная температура, С° */
-    public uint EndTemperature;
+    /** 12-13  начальная температура, С° */
+    public UInt16 StartTemperature;
 
+    /** 14-15  конечная температура, С° */
+    public UInt16 EndTemperature;
 
-    /** 12-13  начальный ток, мА */
-    public uint StartLEDCurrent;
+    /** 16-17  начальный ток, мА */
+    public UInt16 StartLEDCurrent;
 
-    /** 14-15  конечный ток, мА */
-    public uint EndLEDCurrent;
+    /** 18-19  конечный ток, мА */
+    public UInt16 EndLEDCurrent;
 
+    /** 20     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В) коэф. */
+    public byte Upem;
 
-    /** 16-17  скорость роста тока (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1мА/с, 10 - 1мА/с, 20 - 2мА/с ... ) */
-    public uint LEDCurrentRate;
+    /** 21     управление состояниями ключей */
+    public byte KeyControl;
 
-    /** 18     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В) коэф. */
-    public uint Upem;
+    /** 22-23  Ошибка PEM */
+    public UInt16 PEMError;
 
+    /** 24-25  Смещение нуля АЦП термопары */
+    public UInt16 OffsetADCThermocouple;
 
-    /** 19-62  Data[LengthDataInRepStdOutPC] LengthDataInRepStdOutPC = 43 */
-    public uint Data;
+    /** 26-27  Смещение нуля ЦАП светодиодов */
+    public UInt16 OffsetDACLED;
+
+    /** 28-31  Коэффициент преобразования АЦП термопары */
+    public float CoefADCTemperature;
+
+    /** 32-35  Коэффициент преобразования ЦАП светодиодов */
+    public float CoefDACLED;
+
+    /** 36-62  */
+    // [MarshalAs(UnmanagedType.ByValArray, SizeConst = 26)]
+    public byte Data;
 
     /** 63     Ошибка */
     public uint fError;

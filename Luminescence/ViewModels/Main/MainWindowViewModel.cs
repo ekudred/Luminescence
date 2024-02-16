@@ -26,7 +26,7 @@ public class MainWindowViewModel : BaseViewModel
     {
         _expDeviceUsbService = expDeviceUsbService;
 
-        _expDeviceUsbService.ConnectDevice();
+        // _expDeviceUsbService.ConnectDevice();
     }
 
     // private void ConnectDevice()

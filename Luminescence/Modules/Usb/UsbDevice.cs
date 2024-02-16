@@ -11,10 +11,7 @@ public class UsbDevice : IDisposable
     public event EventHandler<UsbReportEventArgs> InputReportArrivedEvent;
     public event EventHandler DeviceDisconnecedEvent;
 
-    public bool isOpen
-    {
-        get => DeviceHandle != IntPtr.Zero;
-    }
+    public bool isOpen => DeviceHandle != IntPtr.Zero;
 
     // If the read process grabs ownership of device
     // and blocks (unable to get any data from device) 

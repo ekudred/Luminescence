@@ -13,7 +13,7 @@ public class ToolBarViewModel : BaseViewModel
 {
     public ReactiveCommand<Unit, Unit> OpenOptionsDialogCommand { get; }
     public ReactiveCommand<Unit, Unit> ToggleActiveCommand { get; }
-    public ReactiveCommand<Unit, Unit> ConnectCommand { get; }
+    public ReactiveCommand<Unit, Unit> ToggleConnectCommand { get; }
 
     public bool PlayEnabled
     {
@@ -72,7 +72,7 @@ public class ToolBarViewModel : BaseViewModel
 
         OpenOptionsDialogCommand = ReactiveCommand.Create(OpenOptionsDialog);
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
-        ConnectCommand = ReactiveCommand.Create(Connect);
+        ToggleConnectCommand = ReactiveCommand.Create(ToggleConnect);
     }
 
     public void OpenOptionsDialog()
@@ -93,10 +93,16 @@ public class ToolBarViewModel : BaseViewModel
         _expDeviceUsbService.StopScanDevice();
     }
 
-    public void Connect()
+    public void ToggleConnect()
     {
-        _expDeviceUsbService.ConnectDevice();
-        // Connected = !Connected;
+        if (_expDeviceUsbService.ConnectionStatusCode == UsbConnectionStatusCode.NoConnection)
+        {
+            _expDeviceUsbService.StartScanDevice();
+
+            return;
+        }
+
+        _expDeviceUsbService.StopScanDevice();
     }
 
     private string GetUsbConnectionStatus(UsbConnectionStatusCode status)

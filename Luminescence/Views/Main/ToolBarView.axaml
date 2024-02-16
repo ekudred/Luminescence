@@ -60,7 +60,7 @@
 
             <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right">
                 <Grid RowDefinitions="26" ColumnDefinitions="Auto,Auto">
-                    <Button Classes="Icon Before Connect" Command="{Binding ConnectCommand}"
+                    <Button Classes="Icon Before Connect" Command="{Binding ToggleConnectCommand}"
                             Grid.Row="0" Grid.Column="0">
                         <StackPanel Orientation="Vertical">
                             <md:MaterialIcon Kind="Connection"

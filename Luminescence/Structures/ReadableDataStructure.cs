@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Luminescence.Models;
 
@@ -6,31 +7,31 @@ namespace Luminescence.Models;
 public struct ReadableDataStructure
 {
     /** 00     стандартный репорт передачи данных от МК, номер типа репорта tReportStdInPC = 3 */
-    public uint ID_Report;
+    public byte ID_Report;
 
     /** 01     режим */
-    public uint Mode;
+    public byte Mode;
 
     /** 02     фаза режима */
-    public uint Phase;
+    public byte Phase;
 
     /** 03     параметр 0 */
-    public uint Parameter0;
-
+    public byte Parameter0;
 
     /** 04-07  кол-во тиков после запуска нагрева */
-    public uint Counter;
+    public UInt32 Counter;
 
+    /** 28-31  интенсивность свечения */
+    public UInt32 Intensity;
 
     /** 08     режим нагрева */
-    public uint HeaterMode;
+    public byte HeaterMode;
 
     /** 09     скорость нагрева, C°/с */
-    public uint HeatingRate;
+    public byte HeatingRate;
 
     /** 10-11  скорость увеличения тока, 0,1мА/с (фикс точка 1 знак после запятой (входное число делим на 10): 1 - 0,1мА/с, 10 - 1мА/с, 20 - 2мА/с ... ) */
-    public uint LEDCurrentRate;
-
+    public UInt16 LEDCurrentRate;
 
     /** 12-15  опорная температура */
     public float OpTemperature;
@@ -38,23 +39,25 @@ public struct ReadableDataStructure
     /** 16-19  текущая температура */
     public float Temperature;
 
-    /** 20-23  текущый ток, мА */
+    /** 20-23  опорный ток, мА */
+    public float OpLEDCurrent;
+
+    /** 24-27  текущый ток, мА */
     public float LEDCurrent;
 
+    /** 32     режим работы светодиодов для ОСЛ */
+    public byte LEDMode;
 
-    /** 24-27  интенсивность свечения */
-    public uint Intensity;
+    /** 33     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В) */
+    public byte Upem;
 
-    /** 28     режим работы светодиодов для ОСЛ */
-    public uint LEDMode;
+    /** 34     авто напряжение на ФЭУ */
+    public byte AutoUpem;
 
-    /** 29     управляющее напряжение на ФЭУ (фикс точка 1 знак после запятой (входное число делим на 10): 5 - 0,5В,  ... , 11 - 1.1В) */
-    public uint Upem;
-
-
-    /** 30-62  Data[LengthDataInRepStdOutPC] LengthDataInRepStdOutPC = 33 */
-    public uint Data;
+    /** 35-62  */
+    // [MarshalAs(UnmanagedType.ByValArray, SizeConst = 27)]
+    public byte Data;
 
     /** 63     Ошибка */
-    public uint fError;
+    public byte fError;
 }

@@ -20,12 +20,12 @@ public class ExpUsbDeviceService : ReactiveObject
         {
             if (value == null)
             {
-                Device.Dispose();
+                _device.Dispose();
             }
-            
+
             this.RaiseAndSetIfChanged(ref _device, value);
 
-            ConnectionStatusCode = _device != null && _device.isOpen
+            ConnectionStatusCode = Device != null && Device.isOpen
                 ? UsbConnectionStatusCode.Connected
                 : UsbConnectionStatusCode.NoConnection;
         }
@@ -86,8 +86,15 @@ public class ExpUsbDeviceService : ReactiveObject
     public void ConnectDevice()
     {
         StopScanDevice();
-        
+
         Device = new UsbDevice(0x0483, 0x5750, null, true, 64);
+    }
+
+    public void DisconnectDevice()
+    {
+        StopScanDevice();
+
+        Device = null;
     }
 
     public void StartScanDevice()
@@ -105,14 +112,13 @@ public class ExpUsbDeviceService : ReactiveObject
         }
         catch (Exception exception)
         {
-            Console.WriteLine(exception);
-            _dialogService.ShowDialog(new FailDialog());
+            // _dialogService.ShowDialog(new FailDialog());
         }
     }
 
     public void StopScanDevice()
     {
-        if (Device == null || Device.isOpen)
+        if (Device == null || !Device.isOpen)
         {
             return;
         }
@@ -124,8 +130,7 @@ public class ExpUsbDeviceService : ReactiveObject
         }
         catch (Exception exception)
         {
-            Console.WriteLine(exception);
-            _dialogService.ShowDialog(new FailDialog());
+            // _dialogService.ShowDialog(new FailDialog());
         }
     }
 
@@ -133,13 +138,11 @@ public class ExpUsbDeviceService : ReactiveObject
     {
         try
         {
-            Console.WriteLine(data);
             Device.Write(StructUtil.StructToByte(data));
         }
         catch (Exception exception)
         {
-            Console.WriteLine(exception);
-            _dialogService.ShowDialog(new FailDialog());
+            // _dialogService.ShowDialog(new FailDialog());
         }
     }
 
