@@ -38,11 +38,18 @@ public class RosterFormViewModel : FormViewModel<RosterFormModel>
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
+    public string Test
+    {
+        get => _test;
+        set => this.RaiseAndSetIfChanged(ref _test, value);
+    }
+
     private double _temperature = 0;
     private double _voltagePmt = 0;
     private double _current = 0;
     private double _code = 404;
     private string _description = "";
+    private string _test = "";
 
     public RosterFormViewModel() : base(new RosterFormModel())
     {

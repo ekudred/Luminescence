@@ -97,12 +97,12 @@ public class ToolBarViewModel : BaseViewModel
     {
         if (_expDeviceUsbService.ConnectionStatusCode == UsbConnectionStatusCode.NoConnection)
         {
-            _expDeviceUsbService.StartScanDevice();
+            _expDeviceUsbService.ConnectDevice();
 
             return;
         }
 
-        _expDeviceUsbService.StopScanDevice();
+        _expDeviceUsbService.DisconnectDevice();
     }
 
     private string GetUsbConnectionStatus(UsbConnectionStatusCode status)

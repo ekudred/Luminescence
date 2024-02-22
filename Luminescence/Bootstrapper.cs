@@ -25,9 +25,7 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new OptionsDialogFormService(
             resolver.GetService<ExpUsbDeviceService>()
         ));
-        services.RegisterLazySingleton(() => new ExpUsbDeviceService(
-            resolver.GetService<DialogService>()
-        ));
+        services.RegisterLazySingleton(() => new ExpUsbDeviceService());
         services.RegisterLazySingleton(() => new ExpChartService(
             resolver.GetService<ExpUsbDeviceService>()
         ));

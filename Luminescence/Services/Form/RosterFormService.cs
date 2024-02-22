@@ -31,21 +31,16 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
             .Throttle(new TimeSpan(2000))
             .Subscribe(_ =>
             {
-                _expUsbDeviceService.PushData(ModelToStructure(model.ToModel()));
+                var structure = ModelToStructure(model.ToModel());
+                model.Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(structure)).ToString();
+
+                _expUsbDeviceService.PushData(structure);
             });
 
         this.WhenAnyValue(x => x._expUsbDeviceService.Data)
             .Subscribe((ReadableDataStructure data) =>
             {
-                var opt = new JsonSerializerOptions(){ WriteIndented=true };
-                model.Description = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(data)).ToString();;
-                // model.Description = data.Temperature + " " + data.Intensity + " " + data.Upem;
-                // model.Temperature = data.Temperature;
-                // model.Code = data.Intensity;
-                // model.VoltagePmt = data.Upem;
-                // model.Current = data.LEDCurrent;
-
-                // model.Description = data JSON;
+                model.Description = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(data)).ToString();
             });
     }
 
@@ -57,7 +52,7 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
         structure.Command = 1;
         structure.Parameter0 = 0;
         structure.Parameter1 = 0;
-        //
+        //s
         // // TODO HeaterOff LedOff TemperatureMaintenance
         structure.HeaterMode = 1;
         // // structure.LEDMode = Convert.ToUInt32(model.LedOff);

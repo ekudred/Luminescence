@@ -1,13 +1,12 @@
 ﻿using System;
-using Avalonia.Threading;
+using System.Threading;
+using System.Threading.Tasks;
 using Luminescence.Dialog;
 using Luminescence.Usb;
 using Luminescence.Enums;
 using Luminescence.Models;
 using Luminescence.Utils;
-using Luminescence.Views;
 using ReactiveUI;
-using Tmds.DBus;
 
 namespace Luminescence.Services;
 
@@ -57,43 +56,19 @@ public class ExpUsbDeviceService : ReactiveObject
 
     private UsbConnectionStatusCode _connectionStatusCode = UsbConnectionStatusCode.NoConnection;
 
-    // private DispatcherTimer _timer;
-
-    // private readonly int _scanDelay = 1;
-
-    private readonly DialogService _dialogService;
-
-    public ExpUsbDeviceService(DialogService dialogService)
-    {
-        _dialogService = dialogService;
-    }
-
-    // public void Reset()
-    // {
-    //     byte[] data = new byte[32];
-    //     data[0] = 0x01;
-    //     data[1] = 0x02;
-    //
-    //     try
-    //     {
-    //         Device.Write(data);
-    //     }
-    //     catch (Exception exception)
-    //     {
-    //     }
-    // }
-
     public void ConnectDevice()
     {
         StopScanDevice();
 
         Device = new UsbDevice(0x0483, 0x5750, null, true, 64);
+        Device.StartAsyncRead();
     }
 
     public void DisconnectDevice()
     {
         StopScanDevice();
 
+        Device.StopAsyncRead();
         Device = null;
     }
 
@@ -104,16 +79,22 @@ public class ExpUsbDeviceService : ReactiveObject
             return;
         }
 
-        try
-        {
-            Device.InputReportArrivedEvent += PullData;
-            Device.StartAsyncRead();
-            Active = true;
-        }
-        catch (Exception exception)
-        {
-            // _dialogService.ShowDialog(new FailDialog());
-        }
+        WritableDataStructure b = new WritableDataStructure();
+        b.ID_Report = 1;
+        b.Command = 1;
+        PushData(b);
+
+        Device.InputReportArrivedEvent += PullData;
+        Active = true;
+
+        // Task
+        //     .Run(() =>
+        //     {
+        //         Device.InputReportArrivedEvent += PullData;
+        //         Device.StartAsyncRead();
+        //         Active = true;
+        //     })
+        //     .Wait(TimeSpan.FromSeconds(2000));
     }
 
     public void StopScanDevice()
@@ -123,15 +104,21 @@ public class ExpUsbDeviceService : ReactiveObject
             return;
         }
 
-        try
-        {
-            Device.StopAsyncRead();
-            Active = false;
-        }
-        catch (Exception exception)
-        {
-            // _dialogService.ShowDialog(new FailDialog());
-        }
+        WritableDataStructure b = new WritableDataStructure();
+        b.ID_Report = 1;
+        b.Command = 0x20;
+        PushData(b);
+
+        // Device.StopAsyncRead();
+        Active = false;
+
+        // Task
+        //     .Run(() =>
+        //     {
+        //         Device.StopAsyncRead();
+        //         Active = false;
+        //     })
+        //     .Wait(TimeSpan.FromSeconds(2000));
     }
 
     public void PushData(WritableDataStructure data)
@@ -142,7 +129,6 @@ public class ExpUsbDeviceService : ReactiveObject
         }
         catch (Exception exception)
         {
-            // _dialogService.ShowDialog(new FailDialog());
         }
     }
 
