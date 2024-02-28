@@ -5,7 +5,7 @@ namespace Luminescence.Utils;
 
 public static class StructUtil
 {
-    public static T ByteToStruct<T>(byte[] data)
+    public static T BytesToStruct<T>(byte[] data)
         where T : struct
     {
         int size = data.Length;
@@ -21,7 +21,7 @@ public static class StructUtil
         return structure;
     }
 
-    public static byte[] StructToByte<T>(T struc)
+    public static byte[] StructToBytes<T>(T struc)
         where T : struct
     {
         int size = Marshal.SizeOf(struc);

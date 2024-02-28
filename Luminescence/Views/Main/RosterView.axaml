@@ -125,7 +125,7 @@
 
                     <Grid Classes="TableRow"
                           RowDefinitions="28" ColumnDefinitions="112,64"
-                          IsEnabled="{Binding Active}">
+                          IsEnabled="{Binding InProcess}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -140,7 +140,7 @@
 
                     <Grid Classes="TableRow"
                           RowDefinitions="28" ColumnDefinitions="112,64"
-                          IsEnabled="{Binding Active}">
+                          IsEnabled="{Binding InProcess}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -155,7 +155,7 @@
 
                     <Grid Classes="TableRow"
                           RowDefinitions="28" ColumnDefinitions="112,64"
-                          IsEnabled="{Binding Active}">
+                          IsEnabled="{Binding InProcess}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -170,7 +170,7 @@
 
                     <Grid Classes="TableRow"
                           RowDefinitions="28" ColumnDefinitions="112,64"
-                          IsEnabled="{Binding Active}">
+                          IsEnabled="{Binding InProcess}">
                         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                 CornerRadius="4,0,0,4"
                                 Grid.Row="0" Grid.Column="0">
@@ -188,14 +188,14 @@
 
             <TextBox Classes="Info"
                      IsReadOnly="True"
-                     IsEnabled="{Binding Active}"
+                     IsEnabled="{Binding InProcess}"
                      TextWrapping="Wrap"
                      Grid.Row="0" Grid.Column="2"
                      Text="{Binding Form.Description}" />
 
             <TextBox Classes="Info"
                      IsReadOnly="True"
-                     IsEnabled="{Binding Active}"
+                     IsEnabled="{Binding InProcess}"
                      TextWrapping="Wrap"
                      Grid.Row="0" Grid.Column="3"
                      Text="{Binding Form.Test}" />

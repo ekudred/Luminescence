@@ -35,11 +35,11 @@ public class ExpChartService : ReactiveObject
     public ChartModel _chartIntensityTemperatureModel;
     public ChartModel _chartIntensityCurrentModel;
 
-    private readonly ExpUsbDeviceService _expUsbDeviceService;
+    private readonly ExpDeviceService _expDeviceService;
 
-    public ExpChartService(ExpUsbDeviceService expUsbDeviceService)
+    public ExpChartService(ExpDeviceService expDeviceService)
     {
-        _expUsbDeviceService = expUsbDeviceService;
+        _expDeviceService = expDeviceService;
     }
 
     public void Initialize()
@@ -49,7 +49,7 @@ public class ExpChartService : ReactiveObject
         ChartIntensityTemperatureModel = new ChartModel("Интенсивность", "Температура, °C");
         ChartIntensityCurrentModel = new ChartModel("Интенсивность", "Ток светодиода, мА");
 
-        // this.WhenAnyValue(x => x._expUsbDeviceService.Data)
+        // this.WhenAnyValue(x => x._expUsbDeviceService.CurrentData)
         // .Subscribe((ReadableDataStructure data) => { });
     }
 }

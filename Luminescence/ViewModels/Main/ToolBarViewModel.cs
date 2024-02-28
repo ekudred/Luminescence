@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reactive;
+using System.Reactive.Linq;
 using Luminescence.Dialog;
-using Luminescence.Enums;
-using Luminescence.Models;
 using Luminescence.Services;
 using Luminescence.Views;
 using ReactiveUI;
@@ -39,35 +38,46 @@ public class ToolBarViewModel : BaseViewModel
         set => this.RaiseAndSetIfChanged(ref _connected, value);
     }
 
+    public bool InProcess
+    {
+        get => _inProcess;
+        set => this.RaiseAndSetIfChanged(ref _inProcess, value);
+    }
+
     private bool _playEnabled;
     private bool _stopEnabled;
     private string _connectionStatus;
     private bool _connected;
+    private bool _inProcess;
 
     private readonly DialogService _dialogService;
-    private readonly ExpUsbDeviceService _expDeviceUsbService;
+    private readonly ExpDeviceService _expDeviceService;
 
     public ToolBarViewModel(
         DialogService dialogService,
-        ExpUsbDeviceService expDeviceUsbService
+        ExpDeviceService expDeviceService
     )
     {
         _dialogService = dialogService;
-        _expDeviceUsbService = expDeviceUsbService;
+        _expDeviceService = expDeviceService;
 
-        this.WhenAnyValue(x => x._expDeviceUsbService.Active, x => x.Connected)
+        Observable.CombineLatest(_expDeviceService.InProcess, _expDeviceService.Connected)
             .Subscribe(result =>
             {
-                var (active, connected) = result;
-
-                PlayEnabled = !active && connected;
-                StopEnabled = active && connected;
+                Connected = result[1];
+                InProcess = result[0];
             });
-        this.WhenAnyValue(x => x._expDeviceUsbService.ConnectionStatusCode)
-            .Subscribe(connectionStatusCode =>
+
+        this.WhenAnyValue(x => x.Connected, x => x._inProcess)
+            .Subscribe(result =>
             {
-                ConnectionStatus = GetUsbConnectionStatus(connectionStatusCode);
-                Connected = connectionStatusCode == UsbConnectionStatusCode.Connected;
+                var (connected, inProcess) = result;
+
+                PlayEnabled = connected && !inProcess;
+                StopEnabled = connected && inProcess;
+
+                Connected = connected;
+                ConnectionStatus = GetUsbConnectionStatus(Connected);
             });
 
         OpenOptionsDialogCommand = ReactiveCommand.Create(OpenOptionsDialog);
@@ -77,44 +87,33 @@ public class ToolBarViewModel : BaseViewModel
 
     public void OpenOptionsDialog()
     {
-        // _dialogService.ShowDialog(new FailDialog());
         _dialogService.ShowDialog(new OptionsDialog());
     }
 
     public void ToggleActive()
     {
-        if (!_expDeviceUsbService.Active)
+        if (!InProcess)
         {
-            _expDeviceUsbService.StartScanDevice();
+            _expDeviceService.RunProcess();
 
             return;
         }
 
-        _expDeviceUsbService.StopScanDevice();
+        _expDeviceService.StopProcess();
     }
 
     public void ToggleConnect()
     {
-        if (_expDeviceUsbService.ConnectionStatusCode == UsbConnectionStatusCode.NoConnection)
+        if (!Connected)
         {
-            _expDeviceUsbService.ConnectDevice();
+            _expDeviceService.Connect();
 
             return;
         }
 
-        _expDeviceUsbService.DisconnectDevice();
+        _expDeviceService.Disconnect();
     }
 
-    private string GetUsbConnectionStatus(UsbConnectionStatusCode status)
-    {
-        switch (status)
-        {
-            case UsbConnectionStatusCode.Connected:
-                return "Устройство подключено";
-            case UsbConnectionStatusCode.NoConnection:
-                return "Подключить устройство";
-            default:
-                return "";
-        }
-    }
+    private string GetUsbConnectionStatus(bool connected) =>
+        connected ? "Устройство подключено" : "Подключить устройство";
 }

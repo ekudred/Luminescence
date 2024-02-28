@@ -1,4 +1,5 @@
-﻿using Luminescence.Services;
+﻿using System;
+using Luminescence.Services;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;
@@ -16,24 +17,22 @@ public class MainWindowViewModel : BaseViewModel
         get => _height;
         set => this.RaiseAndSetIfChanged(ref _height, value);
     }
-    
-    private double _width = 0;
-    private double _height = 0;
 
-    private readonly ExpUsbDeviceService _expDeviceUsbService;
+    private double _width;
+    private double _height;
 
-    public MainWindowViewModel(ExpUsbDeviceService expDeviceUsbService)
+    public MainWindowViewModel(
+        ExpDeviceService expDeviceService,
+        MainWindowProvider mainWindowProvider,
+        HidService hidService
+    )
     {
-        _expDeviceUsbService = expDeviceUsbService;
+        expDeviceService.RunCheckAvailableDevice();
 
-        // _expDeviceUsbService.ConnectDevice();
+        // mainWindowProvider.GetMainWindow().Closing += (_, _) =>
+        // {
+        //     hidService.Exit()
+        //         .Subscribe();
+        // };
     }
-
-    // private void ConnectDevice()
-    // {
-    //     while (true)
-    //     {
-    //         
-    //     }
-    // }
 }

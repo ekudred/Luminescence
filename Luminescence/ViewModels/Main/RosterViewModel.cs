@@ -6,28 +6,28 @@ namespace Luminescence.ViewModels;
 
 public class RosterViewModel : BaseViewModel
 {
-    public bool Active
+    public bool InProcess
     {
-        get => _active;
-        private set => this.RaiseAndSetIfChanged(ref _active, value);
+        get => _inProcess;
+        private set => this.RaiseAndSetIfChanged(ref _inProcess, value);
     }
 
     public RosterFormViewModel Form { get; }
 
-    private bool _active;
+    private bool _inProcess;
 
-    private readonly ExpUsbDeviceService _expDeviceUsbService;
+    private readonly ExpDeviceService _expDeviceService;
     private readonly RosterFormService _rosterFormService;
 
     public RosterViewModel(
-        ExpUsbDeviceService expDeviceUsbService,
+        ExpDeviceService expDeviceService,
         RosterFormService rosterFormService)
     {
-        _expDeviceUsbService = expDeviceUsbService;
+        _expDeviceService = expDeviceService;
         _rosterFormService = rosterFormService;
 
-        this.WhenAnyValue(x => x._expDeviceUsbService.Active)
-            .Subscribe(active => { Active = active; });
+        _expDeviceService.InProcess
+            .Subscribe(inProcess => { InProcess = inProcess; });
 
         Form = new RosterFormViewModel();
 

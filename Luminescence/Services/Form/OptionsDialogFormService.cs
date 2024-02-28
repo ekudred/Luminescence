@@ -9,11 +9,11 @@ namespace Luminescence.Services;
 
 public class OptionsDialogFormService : FormService<OptionsDialogFormViewModel, OptionsDialogFormModel>
 {
-    private ExpUsbDeviceService _expUsbDeviceService;
+    private ExpDeviceService _expDeviceService;
     
-    public OptionsDialogFormService(ExpUsbDeviceService expUsbDeviceService)
+    public OptionsDialogFormService(ExpDeviceService expDeviceService)
     {
-        _expUsbDeviceService = expUsbDeviceService;
+        _expDeviceService = expDeviceService;
     }
     
     public override void Initialize(OptionsDialogFormViewModel model)
@@ -31,9 +31,9 @@ public class OptionsDialogFormService : FormService<OptionsDialogFormViewModel, 
             });
     }
 
-    private WritableDataStructure ModelToStructure(OptionsDialogFormModel model)
+    private ExpWriteData ModelToStructure(OptionsDialogFormModel model)
     {
-        WritableDataStructure structure = new WritableDataStructure();
+        ExpWriteData @struct = new ExpWriteData();
         // structure.ID_Report =
         // structure.Command =
         // structure.Parameter0 = 
@@ -51,6 +51,6 @@ public class OptionsDialogFormService : FormService<OptionsDialogFormViewModel, 
         // structure.Data =
         // structure.fError = 
 
-        return structure;
+        return @struct;
     }
 }

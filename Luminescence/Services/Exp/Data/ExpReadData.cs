@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Luminescence.Utils;
 
-namespace Luminescence.Models;
+namespace Luminescence.Services;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
-public struct ReadableDataStructure
+public struct ExpReadData
 {
+    public static ExpReadData FromBytes(byte[] data)
+    {
+        return StructUtil.BytesToStruct<ExpReadData>(data);
+    }
+
     /** 00     стандартный репорт передачи данных от МК, номер типа репорта tReportStdInPC = 3 */
     public byte ID_Report;
 

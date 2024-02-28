@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Luminescence.Utils;
 
-namespace Luminescence.Models;
+namespace Luminescence.Services;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
-public struct WritableDataStructure
+public struct ExpWriteData
 {
+    public static ExpWriteData RunData => new() { ID_Report = 1, Command = 1 };
+
+    public static ExpWriteData StopData => new() { ID_Report = 1, Command = 0x20 };
+
     /** 00     репорт приема команд и данных от ПК, номер типа репорта repStdOutPC = 1 */
     public byte ID_Report;
 
@@ -76,4 +81,9 @@ public struct WritableDataStructure
 
     /** 63     Ошибка */
     public uint fError;
+
+    public byte[] ToBytes()
+    {
+        return StructUtil.StructToBytes(this);
+    }
 }

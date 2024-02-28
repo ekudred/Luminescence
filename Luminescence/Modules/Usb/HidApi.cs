@@ -43,12 +43,10 @@ internal class HidApi
     [DllImport(DLL_FILE_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr hid_open(ushort vendor_id, ushort product_id, [In] string serial_number);
 
-
     /// Return Type: hid_device*
     ///path: char*
     [DllImport(DLL_FILE_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr hid_open_path([In] string path);
-
 
     /// Return Type: int
     ///device: hid_device*
@@ -56,7 +54,6 @@ internal class HidApi
     ///length: size_t->unsigned int
     [DllImport(DLL_FILE_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern int hid_write(IntPtr device, [In] byte[] data, uint length);
-
 
     /// Return Type: int
     ///dev: hid_device*

@@ -16,18 +16,23 @@ public static class Bootstrapper
     private static void RegisterServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new MainWindowProvider());
+        services.RegisterLazySingleton(() => new HidService());
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
         ));
         services.RegisterLazySingleton(() => new RosterFormService(
-            resolver.GetService<ExpUsbDeviceService>()
+            resolver.GetService<ExpDeviceService>()
         ));
         services.RegisterLazySingleton(() => new OptionsDialogFormService(
-            resolver.GetService<ExpUsbDeviceService>()
+            resolver.GetService<ExpDeviceService>()
         ));
-        services.RegisterLazySingleton(() => new ExpUsbDeviceService());
+        services.RegisterLazySingleton(() => new ExpDeviceService(
+            resolver.GetService<HidService>(),
+            resolver.GetService<MainWindowProvider>(),
+            resolver.GetService<DialogService>()
+        ));
         services.RegisterLazySingleton(() => new ExpChartService(
-            resolver.GetService<ExpUsbDeviceService>()
+            resolver.GetService<ExpDeviceService>()
         ));
     }
 
@@ -38,18 +43,20 @@ public static class Bootstrapper
             resolver.GetService<ExpChartService>()
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
-            resolver.GetService<ExpUsbDeviceService>()
+            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<MainWindowProvider>(),
+            resolver.GetService<HidService>()
         ));
         services.RegisterLazySingleton(() => new OptionsDialogViewModel(
             resolver.GetService<OptionsDialogFormService>()
         ));
         services.RegisterLazySingleton(() => new RosterViewModel(
-            resolver.GetService<ExpUsbDeviceService>(),
+            resolver.GetService<ExpDeviceService>(),
             resolver.GetService<RosterFormService>()
         ));
         services.RegisterLazySingleton(() => new ToolBarViewModel(
             resolver.GetService<DialogService>(),
-            resolver.GetService<ExpUsbDeviceService>()
+            resolver.GetService<ExpDeviceService>()
         ));
     }
 }
