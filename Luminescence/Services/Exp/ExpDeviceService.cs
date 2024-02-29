@@ -7,7 +7,7 @@ namespace Luminescence.Services;
 
 public class ExpDeviceService : HidDeviceService
 {
-    public readonly Subject<ExpReadData> CurrentData = new();
+    public readonly Subject<ExpReadDto> CurrentData = new();
     public readonly Subject<bool> InProcess = new();
 
     private readonly DialogService _dialogService;
@@ -31,11 +31,11 @@ public class ExpDeviceService : HidDeviceService
 
     public void RunProcess()
     {
-        HidService.Write(DeviceHandle, ExpWriteData.RunData.ToBytes())
+        HidService.Write(DeviceHandle, ExpWriteDto.RunDto.ToBytes())
             .Subscribe(
                 _ =>
                 {
-                    ReadReportArrivedEvent += (_, x) => { CurrentData.OnNext(ExpReadData.FromBytes(x.Data)); };
+                    ReadReportArrivedEvent += (_, x) => { CurrentData.OnNext(ExpReadDto.FromBytes(x.Data)); };
                     InProcess.OnNext(true);
                 },
                 () => { _dialogService.ShowDialog(new FailDialog()); }
@@ -44,16 +44,16 @@ public class ExpDeviceService : HidDeviceService
 
     public void StopProcess()
     {
-        HidService.Write(DeviceHandle, ExpWriteData.StopData.ToBytes())
+        HidService.Write(DeviceHandle, ExpWriteDto.StopDto.ToBytes())
             .Subscribe(
                 _ => { InProcess.OnNext(false); },
                 () => { _dialogService.ShowDialog(new FailDialog()); }
             );
     }
 
-    public void SendData(ExpWriteData data)
+    public void SendData(ExpWriteDto dto)
     {
-        HidService.Write(DeviceHandle, data.ToBytes())
+        HidService.Write(DeviceHandle, dto.ToBytes())
             .Subscribe(
                 _ => { },
                 () => { _dialogService.ShowDialog(new FailDialog()); }

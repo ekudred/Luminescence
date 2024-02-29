@@ -24,18 +24,16 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
         model.Controls
             .Select(control => control.Value.ValueChanges)
             .Merge()
-            // .Distinct()
-            .Throttle(new TimeSpan(2000))
             .Subscribe(_ =>
             {
-                var structure = ModelToStructure(model.ToModel());
-                model.Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(structure)).ToString();
-
-                _expDeviceService.SendData(structure);
+                ExpWriteDto dto = ToDto(model.ToModel());
+                // model.Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(structure)).ToString();
+                //
+                // _expDeviceService.SendData(dto);
             });
 
         _expDeviceService.CurrentData
-            .Subscribe((ExpReadData data) =>
+            .Subscribe((ExpReadDto data) =>
             {
                 model.Description = System.Text.Json.Nodes.JsonNode
                     .Parse(JsonConvert.SerializeObject(data))
@@ -43,25 +41,25 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
             });
     }
 
-    private ExpWriteData ModelToStructure(RosterFormModel model)
+    private ExpWriteDto ToDto(RosterFormModel model)
     {
         // TODO model - RosterFormModel будет изменена, тк RadioButtonViewModel неправильно написана, но часть полей будет заполняться
-        ExpWriteData @struct = new ExpWriteData();
-        @struct.ID_Report = 1;
-        @struct.Command = 1;
-        @struct.Parameter0 = 0;
-        @struct.Parameter1 = 0;
+        ExpWriteDto dto = new ExpWriteDto();
+        dto.ID_Report = 1;
+        dto.Command = 1;
+        dto.Parameter0 = 0;
+        dto.Parameter1 = 0;
         //s
         // // TODO HeaterOff LedOff TemperatureMaintenance
-        @struct.HeaterMode = 1;
+        dto.HeaterMode = 1;
         // // structure.LEDMode = Convert.ToUInt32(model.LedOff);
         //
         // // TODO Automatic и что то еще
         // // structure.PEMMode =
         //
         // structure.HeatingRate = Convert.ToUInt32(model.HeatRate);
-        @struct.StartTemperature = 35;
-        @struct.EndTemperature = 150;
+        dto.StartTemperature = 35;
+        dto.EndTemperature = 150;
         // structure.StartLEDCurrent = Convert.ToUInt32(model.StartLEDCurrent);
         // structure.EndLEDCurrent = Convert.ToUInt32(model.EndLEDCurrent);
         // structure.LEDCurrentRate = Convert.ToUInt32(model.LEDCurrentRate);
@@ -69,6 +67,6 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
         // // structure.Data =
         // // structure.fError =
 
-        return @struct;
+        return dto;
     }
 }

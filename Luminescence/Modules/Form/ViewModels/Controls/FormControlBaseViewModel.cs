@@ -9,21 +9,22 @@ public class FormControlBaseViewModel : BaseViewModel
     public readonly string Name;
     public string Label { get; set; }
 
-    public Subject<string> ValueChanges = new Subject<string>();
-    public string Value
+    public readonly Subject<object> ValueChanges = new();
+
+    public object Value
     {
         get => _value;
         set
         {
-            ValueChanges.OnNext(value);
-            
             this.RaiseAndSetIfChanged(ref _value, value);
+
+            ValueChanges.OnNext(value);
         }
     }
 
-    private string _value = "";
+    private object _value;
 
-    public FormControlBaseViewModel(string name)
+    protected FormControlBaseViewModel(string name)
     {
         Name = name == null ? "" : name;
     }

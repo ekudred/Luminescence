@@ -25,7 +25,7 @@ public class OptionsDialogFormViewModel : FormViewModel<OptionsDialogFormModel>
 
         for (int i = 0; i < 12; i++)
         {
-            var control = GetControl("Code" + i);
+            var control = (TextControlViewModel)GetControl("Code" + i);
             model.DarkCurrentList.Add(new DarkCurrentItem(control.Label, control.Value));
         }
 
@@ -33,7 +33,7 @@ public class OptionsDialogFormViewModel : FormViewModel<OptionsDialogFormModel>
 
         for (int i = 0; i < 12; i++)
         {
-            var control = GetControl("Coef" + i);
+            var control = (TextControlViewModel)GetControl("Coef" + i);
             model.SensitivityCoefList.Add(new SensitivityCoefItem(control.Label, control.Value));
         }
     }

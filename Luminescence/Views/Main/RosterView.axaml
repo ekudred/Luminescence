@@ -36,12 +36,14 @@
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel Orientation="Vertical">
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeaterOff'}" />
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearHeating'}" />
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureMaintenance'}" />
+                                <v:RadioGroupControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group0'}" />
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeaterOff'}" /> -->
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearHeating'}" /> -->
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureMaintenance'}" /> -->
                             </StackPanel>
 
                             <StackPanel Orientation="Vertical">
@@ -66,12 +68,14 @@
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel Orientation="Vertical">
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedOff'}" />
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearIncreaseCurrent'}" />
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CurrentMaintenance'}" />
+                                <v:RadioGroupControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group1'}" />
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedOff'}" /> -->
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LinearIncreaseCurrent'}" /> -->
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CurrentMaintenance'}" /> -->
                             </StackPanel>
 
                             <StackPanel Orientation="Vertical">
@@ -100,10 +104,12 @@
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel Orientation="Vertical">
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Automatic'}" />
-                                <v:RadioControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Upem'}" />
+                                <v:RadioGroupControlView
+                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group2'}" />
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Automatic'}" /> -->
+                                <!-- <v:RadioControlView -->
+                                <!--     DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Upem'}" /> -->
                             </StackPanel>
 
                             <StackPanel Orientation="Vertical">

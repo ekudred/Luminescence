@@ -1,12 +1,30 @@
-﻿namespace Luminescence.Form.ViewModels;
+﻿using System.Reactive.Subjects;
+using ReactiveUI;
+
+namespace Luminescence.Form.ViewModels;
 
 public class TextControlViewModel : FormControlBaseViewModel
 {
+    public readonly Subject<string> ValueChanges = new();
+
+    public string Value
+    {
+        get => _value;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _value, value);
+
+            ValueChanges.OnNext(value);
+        }
+    }
+
+    private string _value;
+
     public TextControlViewModel(string name, string defaultValue = "", TextControlOptions options = null)
         : base(name)
     {
         Value = defaultValue == null ? "" : defaultValue;
-        
+
         SetOptions(options);
     }
 
@@ -16,7 +34,7 @@ public class TextControlViewModel : FormControlBaseViewModel
         {
             return;
         }
-        
+
         base.SetOptions(options);
     }
 }

@@ -5,20 +5,20 @@ namespace Luminescence.Form.ViewModels;
 
 public class CheckboxControlViewModel : FormControlBaseViewModel
 {
-    public Subject<bool> ValueChanges = new Subject<bool>();
+    public readonly Subject<bool> ValueChanges = new();
 
     public bool Value
     {
         get => _value;
         set
         {
-            ValueChanges.OnNext(value);
-
             this.RaiseAndSetIfChanged(ref _value, value);
+
+            ValueChanges.OnNext(value);
         }
     }
 
-    private bool _value = false;
+    private bool _value;
 
     public CheckboxControlViewModel(string name, bool defaultValue = false, CheckboxControlOptions options = null)
         : base(name)

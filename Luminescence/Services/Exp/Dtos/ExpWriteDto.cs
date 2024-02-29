@@ -5,11 +5,11 @@ using Luminescence.Utils;
 namespace Luminescence.Services;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
-public struct ExpWriteData
+public struct ExpWriteDto
 {
-    public static ExpWriteData RunData => new() { ID_Report = 1, Command = 1 };
+    public static ExpWriteDto RunDto => new() { ID_Report = 1, Command = 1 };
 
-    public static ExpWriteData StopData => new() { ID_Report = 1, Command = 0x20 };
+    public static ExpWriteDto StopDto => new() { ID_Report = 1, Command = 0x20 };
 
     /** 00     репорт приема команд и данных от ПК, номер типа репорта repStdOutPC = 1 */
     public byte ID_Report;

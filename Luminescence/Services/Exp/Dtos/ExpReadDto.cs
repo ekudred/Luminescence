@@ -5,11 +5,11 @@ using Luminescence.Utils;
 namespace Luminescence.Services;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
-public struct ExpReadData
+public struct ExpReadDto
 {
-    public static ExpReadData FromBytes(byte[] data)
+    public static ExpReadDto FromBytes(byte[] data)
     {
-        return StructUtil.BytesToStruct<ExpReadData>(data);
+        return StructUtil.BytesToStruct<ExpReadDto>(data);
     }
 
     /** 00     стандартный репорт передачи данных от МК, номер типа репорта tReportStdInPC = 3 */

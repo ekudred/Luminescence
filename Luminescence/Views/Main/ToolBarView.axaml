@@ -31,8 +31,8 @@
                         <MenuItem Header="Сохранить" IsEnabled="{Binding Connected}" />
                     </MenuItem>
                     <MenuItem Header="Настройки"
-                              IsEnabled="{Binding Connected}"
                               Command="{Binding OpenOptionsDialogCommand}" />
+                    <!-- IsEnabled="{Binding Connected}" -->
                 </Menu>
             </StackPanel>
 
