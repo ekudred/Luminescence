@@ -1,5 +1,6 @@
 ﻿using System;
 using Luminescence.Services;
+using Luminescence.Views;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;
@@ -21,18 +22,32 @@ public class MainWindowViewModel : BaseViewModel
     private double _width;
     private double _height;
 
+    private readonly ExpDeviceService _expDeviceService;
+    private readonly HidService _hidService;
+
     public MainWindowViewModel(
         ExpDeviceService expDeviceService,
-        MainWindowProvider mainWindowProvider,
         HidService hidService
     )
     {
-        expDeviceService.RunCheckAvailableDevice();
+        _expDeviceService = expDeviceService;
+        _hidService = hidService;
+    }
 
-        // mainWindowProvider.GetMainWindow().Closing += (_, _) =>
-        // {
-        //     hidService.Exit()
-        //         .Subscribe();
-        // };
+    public void Initialize()
+    {
+        _hidService.Init()
+            .Subscribe();
+
+        _expDeviceService.RunCheckAvailableDevice();
+    }
+
+    public void Destroy()
+    {
+        _expDeviceService.StopCheckAvailableDevice();
+        _expDeviceService.Disconnect();
+
+        _hidService.Exit()
+            .Subscribe();
     }
 }

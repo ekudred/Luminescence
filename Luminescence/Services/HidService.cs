@@ -131,6 +131,13 @@ public class HidService
         {
             lock (_locker)
             {
+                if (deviceHandle == IntPtr.Zero)
+                {
+                    observer.OnCompleted();
+
+                    return Disposable.Empty;
+                }
+
                 if (reportLength <= 0)
                 {
                     observer.OnError(new Exception("Incorrect report length"));

@@ -60,17 +60,17 @@
 
             <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right">
                 <Grid RowDefinitions="26" ColumnDefinitions="Auto,Auto">
-                    <Button Classes="Icon Before Connect" Command="{Binding ToggleConnectCommand}"
-                            Grid.Row="0" Grid.Column="0">
-                        <StackPanel Orientation="Vertical">
-                            <md:MaterialIcon Kind="Connection"
-                                             IsVisible="{Binding !Connected}"
-                                             Classes="Connection" />
-                            <md:MaterialIcon Kind="RemoveBox"
-                                             IsVisible="{Binding Connected}"
-                                             Classes="RemoveBox" />
-                        </StackPanel>
-                    </Button>
+                    <!-- <Button Classes="Icon Before Connect" Command="{Binding ToggleConnectCommand}" -->
+                    <!--         Grid.Row="0" Grid.Column="0"> -->
+                    <!--     <StackPanel Orientation="Vertical"> -->
+                    <!--         <md:MaterialIcon Kind="Connection" -->
+                    <!--                          IsVisible="{Binding !Connected}" -->
+                    <!--                          Classes="Connection" /> -->
+                    <!--         <md:MaterialIcon Kind="RemoveBox" -->
+                    <!--                          IsVisible="{Binding Connected}" -->
+                    <!--                          Classes="RemoveBox" /> -->
+                    <!--     </StackPanel> -->
+                    <!-- </Button> -->
                     <Border Classes="StatusMessage"
                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                             CornerRadius="0,4,4,0"

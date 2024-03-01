@@ -23,7 +23,6 @@ public struct ExpWriteDto
     /** 03     параметр 1 */
     public byte Parameter1;
 
-
     /** 04     режим нагрева (0 – отключение, 1 – линейный нагрев, 2 – поддержание) */
     public byte HeaterMode;
 

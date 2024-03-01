@@ -32,6 +32,10 @@ public partial class MainWindow : Window
         AvaloniaXamlLoader.Load(this);
 
         BindDataContext();
+
+        ((MainWindowViewModel)DataContext).Initialize();
+
+        Closing += (_, _) => ((MainWindowViewModel)DataContext).Destroy();
     }
 
     private void BindDataContext()

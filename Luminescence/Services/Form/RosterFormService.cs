@@ -35,6 +35,8 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
         _expDeviceService.CurrentData
             .Subscribe((ExpReadDto data) =>
             {
+
+
                 model.Description = System.Text.Json.Nodes.JsonNode
                     .Parse(JsonConvert.SerializeObject(data))
                     .ToString();
@@ -43,29 +45,46 @@ public class RosterFormService : FormService<RosterFormViewModel, RosterFormMode
 
     private ExpWriteDto ToDto(RosterFormModel model)
     {
-        // TODO model - RosterFormModel будет изменена, тк RadioButtonViewModel неправильно написана, но часть полей будет заполняться
         ExpWriteDto dto = new ExpWriteDto();
         dto.ID_Report = 1;
         dto.Command = 1;
         dto.Parameter0 = 0;
         dto.Parameter1 = 0;
-        //s
-        // // TODO HeaterOff LedOff TemperatureMaintenance
-        dto.HeaterMode = 1;
-        // // structure.LEDMode = Convert.ToUInt32(model.LedOff);
-        //
-        // // TODO Automatic и что то еще
-        // // structure.PEMMode =
-        //
-        // structure.HeatingRate = Convert.ToUInt32(model.HeatRate);
-        dto.StartTemperature = 35;
-        dto.EndTemperature = 150;
-        // structure.StartLEDCurrent = Convert.ToUInt32(model.StartLEDCurrent);
-        // structure.EndLEDCurrent = Convert.ToUInt32(model.EndLEDCurrent);
-        // structure.LEDCurrentRate = Convert.ToUInt32(model.LEDCurrentRate);
-        // structure.Upem = Convert.ToUInt32(model.Upem);
-        // // structure.Data =
-        // // structure.fError =
+
+        if (model.HeaterOff)
+        {
+            dto.HeaterMode = 0;
+        }
+
+        if (model.LinearHeating)
+        {
+            dto.HeaterMode = 1;
+        }
+
+        if (model.TemperatureMaintenance)
+        {
+            dto.HeaterMode = 2;
+        }
+
+        // dto.LEDMode; // как HeaterMode ОСЛ вкладка
+        // // Label -Напряжение на ФЭУ
+        // dto.PEMMode = 1; // Автомат = 1 | Упр напря = 2
+        // dto.HeatingRate = model.HeatRate*10; //  0.1 - 10 скорость нагрева
+        // dto.TemperatureError; // -
+        // dto.LEDCurrentRate = model.LEDCurrentRate * 10; // 0.1 - 500
+        // dto.StartTemperature; // -
+        // dto.EndTemperature = model.EndTemperature; // +
+        // dto.StartLEDCurrent = model.StartLEDCurrent; // +
+        // dto.EndLEDCurrent = model.EndLEDCurrent; // +
+        // dto.Upem; // default 0.5 (огр: 0.5 до 1.1 включ) (Label*100)
+        // dto.KeyControl; // -
+        // dto.PEMError; // -
+        // dto.OffsetADCThermocouple; // -
+        // dto.OffsetDACLED; // -
+        // dto.CoefADCTemperature; // -
+        // dto.CoefDACLED; // -
+        // // dto.Data;
+        // // dto.fError;
 
         return dto;
     }

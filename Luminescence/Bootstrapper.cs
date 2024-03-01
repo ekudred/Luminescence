@@ -44,7 +44,6 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
             resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<MainWindowProvider>(),
             resolver.GetService<HidService>()
         ));
         services.RegisterLazySingleton(() => new OptionsDialogViewModel(

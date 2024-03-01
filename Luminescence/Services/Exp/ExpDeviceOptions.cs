@@ -2,12 +2,22 @@
 
 namespace Luminescence.Services;
 
-public class ExpDeviceOptions : HidDeviceOptions
+public class ExpDeviceOptions : IHidDeviceOptions
 {
-    public readonly ushort VendorId = 0x0483;
-    public readonly ushort ProductId = 0x5750;
-    public readonly string SerialNumber = null;
-    public readonly int ReadReportLength = 64;
-    public readonly int ReadInterval = 10;
-    public readonly int CheckInterval = 100;
+    public ushort VendorId { get; }
+    public ushort ProductId { get; }
+    public string? SerialNumber { get; }
+    public int ReadReportLength { get; }
+    public int ReadInterval { get; }
+    public int CheckInterval { get; }
+
+    public ExpDeviceOptions()
+    {
+        VendorId = 0x0483;
+        ProductId = 0x5750;
+        SerialNumber = null;
+        ReadReportLength = 64;
+        ReadInterval = 10;
+        CheckInterval = 100;
+    }
 }

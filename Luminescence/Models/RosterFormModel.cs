@@ -5,7 +5,7 @@ namespace Luminescence.Models;
 public class RosterFormModel : FormBaseModel
 {
     /** Нагреватель выключен */
-    public bool HeaterOff;
+    public bool HeaterOff; //
     /** Линейный нагрев */
     public bool LinearHeating;
     /** Поддержание температуры */

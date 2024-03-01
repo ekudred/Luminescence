@@ -61,14 +61,17 @@ public class ToolBarViewModel : BaseViewModel
         _dialogService = dialogService;
         _expDeviceService = expDeviceService;
 
-        Observable.CombineLatest(_expDeviceService.InProcess, _expDeviceService.Connected)
-            .Subscribe(result =>
-            {
-                Connected = result[1];
-                InProcess = result[0];
-            });
+        _expDeviceService.Connected.Subscribe(connected => Connected = connected);
+        _expDeviceService.InProcess.Subscribe(inProcess => InProcess = inProcess);
 
-        this.WhenAnyValue(x => x.Connected, x => x._inProcess)
+        // Observable.Zip(_expDeviceService.InProcess, _expDeviceService.Connected)
+        //     .Subscribe(result =>
+        //     {
+        //         Connected = result[1];
+        //         InProcess = result[0];
+        //     });
+
+        this.WhenAnyValue(x => x.Connected, x => x.InProcess)
             .Subscribe(result =>
             {
                 var (connected, inProcess) = result;

@@ -9,8 +9,10 @@ public class HidDeviceService
 {
     public readonly Subject<bool> Connected = new();
 
-    public event EventHandler<HidReportEventArgs> ReadReportArrivedEvent;
-    public event EventHandler<HidReadErrorEventArgs> ReadErrorEvent;
+    public readonly Subject<bool> DisconnectEvent = new();
+
+    public readonly Subject<HidReportEventArgs> ReadReportArrivedEvent = new();
+    public readonly Subject<HidReadErrorEventArgs> ReadErrorEvent = new();
 
     protected nint DeviceHandle;
 
@@ -22,10 +24,10 @@ public class HidDeviceService
     private Subject<int>? _readOn;
     private Subject<int>? _checkOn;
 
-    private readonly HidDeviceOptions _options;
+    private readonly IHidDeviceOptions _options;
 
     protected HidDeviceService(
-        HidDeviceOptions options,
+        IHidDeviceOptions options,
         HidService hidService,
         MainWindowProvider mainWindowProvider
     )
@@ -33,15 +35,6 @@ public class HidDeviceService
         _options = options;
         HidService = hidService;
         MainWindowProvider = mainWindowProvider;
-
-        HidService.Init()
-            .Subscribe();
-
-        // MainWindowProvider.GetMainWindow().Closing += (_, _) =>
-        // {
-        //     Disconnect();
-        //     StopReadDevice();
-        // };
     }
 
     public void RunCheckAvailableDevice()
@@ -68,6 +61,7 @@ public class HidDeviceService
 
                     if (_opened && data == IntPtr.Zero)
                     {
+                        DisconnectEvent.OnNext(true);
                         Disconnect();
                     }
                 }
@@ -81,6 +75,7 @@ public class HidDeviceService
             return;
         }
 
+        _checkOn.OnNext(0);
         _checkOn.OnCompleted();
         _checkOn = null;
     }
@@ -106,7 +101,11 @@ public class HidDeviceService
 
         HidService.Open(_options.VendorId, _options.ProductId, _options.SerialNumber)
             .Subscribe(
-                deviceHandle => { DeviceHandle = deviceHandle; },
+                deviceHandle =>
+                {
+                    DeviceHandle = deviceHandle;
+                    Connected.OnNext(_opened);
+                },
                 () => { }
             );
     }
@@ -122,6 +121,7 @@ public class HidDeviceService
             .Subscribe();
 
         DeviceHandle = IntPtr.Zero;
+        Connected.OnNext(_opened);
     }
 
     private void StartReadDevice()
@@ -140,18 +140,19 @@ public class HidDeviceService
             .Where(data => data.Length > 0)
             .TakeUntil(_readOn)
             .Subscribe(
-                data => ReadReportArrivedEvent(this, new HidReportEventArgs(data)),
-                exception => ReadErrorEvent(this, new HidReadErrorEventArgs(exception))
+                data => { ReadReportArrivedEvent.OnNext(new HidReportEventArgs(data)); },
+                exception => { ReadErrorEvent.OnNext(new HidReadErrorEventArgs(exception)); }
             );
     }
 
     private void StopReadDevice()
     {
-        if (!_opened || _readOn == null)
+        if (_readOn == null)
         {
             return;
         }
 
+        _readOn.OnNext(0);
         _readOn.OnCompleted();
         _readOn = null;
     }
