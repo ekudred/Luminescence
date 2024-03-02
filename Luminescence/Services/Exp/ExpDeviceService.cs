@@ -11,37 +11,31 @@ public class ExpDeviceService : HidDeviceService
     public readonly Subject<ExpReadDto> CurrentData = new();
     public readonly Subject<bool> InProcess = new();
 
-    private bool _inProcess;
-
-    private Subject<bool> re;
+    private Subject<bool> _readDataOn;
 
     private readonly DialogService _dialogService;
 
     public ExpDeviceService
     (
         HidService hidService,
-        MainWindowProvider mainWindowProvider,
         DialogService dialogService
     ) : base
     (
         new ExpDeviceOptions(),
-        hidService,
-        mainWindowProvider
+        hidService
     )
     {
         _dialogService = dialogService;
 
-        DisconnectEvent.Subscribe(_ =>
-        {
-            if (_inProcess)
-            {
-                // StopProcess();
-                InProcess.OnNext(false);
-                _inProcess = false;
-            }
-        });
+        СonnectionLost
+            .Merge(InProcess)
+            // .Select(_ => InProcess)
+            // .Switch()
+            .Where(inProcess => inProcess)
+            .Subscribe(_ => { InProcess.OnNext(false); });
 
-        // ReadErrorEvent += (_, args) => { _dialogService.ShowDialog(new FailDialog()); };
+        ReadException
+            .Subscribe(_ => _dialogService.ShowDialog(new FailDialog()).Subscribe());
     }
 
     public void RunProcess()
@@ -50,29 +44,16 @@ public class ExpDeviceService : HidDeviceService
             .Subscribe(
                 _ =>
                 {
-                    re = new();
-                    // ReadReportArrivedEvent += (_, args) => { CurrentData.OnNext(ExpReadDto.FromBytes(args.Data)); };
-                    ReadReportArrivedEvent
-                        .TakeUntil(re)
-                        .Subscribe(args =>
+                    _readDataOn = new();
+
+                    ReadData
+                        .TakeUntil(_readDataOn)
+                        .Select(ExpReadDto.FromBytes)
+                        .Subscribe(dto =>
                         {
-                            var dto = ExpReadDto.FromBytes(args.Data);
-
-                            if (dto.Mode == 0x1 && !_inProcess)
-                            {
-                                InProcess.OnNext(true);
-                                _inProcess = true;
-                            }
-
-                            // if (dto.Mode == 0x14)
-                            // {
-                            //     StopProcess();
-                            // }
-
+                            InProcess.OnNext(dto.Mode == 0x1);
                             CurrentData.OnNext(dto);
                         });
-                    InProcess.OnNext(true);
-                    _inProcess = true;
                 }
                 // _ => { },
                 // () => { _dialogService.ShowDialog(new FailDialog()); }
@@ -85,12 +66,11 @@ public class ExpDeviceService : HidDeviceService
             .Subscribe(
                 _ =>
                 {
-                    re.OnNext(true);
-                    re.OnCompleted();
-                    re = null;
+                    _readDataOn.OnNext(true);
+                    _readDataOn.OnCompleted();
+                    _readDataOn = null;
 
                     InProcess.OnNext(false);
-                    _inProcess = false;
                 }
                 // _ => { },
                 // () => { _dialogService.ShowDialog(new FailDialog()); }

@@ -9,9 +9,9 @@ namespace Luminescence.Form.ViewModels;
 
 public class RadioGroupControlViewModel : FormControlBaseViewModel
 {
-    public readonly Subject<RadioControlViewModel> ValueChanges = new();
+    public new readonly Subject<RadioControlViewModel> ValueChanges = new();
 
-    public RadioControlViewModel Value
+    public new RadioControlViewModel Value
     {
         get => _value;
         set
@@ -22,15 +22,16 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
         }
     }
 
-    private RadioControlViewModel _value;
-
     public List<RadioControlViewModel> Items
     {
         get => _items;
-        set => this.RaiseAndSetIfChanged(ref _items, value);
+        set { this.RaiseAndSetIfChanged(ref _items, value); }
     }
 
-    private List<RadioControlViewModel> _items;
+    private RadioControlViewModel _value;
+    private List<RadioControlViewModel> _items = new();
+
+    private readonly string _groupId = Guid.NewGuid().ToString();
 
     public RadioGroupControlViewModel(
         string name,
@@ -40,6 +41,7 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
     ) : base(name)
     {
         Items = items;
+        Items.ForEach(item => { item.GroupId = _groupId; });
 
         if (items.Count >= 0 && defaultValue <= items.Count - 1)
         {

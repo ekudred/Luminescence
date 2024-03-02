@@ -1,13 +1,14 @@
-﻿using System.Reactive.Subjects;
+﻿using System;
+using System.Reactive.Subjects;
 using ReactiveUI;
 
 namespace Luminescence.Form.ViewModels;
 
 public class RadioControlViewModel : FormControlBaseViewModel
 {
-    public readonly Subject<bool> ValueChanges = new();
+    public new readonly Subject<bool> ValueChanges = new();
 
-    public bool Value
+    public new bool Value
     {
         get => _value;
         set
@@ -21,7 +22,14 @@ public class RadioControlViewModel : FormControlBaseViewModel
         }
     }
 
+    public string GroupId
+    {
+        get => _groupId;
+        set => this.RaiseAndSetIfChanged(ref _groupId, value);
+    }
+
     private bool _value;
+    private string _groupId = Guid.NewGuid().ToString();
 
     public RadioControlViewModel(string name, RadioControlOptions options = null)
         : base(name)

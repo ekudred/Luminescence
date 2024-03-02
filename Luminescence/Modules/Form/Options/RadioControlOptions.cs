@@ -2,5 +2,4 @@
 
 public class RadioControlOptions : FormControlOptions
 {
-    public double Group;
 }

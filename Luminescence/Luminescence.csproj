@@ -39,8 +39,8 @@
             <DependentUpon>RosterView.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Main\ToolBarView.axaml.cs">
-            <DependentUpon>ToolBarView.axaml</DependentUpon>
+        <Compile Update="Views\Main\HeaderView.axaml.cs">
+            <DependentUpon>HeaderView.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Main\MainWindow.axaml.cs">
@@ -51,8 +51,8 @@
             <DependentUpon>ChartPanelView.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Dialogs\OptionsDialog.axaml.cs">
-            <DependentUpon>OptionsDialog.axaml</DependentUpon>
+        <Compile Update="Views\Dialogs\SettingsDialog.axaml.cs">
+            <DependentUpon>SettingsDialog.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Dialogs\FailDialog.axaml.cs">
@@ -78,10 +78,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Styles\Views\Dialogs\OptionsDialogStyle.axaml"/>
+        <AdditionalFiles Include="Styles\Views\Dialogs\SettingsDialogStyle.axaml"/>
         <AdditionalFiles Include="Styles\Views\Main\ChartPanelViewStyle.axaml"/>
         <AdditionalFiles Include="Styles\Views\Main\MainWindowStyle.axaml"/>
         <AdditionalFiles Include="Styles\Views\Main\RosterViewStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\ToolBarViewStyle.axaml"/>
+        <AdditionalFiles Include="Styles\Views\Main\HeaderViewStyle.axaml"/>
     </ItemGroup>
 </Project>

@@ -38,15 +38,13 @@ public class MainWindowViewModel : BaseViewModel
     {
         _hidService.Init()
             .Subscribe();
-
-        _expDeviceService.RunCheckAvailableDevice();
+        _expDeviceService.RunAvailableDeviceCheck();
     }
 
     public void Destroy()
     {
-        _expDeviceService.StopCheckAvailableDevice();
+        _expDeviceService.StopAvailableDeviceCheck();
         _expDeviceService.Disconnect();
-
         _hidService.Exit()
             .Subscribe();
     }

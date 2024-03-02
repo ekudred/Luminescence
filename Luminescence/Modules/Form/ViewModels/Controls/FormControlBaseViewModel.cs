@@ -1,4 +1,5 @@
-﻿using System.Reactive.Subjects;
+﻿using System;
+using System.Reactive.Subjects;
 using Luminescence.ViewModels;
 using ReactiveUI;
 
@@ -26,7 +27,7 @@ public class FormControlBaseViewModel : BaseViewModel
 
     protected FormControlBaseViewModel(string name)
     {
-        Name = name == null ? "" : name;
+        Name = name;
     }
 
     protected void SetOptions(FormControlOptions options)
@@ -36,6 +37,6 @@ public class FormControlBaseViewModel : BaseViewModel
             return;
         }
 
-        Label = options.Label == null ? "" : options.Label;
+        Label = options.Label ?? "";
     }
 }

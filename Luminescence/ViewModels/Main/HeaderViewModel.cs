@@ -8,11 +8,10 @@ using ReactiveUI;
 
 namespace Luminescence.ViewModels;
 
-public class ToolBarViewModel : BaseViewModel
+public class HeaderViewModel : BaseViewModel
 {
-    public ReactiveCommand<Unit, Unit> OpenOptionsDialogCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenSettingsDialogCommand { get; }
     public ReactiveCommand<Unit, Unit> ToggleActiveCommand { get; }
-    public ReactiveCommand<Unit, Unit> ToggleConnectCommand { get; }
 
     public bool PlayEnabled
     {
@@ -53,7 +52,7 @@ public class ToolBarViewModel : BaseViewModel
     private readonly DialogService _dialogService;
     private readonly ExpDeviceService _expDeviceService;
 
-    public ToolBarViewModel(
+    public HeaderViewModel(
         DialogService dialogService,
         ExpDeviceService expDeviceService
     )
@@ -61,8 +60,8 @@ public class ToolBarViewModel : BaseViewModel
         _dialogService = dialogService;
         _expDeviceService = expDeviceService;
 
-        _expDeviceService.Connected.Subscribe(connected => Connected = connected);
-        _expDeviceService.InProcess.Subscribe(inProcess => InProcess = inProcess);
+        _expDeviceService.Connected.Subscribe(connected => { Connected = connected; });
+        _expDeviceService.InProcess.Subscribe(inProcess => { InProcess = inProcess; });
 
         // Observable.Zip(_expDeviceService.InProcess, _expDeviceService.Connected)
         //     .Subscribe(result =>
@@ -83,14 +82,13 @@ public class ToolBarViewModel : BaseViewModel
                 ConnectionStatus = GetUsbConnectionStatus(Connected);
             });
 
-        OpenOptionsDialogCommand = ReactiveCommand.Create(OpenOptionsDialog);
+        OpenSettingsDialogCommand = ReactiveCommand.Create(OpenSettingsDialog);
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
-        ToggleConnectCommand = ReactiveCommand.Create(ToggleConnect);
     }
 
-    public void OpenOptionsDialog()
+    public void OpenSettingsDialog()
     {
-        _dialogService.ShowDialog(new OptionsDialog());
+        _dialogService.ShowDialog(new SettingsDialog()).Subscribe();
     }
 
     public void ToggleActive()
@@ -105,18 +103,6 @@ public class ToolBarViewModel : BaseViewModel
         _expDeviceService.StopProcess();
     }
 
-    public void ToggleConnect()
-    {
-        if (!Connected)
-        {
-            _expDeviceService.Connect();
-
-            return;
-        }
-
-        _expDeviceService.Disconnect();
-    }
-
     private string GetUsbConnectionStatus(bool connected) =>
-        connected ? "Устройство подключено" : "Подключить устройство";
+        connected ? "Устройство подключено" : "Устройство не подключено";
 }

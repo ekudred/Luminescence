@@ -27,7 +27,7 @@
 
         <StackPanel>
 
-            <v:ToolBarView />
+            <v:HeaderView />
             
             <v:RosterView />
 

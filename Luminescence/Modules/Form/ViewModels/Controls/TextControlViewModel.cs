@@ -5,9 +5,9 @@ namespace Luminescence.Form.ViewModels;
 
 public class TextControlViewModel : FormControlBaseViewModel
 {
-    public readonly Subject<string> ValueChanges = new();
+    public new readonly Subject<string> ValueChanges = new();
 
-    public string Value
+    public new string Value
     {
         get => _value;
         set

@@ -6,23 +6,41 @@
         <Setter Property="Foreground" Value="#22b937" />
     </Style>
 
-    <Style Selector="avalonia|MaterialIcon.Connection">
-        <Setter Property="Foreground" Value="#22b937" />
-    </Style>
-
-    <Style Selector="avalonia|MaterialIcon.RemoveBox">
-        <Setter Property="Foreground" Value="#c72525" />
-    </Style>
-
     <Style Selector="avalonia|MaterialIcon.Stop">
         <Setter Property="Foreground" Value="#c72525" />
     </Style>
 
-    <Style Selector="avalonia|MaterialIcon.WarningCircle">
-        <Setter Property="RenderTransform">
-            <ScaleTransform ScaleX="1" ScaleY="1" />
-        </Setter>
-        <Setter Property="Foreground" Value="#000000" />
+    <Style Selector="avalonia|MaterialIcon.Check">
+        <Setter Property="Foreground" Value="#22b937" />
     </Style>
-    
+
+    <Style Selector="avalonia|MaterialIcon.ErrorOutline">
+        <Setter Property="Foreground" Value="#c72525" />
+    </Style>
+
+    <Style Selector="avalonia|MaterialIcon.Settings">
+        <Setter Property="Foreground" Value="#ababab" />
+    </Style>
+
+    <Style Selector="avalonia|MaterialIcon.File">
+        <Setter Property="Foreground" Value="#ababab" />
+    </Style>
+
+    <Style Selector="avalonia|MaterialIcon.Size1">
+        <Setter Property="RenderTransform">
+            <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+        </Setter>
+    </Style>
+
+    <!-- <Style Selector="avalonia|MaterialIcon.WarningCircle"> -->
+    <!--     <Setter Property="RenderTransform"> -->
+    <!--         <ScaleTransform ScaleX="1" ScaleY="1" /> -->
+    <!--     </Setter> -->
+    <!--     <Setter Property="Foreground" Value="#000000" /> -->
+    <!-- </Style> -->
+
+    <Style Selector="avalonia|MaterialIcon:disabled">
+        <Setter Property="Foreground" Value="#d0d0d9" />
+    </Style>
+
 </Styles>

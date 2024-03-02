@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using Luminescence.ViewModels;
+using ReactiveUI;
 
 namespace Luminescence.Form.ViewModels;
 
@@ -13,18 +12,17 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
     private TFormModel _model;
 
-    private Dictionary<string, FormControlBaseViewModel> _controls;
+    private Dictionary<string, FormControlBaseViewModel> _controls = new();
 
     public FormViewModel(TFormModel model)
     {
         _model = model;
-        _controls = new Dictionary<string, FormControlBaseViewModel>();
     }
 
     public void Initialize()
     {
         GetControls(new List<FormControlBaseViewModel>())
-            .ForEach(control => _controls.Add(control.Name, control));
+            .ForEach(control => Controls.Add(control.Name, control));
 
         ChangeModel(_model);
         OnInitialize();

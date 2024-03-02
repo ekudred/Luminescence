@@ -1,0 +1,41 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+
+    <Style Selector="Panel.Header">
+        <Setter Property="Height" Value="32" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="12 0" />
+    </Style>
+
+    <Style Selector="Panel.Header > DockPanel > StackPanel:not(:nth-last-child())">
+        <Setter Property="Margin" Value="0 0 8 0" />
+    </Style>
+
+    <Style Selector="StackPanel.Menu > Menu > MenuItem">
+        <Setter Property="Margin" Value="0 0 6 0" />
+    </Style>
+
+    <Style Selector="StackPanel.Menu > Menu > MenuItem:nth-last-child()">
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <Style Selector="StackPanel.Activity">
+        <!-- <Setter Property="Margin" Value="8 0 8 0" /> -->
+    </Style>
+
+    <Style Selector="StackPanel.Activity > Button">
+        <Setter Property="Margin" Value="0 0 6 0" />
+    </Style>
+
+    <Style Selector="StackPanel.Activity > Button:nth-last-child()">
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <Style Selector="StackPanel.Status">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Height" Value="32" />
+    </Style>
+
+</Styles>

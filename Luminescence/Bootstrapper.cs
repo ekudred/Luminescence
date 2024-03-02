@@ -20,15 +20,11 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
         ));
-        services.RegisterLazySingleton(() => new RosterFormService(
-            resolver.GetService<ExpDeviceService>()
-        ));
-        services.RegisterLazySingleton(() => new OptionsDialogFormService(
+        services.RegisterLazySingleton(() => new MeasurementSettingsFormService(
             resolver.GetService<ExpDeviceService>()
         ));
         services.RegisterLazySingleton(() => new ExpDeviceService(
             resolver.GetService<HidService>(),
-            resolver.GetService<MainWindowProvider>(),
             resolver.GetService<DialogService>()
         ));
         services.RegisterLazySingleton(() => new ExpChartService(
@@ -46,14 +42,13 @@ public static class Bootstrapper
             resolver.GetService<ExpDeviceService>(),
             resolver.GetService<HidService>()
         ));
-        services.RegisterLazySingleton(() => new OptionsDialogViewModel(
-            resolver.GetService<OptionsDialogFormService>()
+        services.RegisterLazySingleton(() => new SettingsDialogViewModel(
+            resolver.GetService<MeasurementSettingsFormService>()
         ));
         services.RegisterLazySingleton(() => new RosterViewModel(
-            resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<RosterFormService>()
+            resolver.GetService<ExpDeviceService>()
         ));
-        services.RegisterLazySingleton(() => new ToolBarViewModel(
+        services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),
             resolver.GetService<ExpDeviceService>()
         ));

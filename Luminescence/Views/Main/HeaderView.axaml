@@ -1,0 +1,80 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Luminescence.ViewModels"
+             xmlns:md="using:Material.Icons.Avalonia"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.HeaderView"
+             x:DataType="vm:HeaderViewModel"
+             x:CompileBindings="True"
+             Height="32"
+             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0.5">
+
+    <Design.DataContext>
+        <vm:HeaderViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/HeaderViewStyle.axaml" />
+    </UserControl.Styles>
+
+    <Panel Classes="Header">
+        <DockPanel>
+
+            <StackPanel Classes="Menu" DockPanel.Dock="Left" Orientation="Horizontal">
+                <Menu>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <md:MaterialIcon Kind="File" Classes="File" Margin="0 0 4 0"></md:MaterialIcon>
+                                <TextBlock Text="Файл" />
+                            </StackPanel>
+                        </MenuItem.Header>
+
+                        <MenuItem Header="Новый" />
+                        <MenuItem Header="Открыть" />
+                        <Separator />
+                        <MenuItem Header="Сохранить" IsEnabled="{Binding Connected}" />
+                    </MenuItem>
+                    <MenuItem Command="{Binding OpenSettingsDialogCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <md:MaterialIcon Kind="Settings" Classes="Settings" Margin="0 0 4 0"></md:MaterialIcon>
+                                <TextBlock Text="Настройки" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <!-- IsEnabled="{Binding Connected}" -->
+                </Menu>
+            </StackPanel>
+
+            <StackPanel Classes="Activity" Orientation="Horizontal"
+                        DockPanel.Dock="Left">
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding PlayEnabled}">
+                    <md:MaterialIcon Kind="Play" Classes="Play" IsEnabled="{Binding PlayEnabled}" />
+                </Button>
+                <Button Classes="Icon" Command="{Binding ToggleActiveCommand}" IsEnabled="{Binding StopEnabled}">
+                    <md:MaterialIcon Kind="Stop" Classes="Stop" IsEnabled="{Binding StopEnabled}" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Classes="Status" Orientation="Horizontal" DockPanel.Dock="Right">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <md:MaterialIcon Kind="Check"
+                                     IsVisible="{Binding Connected}"
+                                     Classes="Check Size1" />
+                    <md:MaterialIcon Kind="ErrorOutline"
+                                     IsVisible="{Binding !Connected}"
+                                     Classes="ErrorOutline Size1" />
+                </StackPanel>
+            </StackPanel>
+
+        </DockPanel>
+    </Panel>
+
+</UserControl>
