@@ -13,4 +13,8 @@ public class SettingsDialogViewModel : DialogBaseViewModel
 
         measurementSettingsFormService.Initialize(Form);
     }
+
+    public override void OnInitialize(DialogBaseParam? param)
+    {
+    }
 }

@@ -18,7 +18,7 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    
+
     <Window.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/MainWindowStyle.axaml" />
     </Window.Styles>
@@ -28,15 +28,13 @@
         <StackPanel>
 
             <v:HeaderView />
-            
+
             <v:RosterView />
 
             <v:ChartPanelView />
 
         </StackPanel>
 
-        <Grid x:Name="DialogOverlay" />
-
     </Panel>
-    
+
 </Window>

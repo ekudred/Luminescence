@@ -10,8 +10,6 @@ namespace Luminescence.Views;
 
 public partial class MainWindow : Window
 {
-    private Grid OverlayGrid => this.FindControl<Grid>("DialogOverlay");
-
     public MainWindow()
     {
         InitializeComponent();
@@ -22,10 +20,6 @@ public partial class MainWindow : Window
         this.AttachDevTools();
 #endif
     }
-
-    public void ShowOverlay() => OverlayGrid.ZIndex = 1000;
-
-    public void HideOverlay() => OverlayGrid.ZIndex = -1;
 
     private void InitializeComponent()
     {
@@ -47,9 +41,13 @@ public partial class MainWindow : Window
     {
         MainWindowViewModel viewModel = Locator.Current.GetService<MainWindowViewModel>();
 
-        this.WhenAnyValue(view => view.Width)
-            .Subscribe(width => { viewModel.Width = width; });
-        this.WhenAnyValue(view => view.Height)
-            .Subscribe(height => { viewModel.Height = height; });
+        this.WhenAnyValue(view => view.Width, view => view.Height)
+            .Subscribe(result =>
+            {
+                var (width, height) = result;
+
+                viewModel.Width = width;
+                viewModel.Height = height;
+            });
     }
 }

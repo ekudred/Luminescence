@@ -1,14 +1,9 @@
 using System;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Reflection;
-using Avalonia.Threading;
+using Avalonia.Controls;
 using Luminescence.Services;
-using Luminescence.ViewModels;
-using Luminescence.Views;
-using Splat;
+using Luminescence.Utils;
 
 namespace Luminescence.Dialog;
 
@@ -21,29 +16,38 @@ public class DialogService
         _mainWindowProvider = mainWindowProvider;
     }
 
-    public IObservable<TResult> ShowDialog<TResult, TParam>
-    (
-        DialogBase<TResult, TParam> dialogWindow,
-        TParam param = null
-    )
+    public IObservable<DialogBaseResult> ShowDialog(string dialogName)
+    {
+        return ShowDialog<DialogBaseResult, DialogBaseParam>(dialogName);
+    }
+
+    public IObservable<TResult> ShowDialog<TResult>(string dialogName)
         where TResult : DialogBaseResult
-        where TParam : DialogBaseParam?
+    {
+        return ShowDialog<TResult, DialogBaseParam>(dialogName);
+    }
+
+    public IObservable<DialogBaseResult> ShowDialog<TParam>(string dialogName, TParam param)
+        where TParam : DialogBaseParam
+    {
+        return ShowDialog<DialogBaseResult, TParam>(dialogName, param);
+    }
+
+    public IObservable<TResult> ShowDialog<TResult, TParam>(string dialogName, TParam? param = null)
+        where TResult : DialogBaseResult
+        where TParam : DialogBaseParam
     {
         return Observable.Create(async (IObserver<TResult> observer) =>
         {
-            MainWindow mainWindow = (MainWindow)_mainWindowProvider.GetMainWindow();
+            Window mainWindow = _mainWindowProvider.GetMainWindow();
 
-            // DialogBase<TResult, TParam> dialogWindow = CreateView(dialogWindowName);
+            var dialog = ViewUtil.CreateView<DialogBase<TResult, TParam>>(dialogName);
 
-            dialogWindow.ViewModel.OnInitialize(param);
+            dialog.ViewModel.OnInitialize(param);
 
-            mainWindow.ShowOverlay();
+            TResult result = await dialog.ShowDialog<TResult>(mainWindow);
 
-            TResult result = await dialogWindow.ShowDialog<TResult>(mainWindow);
-
-            mainWindow.HideOverlay();
-
-            if (dialogWindow is IDisposable disposable)
+            if (dialog is IDisposable disposable)
             {
                 disposable.Dispose();
             }
@@ -54,54 +58,4 @@ public class DialogService
             return Disposable.Empty;
         });
     }
-
-    private static DialogBase<TResult> CreateView<TResult>(string viewModelName)
-        where TResult : DialogBaseResult
-    {
-        var viewType = GetViewType(viewModelName);
-        if (viewType is null)
-        {
-            throw new InvalidOperationException($"View for {viewModelName} was not found!");
-        }
-
-        return (DialogBase<TResult>)GetView(viewType);
-    }
-
-    private static Type? GetViewType(string viewModelName)
-    {
-        var viewsAssembly = Assembly.GetExecutingAssembly();
-        var viewTypes = viewsAssembly.GetTypes();
-        var viewName = viewModelName.Replace("ViewModel", string.Empty);
-
-        return viewTypes.SingleOrDefault(t => t.Name == viewName);
-    }
-
-    private static object GetView(Type type) => Activator.CreateInstance(type);
-
-    private static DialogBaseViewModel<TResult> CreateViewModel<TResult>(string viewModelName)
-        where TResult : DialogBaseResult
-    {
-        var viewModelType = GetViewModelType(viewModelName);
-        if (viewModelType is null)
-        {
-            throw new InvalidOperationException($"View model {viewModelName} was not found!");
-        }
-
-        return (DialogBaseViewModel<TResult>) GetViewModel(viewModelType);
-    }
-
-    private static Type? GetViewModelType(string viewModelName)
-    {
-        var viewModelsAssembly = Assembly.GetAssembly(typeof(BaseViewModel));
-        if (viewModelsAssembly is null)
-        {
-            throw new InvalidOperationException("Broken installation!");
-        }
-
-        var viewModelTypes = viewModelsAssembly.GetTypes();
-
-        return viewModelTypes.SingleOrDefault(t => t.Name == viewModelName);
-    }
-
-    private static object GetViewModel(Type type) => Locator.Current.GetService(type);
 }

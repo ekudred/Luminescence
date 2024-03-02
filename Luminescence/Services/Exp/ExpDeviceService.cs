@@ -34,8 +34,8 @@ public class ExpDeviceService : HidDeviceService
             .Where(inProcess => inProcess)
             .Subscribe(_ => { InProcess.OnNext(false); });
 
-        ReadException
-            .Subscribe(_ => _dialogService.ShowDialog(new FailDialog()).Subscribe());
+        // ReadException
+        //     .Subscribe(_ => _dialogService.ShowDialog(new FailDialog()).Subscribe());
     }
 
     public void RunProcess()

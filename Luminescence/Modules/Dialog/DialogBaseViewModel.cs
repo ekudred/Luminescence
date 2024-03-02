@@ -18,8 +18,9 @@ public class DialogBaseViewModel<TResult, TParam> : BaseViewModel
         CloseCommand = ReactiveCommand.Create(Close);
     }
 
-    public virtual void OnInitialize(TParam param)
+    public virtual void OnInitialize(TParam? param)
     {
+        throw new NotImplementedException();
     }
 
     protected void Close() => Close(default);

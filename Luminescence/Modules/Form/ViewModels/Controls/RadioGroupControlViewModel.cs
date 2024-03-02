@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -22,14 +23,9 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
         }
     }
 
-    public List<RadioControlViewModel> Items
-    {
-        get => _items;
-        set { this.RaiseAndSetIfChanged(ref _items, value); }
-    }
+    public ObservableCollection<RadioControlViewModel> Items { get; set; }
 
     private RadioControlViewModel _value;
-    private List<RadioControlViewModel> _items = new();
 
     private readonly string _groupId = Guid.NewGuid().ToString();
 
@@ -40,8 +36,8 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
         RadioControlGroupOptions? options = null
     ) : base(name)
     {
-        Items = items;
-        Items.ForEach(item => { item.GroupId = _groupId; });
+        items.ForEach(item => { item.GroupId = _groupId; });
+        Items = new ObservableCollection<RadioControlViewModel>(items);
 
         if (items.Count >= 0 && defaultValue <= items.Count - 1)
         {
@@ -54,7 +50,7 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
         Items
             .Select(item => item.ValueChanges)
             .Merge()
-            .Select(_ => Items.Find(item => item.Value)!)
+            .Select(_ => Items.Where(item => item.Value).ElementAt(0))
             .Subscribe(item =>
             {
                 Value = item;

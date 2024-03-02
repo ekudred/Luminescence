@@ -88,7 +88,7 @@ public class HeaderViewModel : BaseViewModel
 
     public void OpenSettingsDialog()
     {
-        _dialogService.ShowDialog(new SettingsDialog()).Subscribe();
+        _dialogService.ShowDialog("SettingsDialog").Subscribe();
     }
 
     public void ToggleActive()

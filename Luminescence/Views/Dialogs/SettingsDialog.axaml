@@ -151,39 +151,39 @@
                     </StackPanel>
                 </TabItem>
 
-                <TabItem Header="Темновой ток">
+                <TabItem Header="Коэффициенты">
                     <StackPanel Orientation="Horizontal">
                         <!-- Темновой ток -->
                         <StackPanel Classes="Table">
-                            <ItemsRepeater Items="{Binding Form.DarkCurrentCodeControls}">
-                                <ItemsRepeater.ItemTemplate>
+                            <ItemsControl Items="{Binding Form.DarkCurrentCodeControls}">
+                                <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Classes="CellBorder">
-                                            <v:TextControlView DataContext="{Binding}" />
-                                            <!-- <StackPanel Classes="Cell"> -->
-                                            <!--     <TextBlock Classes="Small" Text="0.50" /> -->
-                                            <!--     <TextBox Classes="Small" Text="0" /> -->
-                                            <!-- </StackPanel> -->
-                                        </Border>
+                                        <!-- <Border Classes="CellBorder"> -->
+                                        <v:TextControlView DataContext="{Binding}" />
+                                        <!-- <StackPanel Classes="Cell"> -->
+                                        <!--     <TextBlock Classes="Small" Text="0.50" /> -->
+                                        <!--     <TextBox Classes="Small" Text="0" /> -->
+                                        <!-- </StackPanel> -->
+                                        <!-- </Border> -->
                                     </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                         <!-- Коэффициенты чувствительности -->
                         <StackPanel Classes="Table">
-                            <ItemsRepeater Items="{Binding Form.SensitivityCoefControls}">
-                                <ItemsRepeater.ItemTemplate>
+                            <ItemsControl Items="{Binding Form.SensitivityCoefControls}">
+                                <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Classes="CellBorder">
-                                            <!-- <v:TextControlView DataContext="{Binding}" /> -->
-                                            <!-- <StackPanel Classes="Cell"> -->
-                                            <!--     <TextBlock Classes="Small" Text="0.50" /> -->
-                                            <!--     <TextBox Classes="Small" Text="0" /> -->
-                                            <!-- </StackPanel> -->
-                                        </Border>
+                                        <!-- <Border Classes="CellBorder"> -->
+                                        <v:TextControlView DataContext="{Binding}" />
+                                        <!-- <StackPanel Classes="Cell"> -->
+                                        <!--     <TextBlock Classes="Small" Text="0.50" /> -->
+                                        <!--     <TextBox Classes="Small" Text="0" /> -->
+                                        <!-- </StackPanel> -->
+                                        <!-- </Border> -->
                                     </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
@@ -195,7 +195,7 @@
                   RowDefinitions="40" ColumnDefinitions="620">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="12 0">
                     <Button Content="Применить" Margin="0 0 6 0" />
-                    <Button Content="Отменить" />
+                    <Button Content="Отменить" Command="{Binding CloseCommand}" />
                 </StackPanel>
             </Grid>
 

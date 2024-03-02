@@ -16,8 +16,8 @@
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioControlView.axaml" />
     </UserControl.Styles>
 
-    <!-- <RadioButton GroupName="0" -->
-    <!--              Content="{Binding Label}" -->
-    <!--              IsChecked="{Binding Value}" /> -->
+    <RadioButton GroupName="{Binding GroupId}"
+                 Content="{Binding Label}"
+                 IsChecked="{Binding Value}" />
 
 </UserControl>

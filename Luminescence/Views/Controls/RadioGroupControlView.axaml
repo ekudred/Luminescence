@@ -17,12 +17,12 @@
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioGroupControlView.axaml" />
     </UserControl.Styles>
 
-    <ItemsRepeater Items="{Binding Items}">
-        <ItemsRepeater.ItemTemplate>
+    <ItemsControl Items="{Binding Items}">
+        <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <v:RadioControlView DataContext="{Binding}" />
             </DataTemplate>
-        </ItemsRepeater.ItemTemplate>
-    </ItemsRepeater>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 
 </UserControl>
