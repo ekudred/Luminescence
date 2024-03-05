@@ -20,56 +20,53 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
     private readonly double _sensitivityCoefsIncrementValue = 0.05;
     private readonly int _sensitivityCoefsCount = 13;
 
-    public MeasurementSettingsFormViewModel() : base(new())
+    protected override void UpdateModel(MeasurementSettingsFormModel model)
     {
-    }
-
-    protected override void ChangeModel(MeasurementSettingsFormModel model)
-    {
-        string activeControlGroup0Name = ((RadioGroupControlViewModel)GetControl("Group0")).Value.Name;
+        string activeControlGroup0Name = ((RadioControlViewModel)GetControl("Group0").Value).Name;
         model.HeaterOff = activeControlGroup0Name == "HeaterOff";
         model.LinearHeating = activeControlGroup0Name == "LinearHeating";
         model.TemperatureMaintenance = activeControlGroup0Name == "TemperatureMaintenance";
 
-        // model.EndTemperature = ((TextControlViewModel)GetControl("EndTemperature")).Value;
-        // model.HeatingRate = ((TextControlViewModel)GetControl("HeatingRate")).Value;
+        // model.EndTemperature = int.Parse((string)GetControl("EndTemperature").Value ?? "0");
+        // model.HeatingRate = int.Parse((string)GetControl("HeatingRate").Value ?? "0");
 
-        string activeControlGroup1Name = ((RadioGroupControlViewModel)GetControl("Group1")).Value.Name;
+        string activeControlGroup1Name = ((RadioControlViewModel)GetControl("Group1").Value).Name;
         model.LedOff = activeControlGroup1Name == "LedOff";
         model.LinearIncreaseCurrent = activeControlGroup1Name == "LinearIncreaseCurrent";
         model.CurrentMaintenance = activeControlGroup1Name == "CurrentMaintenance";
 
-        // model.StartLEDCurrent = ((TextControlViewModel)GetControl("StartLEDCurrent")).Value;
-        // model.EndLEDCurrent = ((TextControlViewModel)GetControl("EndLEDCurrent")).Value;
-        // model.LEDCurrentRate = ((TextControlViewModel)GetControl("LEDCurrentRate")).Value;
+        // model.StartLEDCurrent = int.Parse((string)GetControl("StartLEDCurrent").Value ?? "0");
+        // model.EndLEDCurrent = int.Parse((string)GetControl("EndLEDCurrent").Value ?? "0");
+        // model.LEDCurrentRate = int.Parse((string)GetControl("LEDCurrentRate").Value ?? "0");
 
-        string activeControlGroup2Name = ((RadioGroupControlViewModel)GetControl("Group2")).Value.Name;
+        string activeControlGroup2Name = ((RadioControlViewModel)GetControl("Group2").Value).Name;
         model.Automatic = activeControlGroup2Name == "Automatic";
         model.Upem = activeControlGroup2Name == "Upem";
-        // model.EndLEDCurrent = ((TextControlViewModel)GetControl("Ufeu")).Value;
 
-        model.LedCAPZeroOffset = ((TextControlViewModel)GetControl("LedCAPZeroOffset")).Value;
-        model.LedCAPCoefTransform = ((TextControlViewModel)GetControl("LedCAPCoefTransform")).Value;
-        model.CodeChange = ((TextControlViewModel)GetControl("CodeChange")).Value;
-        model.TemperatureChange = ((TextControlViewModel)GetControl("TemperatureChange")).Value;
-        model.ThermocoupleACPZeroOffset = ((TextControlViewModel)GetControl("ThermocoupleACPZeroOffset")).Value;
-        model.ThermocoupleACPCoefTransform = ((TextControlViewModel)GetControl("ThermocoupleACPCoefTransform")).Value;
+        // model.Ufeu = int.Parse((string)GetControl("Ufeu").Value ?? "0");
 
-        model.DarkCurrentCodes = new();
+        // model.LedCAPZeroOffset = int.Parse((string)GetControl("LedCAPZeroOffset").Value ?? "0");
+        // model.LedCAPCoefTransform = int.Parse((string)GetControl("LedCAPCoefTransform").Value ?? "0");
+        // model.CodeChange = int.Parse((string)GetControl("CodeChange").Value ?? "0");
+        // model.TemperatureChange = int.Parse((string)GetControl("TemperatureChange").Value ?? "0");
+        // model.ThermocoupleACPZeroOffset = int.Parse((string)GetControl("ThermocoupleACPZeroOffset").Value ?? "0");
+        // model.ThermocoupleACPCoefTransform = int.Parse((string)GetControl("ThermocoupleACPCoefTransform").Value ?? "0");
 
-        for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
-        {
-            var control = (TextControlViewModel)GetControl("DarkCurrentCode" + i);
-            model.DarkCurrentCodes.Add(control.Label, control.Value);
-        }
-
-        model.SensitivityCoefs = new();
-
-        for (int i = 0; i < _sensitivityCoefsCount - 1; i++)
-        {
-            var control = (TextControlViewModel)GetControl("SensitivityCoef" + i);
-            model.SensitivityCoefs.Add(control.Label, control.Value);
-        }
+        // model.DarkCurrentCodes = new();
+        //
+        // for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
+        // {
+        //     var control = (TextControlViewModel)GetControl("DarkCurrentCode" + i);
+        //     model.DarkCurrentCodes.Add(control.Label, (string)control.Value);
+        // }
+        //
+        // model.SensitivityCoefs = new();
+        //
+        // for (int i = 0; i < _sensitivityCoefsCount - 1; i++)
+        // {
+        //     var control = (TextControlViewModel)GetControl("SensitivityCoef" + i);
+        //     model.SensitivityCoefs.Add(control.Label, (string)control.Value);
+        // }
     }
 
     protected override List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
@@ -82,8 +79,8 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         };
         list.Add(new RadioGroupControlViewModel("Group0", 0, group0));
 
-        list.Add(new TextControlViewModel("EndTemperature", "", new() { Label = "Конечная температура, °C" }));
-        list.Add(new TextControlViewModel("HeatingRate", "", new() { Label = "Скорость нагрева, °C/сек" }));
+        list.Add(new TextControlViewModel("EndTemperature", "0", new() { Label = "Конечная температура, °C" }));
+        list.Add(new TextControlViewModel("HeatingRate", "0", new() { Label = "Скорость нагрева, °C/сек" }));
 
         List<RadioControlViewModel> group1 = new()
         {
@@ -93,9 +90,9 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         };
         list.Add(new RadioGroupControlViewModel("Group1", 0, group1));
 
-        list.Add(new TextControlViewModel("StartLEDCurrent", "", new() { Label = "Начальный ток, мА" }));
-        list.Add(new TextControlViewModel("EndLEDCurrent", "", new() { Label = "Конечный ток, мА" }));
-        list.Add(new TextControlViewModel("LEDCurrentRate", "", new() { Label = "Скорость роста тока, мА/сек" }));
+        list.Add(new TextControlViewModel("StartLEDCurrent", "0", new() { Label = "Начальный ток, мА" }));
+        list.Add(new TextControlViewModel("EndLEDCurrent", "0", new() { Label = "Конечный ток, мА" }));
+        list.Add(new TextControlViewModel("LEDCurrentRate", "0", new() { Label = "Скорость роста тока, мА/сек" }));
 
         List<RadioControlViewModel> group2 = new()
         {
@@ -104,15 +101,15 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         };
         list.Add(new RadioGroupControlViewModel("Group2", 0, group2));
 
-        list.Add(new TextControlViewModel("Ufeu", "", new() { Label = "Напряжение на ФЭУ" }));
+        list.Add(new TextControlViewModel("Ufeu", "0", new() { Label = "Напряжение на ФЭУ" }));
 
-        list.Add(new TextControlViewModel("LedCAPZeroOffset", "", new() { Label = "Смещение нуля ЦАП" }));
-        list.Add(new TextControlViewModel("LedCAPCoefTransform", "",
+        list.Add(new TextControlViewModel("LedCAPZeroOffset", "0", new() { Label = "Смещение нуля ЦАП" }));
+        list.Add(new TextControlViewModel("LedCAPCoefTransform", "0",
             new() { Label = "Коэффициент преобразования ЦАП" }));
-        list.Add(new TextControlViewModel("CodeChange", "", new() { Label = "Изменение кода ФЭУ" }));
-        list.Add(new TextControlViewModel("TemperatureChange", "", new() { Label = "Изменение температуры" }));
-        list.Add(new TextControlViewModel("ThermocoupleACPZeroOffset", "", new() { Label = "Смещение нуля АЦП" }));
-        list.Add(new TextControlViewModel("ThermocoupleACPCoefTransform", "",
+        list.Add(new TextControlViewModel("CodeChange", "0", new() { Label = "Изменение кода ФЭУ" }));
+        list.Add(new TextControlViewModel("TemperatureChange", "0", new() { Label = "Изменение температуры" }));
+        list.Add(new TextControlViewModel("ThermocoupleACPZeroOffset", "0", new() { Label = "Смещение нуля АЦП" }));
+        list.Add(new TextControlViewModel("ThermocoupleACPCoefTransform", "0",
             new() { Label = "Коэффициент преобразования АЦП" }));
 
         for (int i = 0; i < _darkCurrentCodesCount - 1; i++)

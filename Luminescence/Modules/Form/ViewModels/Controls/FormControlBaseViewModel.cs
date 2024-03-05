@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reactive.Subjects;
+﻿using System.Reactive.Subjects;
 using Luminescence.ViewModels;
 using ReactiveUI;
 
@@ -7,36 +6,47 @@ namespace Luminescence.Form.ViewModels;
 
 public class FormControlBaseViewModel : BaseViewModel
 {
-    public readonly string Name;
-    public string Label { get; set; }
+    public string Name { get; private set; }
+    public string Label { get; private set; }
 
-    public readonly Subject<object> ValueChanges = new();
+    public Subject<object> ValueChanges { get; } = new();
 
-    public object Value
+    public virtual object Value
     {
-        get => _value;
+        get => refValue;
         set
         {
-            this.RaiseAndSetIfChanged(ref _value, value);
+            this.RaiseAndSetIfChanged(ref refValue, value);
 
             ValueChanges.OnNext(value);
         }
     }
 
-    private object _value;
+    public Subject<object> destroyControl;
+
+    protected object refValue;
 
     protected FormControlBaseViewModel(string name)
     {
         Name = name;
+
+        destroyControl = new();
     }
 
-    protected void SetOptions(FormControlOptions options)
+    public void Destroy()
     {
-        if (options == null)
+        if (destroyControl == null)
         {
             return;
         }
 
-        Label = options.Label ?? "";
+        destroyControl.OnNext(0);
+        destroyControl.OnCompleted();
+        destroyControl = null;
+    }
+
+    protected void SetOptions(FormControlOptions options)
+    {
+        Label = options.Label;
     }
 }

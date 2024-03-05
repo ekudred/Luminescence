@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:v="clr-namespace:Luminescence.Views"
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
+        xmlns:cs="clr-namespace:Luminescence.Form.ViewModels"
         xmlns:converters="clr-namespace:Luminescence.Converters"
         mc:Ignorable="d"
         x:Class="Luminescence.Views.SettingsDialog"
@@ -11,7 +12,7 @@
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Width="620" Height="460"
+        Width="400" Height="540"
         CanResize="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="TlOsl">
@@ -28,62 +29,91 @@
         <converters:DictionaryEntryConverter x:Key="ControlConverter" />
     </Window.Resources>
 
-    <Panel Classes="SettingsDialog">
-        <Grid RowDefinitions="420 40" ColumnDefinitions="620">
+    <Panel>
+        <Grid RowDefinitions="500 40" ColumnDefinitions="400">
 
-            <TabControl Grid.Row="0" Grid.Column="0"
-                        Classes="Tabs">
+            <TabControl Grid.Row="0" Grid.Column="0">
 
                 <TabItem Header="Измерение">
-                    <StackPanel>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
-                        <StackPanel Orientation="Horizontal">
-                            <!-- ТЛ -->
-                            <StackPanel Orientation="Vertical">
-                                <v:RadioGroupControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group0'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="ТЛ" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
+                                        <StackPanel Classes="Item">
+                                            <v:RadioGroupControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group0'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndTemperature'}" />
+                                        </StackPanel>
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatingRate'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
                             </StackPanel>
+                        </Border>
 
-                            <StackPanel Orientation="Vertical">
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndTemperature'}" />
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatingRate'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="ОСЛ" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
+                                        <StackPanel Classes="Item">
+                                            <v:RadioGroupControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group1'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='StartLEDCurrent'}" />
+                                        </StackPanel>
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndLEDCurrent'}" />
+                                        </StackPanel>
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDCurrentRate'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
                             </StackPanel>
+                        </Border>
 
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <!-- ОСЛ -->
-                            <StackPanel Orientation="Vertical">
-                                <v:RadioGroupControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group1'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="Режим ФЭУ" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
+                                        <StackPanel Classes="Item">
+                                            <v:RadioGroupControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group2'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Classes="Item">
+                                            <v:TextControl
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Ufeu'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
                             </StackPanel>
-
-                            <StackPanel Orientation="Vertical">
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='StartLEDCurrent'}" />
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndLEDCurrent'}" />
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDCurrentRate'}" />
-                            </StackPanel>
-
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <!-- Режим ФЭУ -->
-                            <StackPanel Orientation="Vertical">
-                                <v:RadioGroupControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group2'}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical">
-                                <v:TextControlView
-                                    DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Ufeu'}" />
-                            </StackPanel>
-
-                        </StackPanel>
+                        </Border>
 
                     </StackPanel>
                 </TabItem>
@@ -91,60 +121,65 @@
                 <TabItem Header="Дополнительно">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
-                        <StackPanel Classes="Section">
-                            <StackPanel Classes="SectionTitle">
-                                <TextBlock Classes="Small" Text="Светодиод" />
-                            </StackPanel>
-                            <StackPanel Classes="SectionRow">
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPZeroOffset'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="Светодиод" />
                                 </StackPanel>
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPCoefTransform'}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPZeroOffset'}" />
+                                    </StackPanel>
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPCoefTransform'}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Border>
 
-                        <StackPanel Orientation="Vertical" Classes="Section">
-                            <StackPanel Classes="SectionTitle">
-                                <TextBlock Classes="Small" Text="При включении светодиода" />
-                            </StackPanel>
-                            <StackPanel Classes="SectionRow">
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CodeChange'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="При включении светодиода" />
                                 </StackPanel>
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureChange'}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CodeChange'}" />
+                                    </StackPanel>
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureChange'}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Border>
 
-                        <StackPanel Classes="Section">
-                            <StackPanel Classes="SectionTitle">
-                                <TextBlock Classes="Small" Text="Термопара" />
-                            </StackPanel>
-                            <StackPanel Classes="SectionRow">
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPZeroOffset'}" />
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                    <TextBlock Classes="H4" Text="Термопара" />
                                 </StackPanel>
-                                <StackPanel Classes="SectionItem">
-                                    <v:TextControlView
-                                        DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPCoefTransform'}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPZeroOffset'}" />
+                                    </StackPanel>
+                                    <StackPanel Classes="Item">
+                                        <v:TextControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPCoefTransform'}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Border>
 
-                        <!-- <StackPanel Classes="Section"> -->
-                        <!--     <StackPanel Orientation="Vertical" Classes="SectionRow"> -->
-                        <!--         <StackPanel Classes="SectionItem"> -->
-                        <!--             <v:CheckboxControlView -->
-                        <!--                 DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ClearCharts'}" /> -->
-                        <!--         </StackPanel> -->
+                        <!-- <StackPanel Orientation="Vertical"> -->
+                        <!--     <StackPanel Orientation="Vertical"> -->
+                        <!--         <v:CheckboxControlView -->
+                        <!--            -->
+                        <!--             DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ClearCharts'}" /> -->
                         <!--     </StackPanel> -->
                         <!-- </StackPanel> -->
 
@@ -152,52 +187,53 @@
                 </TabItem>
 
                 <TabItem Header="Коэффициенты">
-                    <StackPanel Orientation="Horizontal">
-                        <!-- Темновой ток -->
-                        <StackPanel Classes="Table">
-                            <ItemsControl Items="{Binding Form.DarkCurrentCodeControls}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <!-- <Border Classes="CellBorder"> -->
-                                        <v:TextControlView DataContext="{Binding}" />
-                                        <!-- <StackPanel Classes="Cell"> -->
-                                        <!--     <TextBlock Classes="Small" Text="0.50" /> -->
-                                        <!--     <TextBox Classes="Small" Text="0" /> -->
-                                        <!-- </StackPanel> -->
-                                        <!-- </Border> -->
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                    <StackPanel Margin="16 12" Orientation="Horizontal">
+                        <StackPanel Margin="0 0 16 0" Orientation="Vertical">
+                            <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                <TextBlock Classes="H4" Text="Темновой ток" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <ItemsControl Items="{Binding Form.DarkCurrentCodeControls}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="cs:TextControlViewModel">
+                                            <StackPanel Classes="Cell" DataContext="{Binding}">
+                                                <v:TextControl DataContext="{Binding}" Classes="CellControl" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
                         </StackPanel>
-                        <!-- Коэффициенты чувствительности -->
-                        <StackPanel Classes="Table">
-                            <ItemsControl Items="{Binding Form.SensitivityCoefControls}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <!-- <Border Classes="CellBorder"> -->
-                                        <v:TextControlView DataContext="{Binding}" />
-                                        <!-- <StackPanel Classes="Cell"> -->
-                                        <!--     <TextBlock Classes="Small" Text="0.50" /> -->
-                                        <!--     <TextBox Classes="Small" Text="0" /> -->
-                                        <!-- </StackPanel> -->
-                                        <!-- </Border> -->
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="0 0 0 8" HorizontalAlignment="Left">
+                                <TextBlock Classes="H4" Text="Коэффициенты чувствительности" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <ItemsControl Items="{Binding Form.SensitivityCoefControls}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="cs:TextControlViewModel">
+                                            <StackPanel Classes="Cell" DataContext="{Binding}">
+                                                <v:TextControl DataContext="{Binding}" Classes="CellControl" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
 
             </TabControl>
 
-            <Grid Grid.Row="1" Grid.Column="0"
-                  Classes="Actions"
-                  RowDefinitions="40" ColumnDefinitions="620">
+            <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0"
+                    Grid.Row="1" Grid.Column="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="12 0">
-                    <Button Content="Применить" Margin="0 0 6 0" />
+                    <Button Content="Применить" Margin="0 0 6 0" IsEnabled="{Binding ApplyEnabled}"
+                            Command="{Binding ApplyCommand}" />
                     <Button Content="Отменить" Command="{Binding CloseCommand}" />
                 </StackPanel>
-            </Grid>
+            </Border>
 
         </Grid>
     </Panel>

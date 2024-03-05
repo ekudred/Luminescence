@@ -6,16 +6,14 @@ namespace Luminescence.Form.ViewModels;
 
 public class RadioControlViewModel : FormControlBaseViewModel
 {
-    public new readonly Subject<bool> ValueChanges = new();
-
-    public new bool Value
+    public override object Value
     {
-        get => _value;
+        get => refValue;
         set
         {
-            this.RaiseAndSetIfChanged(ref _value, value);
+            this.RaiseAndSetIfChanged(ref refValue, value);
 
-            if (value)
+            if ((bool)value)
             {
                 ValueChanges.OnNext(value);
             }
@@ -28,22 +26,16 @@ public class RadioControlViewModel : FormControlBaseViewModel
         set => this.RaiseAndSetIfChanged(ref _groupId, value);
     }
 
-    private bool _value;
     private string _groupId = Guid.NewGuid().ToString();
 
-    public RadioControlViewModel(string name, RadioControlOptions options = null)
+    public RadioControlViewModel(string name, RadioControlOptions? options = null)
         : base(name)
     {
-        SetOptions(options);
+        SetOptions(options ?? new());
     }
 
     private void SetOptions(RadioControlOptions options)
     {
-        if (options == null)
-        {
-            return;
-        }
-
         base.SetOptions(options);
     }
 }

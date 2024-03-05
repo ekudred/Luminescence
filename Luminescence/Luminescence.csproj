@@ -59,20 +59,24 @@
             <DependentUpon>FailDialog.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\RadionControlView.axaml.cs">
-            <DependentUpon>RadionControlView.axaml</DependentUpon>
+        <Compile Update="Views\Controls\RadionControl.axaml.cs">
+            <DependentUpon>RadionControl.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\RadioControlView.axaml.cs">
-            <DependentUpon>RadioControlView.axaml</DependentUpon>
+        <Compile Update="Views\Controls\RadioControl.axaml.cs">
+            <DependentUpon>RadioControl.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\RadioGroupControlView.axaml.cs">
-            <DependentUpon>RadioGroupControlView.axaml</DependentUpon>
+        <Compile Update="Views\Controls\RadioGroupControl.axaml.cs">
+            <DependentUpon>RadioGroupControl.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\TextControlView.axaml.cs">
-            <DependentUpon>TextControlView.axaml</DependentUpon>
+        <Compile Update="Views\Controls\TextControl.axaml.cs">
+            <DependentUpon>TextControl.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\NumericControl.axaml.c s">
+            <DependentUpon>NumericControl.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>

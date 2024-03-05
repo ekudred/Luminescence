@@ -48,22 +48,22 @@ public class MeasurementSettingsFormModel : FormBaseModel
     public int Ufeu;
 
     /** Смещение нуля ЦАП */
-    public string LedCAPZeroOffset;
+    public int LedCAPZeroOffset;
 
     /** Коэффициент преобразования ЦАП */
-    public string LedCAPCoefTransform;
+    public int LedCAPCoefTransform;
 
     /** Изменение кода ФЭУ */
-    public string CodeChange;
+    public int CodeChange;
 
     /** Изменение температуры */
-    public string TemperatureChange;
+    public int TemperatureChange;
 
     /** Смещение нуля АЦП */
-    public string ThermocoupleACPZeroOffset;
+    public int ThermocoupleACPZeroOffset;
 
     /** Коэффициент преобразования АЦП */
-    public string ThermocoupleACPCoefTransform;
+    public int ThermocoupleACPCoefTransform;
 
     /** Темновой ток Codes */
     public Dictionary<string, string> DarkCurrentCodes;

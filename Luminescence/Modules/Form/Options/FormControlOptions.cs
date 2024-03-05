@@ -2,5 +2,5 @@
 
 public class FormControlOptions
 {
-    public string? Label;
+    public string Label = "";
 }

@@ -1,80 +1,49 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Luminescence.Views">
 
-    <Style Selector="Panel.SettingsDialog">
-
+    <Style Selector="StackPanel > StackPanel.Item:not(:nth-last-child())">
+        <Setter Property="Margin" Value="0 0 12 8" />
     </Style>
 
-    <Style Selector="TabControl.Tabs">
+    <!-- <Style Selector="StackPanel.SectionItem > TextBlock"> -->
+    <!--     <Setter Property="Padding" Value="0 0 0 4" /> -->
+    <!--     <Setter Property="Width" Value="110" /> -->
+    <!--     <Setter Property="TextWrapping" Value="Wrap" /> -->
+    <!--     <Setter Property="HorizontalAlignment" Value="Left" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="StackPanel.SectionItem > TextBox"> -->
+    <!--     <Setter Property="Width" Value="64" /> -->
+    <!--     <Setter Property="HorizontalAlignment" Value="Left" /> -->
+    <!-- </Style> -->
 
+    <Style Selector="StackPanel.Cell:not(:nth-last-child())">
+        <Setter Property="Margin" Value="0 0 0 4" />
     </Style>
 
-    <Style Selector="StackPanel.Section">
-        <Setter Property="Orientation" Value="Vertical" />
-        <Setter Property="Margin" Value="0 8 0 0" />
-    </Style>
-
-    <Style Selector="StackPanel.SectionTitle">
-        <Setter Property="Orientation" Value="Vertical" />
-    </Style>
-
-    <Style Selector="StackPanel.SectionRow">
+    <Style Selector="v|TextControl.CellControl > StackPanel.TextControl">
         <Setter Property="Orientation" Value="Horizontal" />
     </Style>
 
-    <Style Selector="StackPanel.SectionTitle > TextBlock">
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="LineHeight" Value="16" />
-        <Setter Property="Padding" Value="0 0 0 8" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-    </Style>
-
-    <Style Selector="StackPanel.SectionItem">
-        <Setter Property="Orientation" Value="Vertical" />
-        <Setter Property="VerticalAlignment" Value="Bottom" />
+    <Style Selector="v|TextControl.CellControl > TextBox">
         <Setter Property="Margin" Value="0 0 8 0" />
     </Style>
 
-    <Style Selector="StackPanel.SectionItem:nth-last-child()">
-        <Setter Property="Margin" Value="0" />
-    </Style>
-
-    <Style Selector="StackPanel.SectionItem > TextBlock">
-        <Setter Property="Padding" Value="0 0 0 4" />
-        <Setter Property="Width" Value="110" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-    </Style>
-
-    <Style Selector="StackPanel.SectionItem > TextBox">
-        <Setter Property="Width" Value="64" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-    </Style>
-
-
-    <Style Selector="StackPanel.Table">
-        <Setter Property="Orientation" Value="Vertical" />
-    </Style>
-
-    <Style Selector="StackPanel.Cell">
-        <Setter Property="Orientation" Value="Horizontal" />
-    </Style>
-
-    <Style Selector="StackPanel.Cell > TextBlock">
-        <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-
-    <Style Selector="StackPanel.Cell > TextBox">
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="Margin" Value="8 0 0 0" />
-    </Style>
-
-    <Style Selector="Border.CellBorder">
-        <Setter Property="BorderThickness" Value="0 0 0 1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-    </Style>
+    <!-- <Style Selector="StackPanel.Cell > TextBlock"> -->
+    <!--     <Setter Property="VerticalAlignment" Value="Center" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="StackPanel.Cell > TextBox"> -->
+    <!--     <Setter Property="BorderThickness" Value="0" /> -->
+    <!--     <Setter Property="CornerRadius" Value="0" /> -->
+    <!--     <Setter Property="Margin" Value="8 0 0 0" /> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="Border.CellBorder"> -->
+    <!--     <Setter Property="BorderThickness" Value="0 0 0 1" /> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" /> -->
+    <!--     <Setter Property="HorizontalAlignment" Value="Left" /> -->
+    <!-- </Style> -->
 
 </Styles>

@@ -1,0 +1,11 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="Panel.ChartPanel > TabControl > TabItem > StackPanel">
+        <Setter Property="Margin" Value="-12 0 0 0" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+</Styles>

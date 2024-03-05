@@ -1,5 +1,11 @@
-﻿namespace Luminescence.Form;
+﻿using System;
 
-public class FormBaseModel
+namespace Luminescence.Form;
+
+public class FormBaseModel : ICloneable
 {
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -1,0 +1,30 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Luminescence.Form.ViewModels"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.NumericControl"
+             x:DataType="vm:NumericControlViewModel"
+             x:CompileBindings="True">
+
+    <Design.DataContext>
+        <vm:NumericControlViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/NumericControlStyle.axaml" />
+    </UserControl.Styles>
+
+    <StackPanel Classes="NumericControl">
+        <TextBlock Classes="P" Text="{Binding Label}" />
+        <NumericUpDown Text="{Binding Value}"
+                       ShowButtonSpinner="{Binding SpinnerOptions.IsEnabled}"
+                       AllowSpin="{Binding SpinnerOptions.IsEnabled}"
+                       Increment="{Binding SpinnerOptions.Increment}"
+                       FormatString="{Binding SpinnerOptions.FormatString}"
+                       Minimum="{Binding SpinnerOptions.Minimum}"
+                       Maximum="{Binding SpinnerOptions.Maximum}" />
+    </StackPanel>
+
+</UserControl>

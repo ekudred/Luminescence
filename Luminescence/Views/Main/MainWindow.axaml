@@ -24,7 +24,6 @@
     </Window.Styles>
 
     <Panel>
-
         <StackPanel>
 
             <v:HeaderView />
@@ -34,7 +33,6 @@
             <v:ChartPanelView />
 
         </StackPanel>
-
     </Panel>
 
 </Window>

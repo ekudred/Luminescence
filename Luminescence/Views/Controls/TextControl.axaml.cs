@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Luminescence.Views;
 
-public partial class RadioGroupControlView : UserControl
+public partial class TextControl : UserControl
 {
-    public RadioGroupControlView()
+    public TextControl()
     {
         InitializeComponent();
     }

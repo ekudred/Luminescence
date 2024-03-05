@@ -26,7 +26,7 @@ public class MeasurementSettingsFormService
             .Merge()
             .Subscribe(_ =>
             {
-                ExpWriteDto dto = ToDto(model.ToModel());
+                // ExpWriteDto dto = ToDto(model.ToModel());
                 // model.Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(structure)).ToString();
                 //
                 // _expDeviceService.SendData(dto);

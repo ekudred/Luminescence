@@ -5,7 +5,7 @@
              xmlns:v="clr-namespace:Luminescence.Views"
              xmlns:vm="clr-namespace:Luminescence.Form.ViewModels"
              mc:Ignorable="d"
-             x:Class="Luminescence.Views.RadioGroupControlView"
+             x:Class="Luminescence.Views.RadioGroupControl"
              x:DataType="vm:RadioGroupControlViewModel"
              x:CompileBindings="True">
 
@@ -14,13 +14,13 @@
     </Design.DataContext>
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioGroupControlView.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioGroupControlStyle.axaml" />
     </UserControl.Styles>
 
     <ItemsControl Items="{Binding Items}">
         <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <v:RadioControlView DataContext="{Binding}" />
+            <DataTemplate DataType="vm:RadioControlViewModel">
+                <v:RadioControl DataContext="{Binding}" />
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
