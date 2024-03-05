@@ -34,12 +34,7 @@ public class FormViewModel<TFormModel> : BaseViewModel
             .Select(control => control.Value.ValueChanges)
             .Merge()
             .TakeUntil(destroyForm)
-            .Subscribe(_ =>
-            {
-                var a = ToModel();
-                var b = _initialModel;
-                FormChanged.OnNext(!Equals(a, b));
-            });
+            .Subscribe(_ => { FormChanged.OnNext(!ToModel().Equals(_initialModel)); });
 
         OnInitialize();
     }
@@ -61,13 +56,6 @@ public class FormViewModel<TFormModel> : BaseViewModel
         destroyForm = null;
     }
 
-    public TFormModel ToModel()
-    {
-        UpdateModel(_model);
-
-        return _model;
-    }
-
     public FormControlBaseViewModel GetControl(string name)
     {
         _controls.TryGetValue(name, out FormControlBaseViewModel value);
@@ -75,7 +63,14 @@ public class FormViewModel<TFormModel> : BaseViewModel
         return value;
     }
 
-    private void UpdateInitialModel()
+    public TFormModel ToModel()
+    {
+        UpdateModel(_model);
+
+        return _model;
+    }
+
+    public void UpdateInitialModel()
     {
         _initialModel = (TFormModel)_model.Clone();
     }

@@ -21,8 +21,15 @@ public class SettingsDialogViewModel : DialogBaseViewModel
 
     private bool _applyEnabled;
 
-    public SettingsDialogViewModel(MeasurementSettingsFormService measurementSettingsFormService)
+    private readonly ExpDeviceService _expDeviceService;
+
+    public SettingsDialogViewModel(
+        MeasurementSettingsFormService measurementSettingsFormService,
+        ExpDeviceService expDeviceService
+    )
     {
+        _expDeviceService = expDeviceService;
+
         ApplyCommand = ReactiveCommand.Create(Apply);
 
         Form = new MeasurementSettingsFormViewModel();
@@ -39,8 +46,6 @@ public class SettingsDialogViewModel : DialogBaseViewModel
 
     private void Apply()
     {
-        var a = Form.ToModel();
-
-        Console.Write(a);
+        Form.Apply();
     }
 }

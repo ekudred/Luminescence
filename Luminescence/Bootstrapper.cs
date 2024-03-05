@@ -43,7 +43,8 @@ public static class Bootstrapper
             resolver.GetService<HidService>()
         ));
         services.RegisterLazySingleton(() => new SettingsDialogViewModel(
-            resolver.GetService<MeasurementSettingsFormService>()
+            resolver.GetService<MeasurementSettingsFormService>(),
+            resolver.GetService<ExpDeviceService>()
         ));
         services.RegisterLazySingleton(() => new RosterViewModel(
             resolver.GetService<ExpDeviceService>()

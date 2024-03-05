@@ -32,7 +32,7 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
         Items
             .Select(item => item.ValueChanges)
             .Merge()
-            .Select(_ => Items.Where(item => item.Value is bool).ElementAt(0))
+            .Select(_ => Items.Where(item => (bool)item.Value).ElementAt(0))
             .Subscribe(item =>
             {
                 Value = item;

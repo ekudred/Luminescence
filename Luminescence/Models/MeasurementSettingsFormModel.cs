@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Luminescence.Form;
 
 namespace Luminescence.Models;
@@ -124,5 +126,51 @@ public class MeasurementSettingsFormModel : FormBaseModel
         }
 
         return 1;
+    }
+
+    public override bool Equals(FormBaseModel? obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+
+        var equally = true;
+
+        foreach (var field in GetType().GetFields())
+        {
+            if (!equally)
+            {
+                break;
+            }
+
+            var value = field.GetValue(this);
+            var objValue = obj.GetType().GetField(field.Name)!.GetValue(obj);
+
+            if (value == null || objValue == null)
+            {
+                equally = value == objValue;
+
+                continue;
+            }
+
+            if (field.Name == "HeaterOff")
+            {
+                var a = value;
+                var b = objValue;
+                Console.Write(a);
+            }
+
+            if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<string, string>)))
+            {
+                equally = ((IDictionary<string, string>)value).SequenceEqual((IDictionary<string, string>)objValue);
+
+                continue;
+            }
+
+            equally = value.Equals(objValue);
+        }
+
+        return equally;
     }
 }

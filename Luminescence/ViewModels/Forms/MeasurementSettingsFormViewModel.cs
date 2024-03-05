@@ -20,6 +20,11 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
     private readonly double _sensitivityCoefsIncrementValue = 0.05;
     private readonly int _sensitivityCoefsCount = 13;
 
+    public void Apply()
+    {
+        UpdateInitialModel();
+    }
+
     protected override void UpdateModel(MeasurementSettingsFormModel model)
     {
         string activeControlGroup0Name = ((RadioControlViewModel)GetControl("Group0").Value).Name;
@@ -44,7 +49,7 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         model.Upem = activeControlGroup2Name == "Upem";
 
         // model.Ufeu = int.Parse((string)GetControl("Ufeu").Value ?? "0");
-
+        //
         // model.LedCAPZeroOffset = int.Parse((string)GetControl("LedCAPZeroOffset").Value ?? "0");
         // model.LedCAPCoefTransform = int.Parse((string)GetControl("LedCAPCoefTransform").Value ?? "0");
         // model.CodeChange = int.Parse((string)GetControl("CodeChange").Value ?? "0");
@@ -52,21 +57,21 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         // model.ThermocoupleACPZeroOffset = int.Parse((string)GetControl("ThermocoupleACPZeroOffset").Value ?? "0");
         // model.ThermocoupleACPCoefTransform = int.Parse((string)GetControl("ThermocoupleACPCoefTransform").Value ?? "0");
 
-        // model.DarkCurrentCodes = new();
-        //
-        // for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
-        // {
-        //     var control = (TextControlViewModel)GetControl("DarkCurrentCode" + i);
-        //     model.DarkCurrentCodes.Add(control.Label, (string)control.Value);
-        // }
-        //
-        // model.SensitivityCoefs = new();
-        //
-        // for (int i = 0; i < _sensitivityCoefsCount - 1; i++)
-        // {
-        //     var control = (TextControlViewModel)GetControl("SensitivityCoef" + i);
-        //     model.SensitivityCoefs.Add(control.Label, (string)control.Value);
-        // }
+        model.DarkCurrentCodes = new();
+
+        for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
+        {
+            var control = (TextControlViewModel)GetControl("DarkCurrentCode" + i);
+            model.DarkCurrentCodes.Add(control.Label, (string)control.Value);
+        }
+
+        model.SensitivityCoefs = new();
+
+        for (int i = 0; i < _sensitivityCoefsCount - 1; i++)
+        {
+            var control = (TextControlViewModel)GetControl("SensitivityCoef" + i);
+            model.SensitivityCoefs.Add(control.Label, (string)control.Value);
+        }
     }
 
     protected override List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
