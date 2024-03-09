@@ -8,18 +8,18 @@ namespace Luminescence.Utils;
 
 public static class ViewModelUtil
 {
-    public static TViewModel CreateViewModel<TViewModel>(string viewModelName)
+    public static TViewModel CreateViewModel<TViewModel>(string name)
     {
-        var viewModelType = GetViewModelType(viewModelName);
+        var viewModelType = GetViewModelType(name);
         if (viewModelType is null)
         {
-            throw new InvalidOperationException($"View model {viewModelName} was not found!");
+            throw new InvalidOperationException($"View model {name} was not found!");
         }
 
-        return (TViewModel)GetViewModel(viewModelType);
+        return (TViewModel)GetViewModel(viewModelType)!;
     }
 
-    public static Type? GetViewModelType(string viewModelName)
+    public static Type? GetViewModelType(string name)
     {
         var viewModelsAssembly = Assembly.GetAssembly(typeof(BaseViewModel));
         if (viewModelsAssembly is null)
@@ -29,11 +29,18 @@ public static class ViewModelUtil
 
         var viewModelTypes = viewModelsAssembly.GetTypes();
 
-        return viewModelTypes.SingleOrDefault(t => t.Name == viewModelName);
+        return viewModelTypes.SingleOrDefault(t => t.Name == name);
     }
 
-    public static object GetViewModel(Type type)
+    public static object? GetViewModel(Type type)
     {
-        return Locator.Current.GetService(type);
+        var service = Locator.Current.GetService(type);
+
+        if (service == null)
+        {
+            return Activator.CreateInstance(type);
+        }
+
+        return service;
     }
 }

@@ -10,7 +10,6 @@
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        HasSystemDecorations="True"
         CanResize="True"
         Icon="/Assets/avalonia-logo.ico"
         Title="Luminescence">

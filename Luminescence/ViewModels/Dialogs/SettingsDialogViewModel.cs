@@ -11,41 +11,52 @@ public class SettingsDialogViewModel : DialogBaseViewModel
 {
     public MeasurementSettingsFormViewModel Form { get; }
 
-    public bool ApplyEnabled
+    public bool FormChanged
     {
-        get => _applyEnabled;
-        set => this.RaiseAndSetIfChanged(ref _applyEnabled, value);
+        get => _formChanged;
+        set => this.RaiseAndSetIfChanged(ref _formChanged, value);
     }
 
     public ICommand ApplyCommand { get; }
+    public ICommand CancelCommand { get; }
 
-    private bool _applyEnabled;
+    private bool _formChanged;
 
     private readonly ExpDeviceService _expDeviceService;
+    private readonly DialogService _dialogService;
 
     public SettingsDialogViewModel(
         MeasurementSettingsFormService measurementSettingsFormService,
-        ExpDeviceService expDeviceService
+        ExpDeviceService expDeviceService,
+        DialogService dialogService
     )
     {
         _expDeviceService = expDeviceService;
+        _dialogService = dialogService;
 
         ApplyCommand = ReactiveCommand.Create(Apply);
+        CancelCommand = ReactiveCommand.Create(Cancel);
 
         Form = new MeasurementSettingsFormViewModel();
 
         measurementSettingsFormService.Initialize(Form);
-    }
 
-    public override void OnInitialize(DialogBaseParam? param)
-    {
         Form.FormChanged
             .TakeUntil(Form.destroyForm)
-            .Subscribe(formChanged => { ApplyEnabled = formChanged; });
+            .Subscribe(formChanged =>
+            {
+                CanClose = !formChanged;
+                FormChanged = formChanged;
+            });
     }
 
     private void Apply()
     {
         Form.Apply();
+    }
+
+    private void Cancel()
+    {
+        // Form.Cancel();
     }
 }

@@ -55,8 +55,8 @@
             <DependentUpon>SettingsDialog.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Dialogs\FailDialog.axaml.cs">
-            <DependentUpon>FailDialog.axaml</DependentUpon>
+        <Compile Update="Views\Dialogs\ErrorDialog.axaml.cs">
+            <DependentUpon>ErrorDialog.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\RadionControl.axaml.cs">

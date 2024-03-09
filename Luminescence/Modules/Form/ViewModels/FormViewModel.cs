@@ -15,7 +15,7 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
     public Subject<object> destroyForm;
 
-    private readonly TFormModel _model = Activator.CreateInstance<TFormModel>();
+    private TFormModel _model;
     private TFormModel _initialModel;
 
     private Dictionary<string, FormControlBaseViewModel> _controls = new();
@@ -27,12 +27,12 @@ public class FormViewModel<TFormModel> : BaseViewModel
         GetControls(new())
             .ForEach(control => _controls.Add(control.Name, control));
 
+        _model = Activator.CreateInstance<TFormModel>();
         UpdateModel(_model);
-        UpdateInitialModel();
+        SetInitialModel();
 
         Controls
-            .Select(control => control.Value.ValueChanges)
-            .Merge()
+            .Select(control => control.Value.ValueChanges).Merge()
             .TakeUntil(destroyForm)
             .Subscribe(_ => { FormChanged.OnNext(!ToModel().Equals(_initialModel)); });
 
@@ -51,7 +51,7 @@ public class FormViewModel<TFormModel> : BaseViewModel
             control.Value.Destroy();
         }
 
-        destroyForm.OnNext(0);
+        destroyForm.OnNext(null!);
         destroyForm.OnCompleted();
         destroyForm = null;
     }
@@ -70,12 +70,23 @@ public class FormViewModel<TFormModel> : BaseViewModel
         return _model;
     }
 
-    public void UpdateInitialModel()
+    public void SetInitialModel()
     {
         _initialModel = (TFormModel)_model.Clone();
     }
 
+    public void ResetChanges()
+    {
+        _model = (TFormModel)_initialModel.Clone();
+        FromModel(_model);
+    }
+
     protected virtual void UpdateModel(TFormModel model)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected virtual void FromModel(TFormModel model)
     {
         throw new NotImplementedException();
     }

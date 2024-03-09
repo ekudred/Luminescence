@@ -4,26 +4,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
         mc:Ignorable="d"
-        x:Class="Luminescence.Views.FailDialog"
-        x:DataType="vm:FailDialogViewModel"
+        x:Class="Luminescence.Views.ErrorDialog"
+        x:DataType="vm:ErrorDialogViewModel"
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         Width="500" Height="200"
-        HasSystemDecorations="True"
         CanResize="False"
+        ShowInTaskbar="False"
+        SystemDecorations="Full"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Fail | TlOsl">
+        Title="Error | TlOsl">
 
     <Design.DataContext>
-        <vm:FailDialogViewModel />
+        <vm:ErrorDialogViewModel />
     </Design.DataContext>
 
     <!-- <Window.Styles> -->
     <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
     <!-- </Window.Styles> -->
-    <!-- Fail -->
 
-    <TextBlock Text="{Binding Model.Message}" />
+    <TextBlock Text="{Binding Text}" />
 
 </Window>

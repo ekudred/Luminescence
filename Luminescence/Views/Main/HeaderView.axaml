@@ -39,7 +39,7 @@
                         <Separator />
                         <MenuItem Header="Сохранить" IsEnabled="{Binding Connected}" />
                     </MenuItem>
-                    <MenuItem Command="{Binding OpenSettingsDialogCommand}">
+                    <MenuItem Command="{Binding OpenSettingsDialogCommand}" HotKey="Ctrl+Alt+S">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"

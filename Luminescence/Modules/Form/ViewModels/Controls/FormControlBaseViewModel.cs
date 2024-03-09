@@ -40,9 +40,9 @@ public class FormControlBaseViewModel : BaseViewModel
             return;
         }
 
-        destroyControl.OnNext(0);
+        destroyControl.OnNext(null!);
         destroyControl.OnCompleted();
-        destroyControl = null;
+        destroyControl = null!;
     }
 
     protected void SetOptions(FormControlOptions options)

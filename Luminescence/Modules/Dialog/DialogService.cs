@@ -1,6 +1,3 @@
-using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using Avalonia.Controls;
 using Luminescence.Services;
 using Luminescence.Utils;
@@ -16,46 +13,19 @@ public class DialogService
         _mainWindowProvider = mainWindowProvider;
     }
 
-    public IObservable<DialogBaseResult> ShowDialog(string dialogName)
+    public IDialogWindow<TDialogViewModel> Create<TDialogViewModel>(Window? parentWindow = null)
+        where TDialogViewModel : DialogBaseViewModel
     {
-        return ShowDialog<DialogBaseResult, DialogBaseParam>(dialogName);
-    }
+        string dialogViewModelName = typeof(TDialogViewModel).Name;
 
-    public IObservable<TResult> ShowDialog<TResult>(string dialogName)
-        where TResult : DialogBaseResult
-    {
-        return ShowDialog<TResult, DialogBaseParam>(dialogName);
-    }
+        DialogWindow<TDialogViewModel> dialog = ViewUtil
+            .CreateView<DialogWindow<TDialogViewModel>>(dialogViewModelName.Replace("ViewModel", string.Empty));
+        TDialogViewModel dialogViewModel = ViewModelUtil
+            .CreateViewModel<TDialogViewModel>(dialogViewModelName);
 
-    public IObservable<DialogBaseResult> ShowDialog<TParam>(string dialogName, TParam param)
-        where TParam : DialogBaseParam
-    {
-        return ShowDialog<DialogBaseResult, TParam>(dialogName, param);
-    }
+        dialog.DataContext = dialogViewModel;
+        dialog.ParentWindow = parentWindow ?? _mainWindowProvider.GetMainWindow();
 
-    public IObservable<TResult> ShowDialog<TResult, TParam>(string dialogName, TParam? param = null)
-        where TResult : DialogBaseResult
-        where TParam : DialogBaseParam
-    {
-        return Observable.Create(async (IObserver<TResult> observer) =>
-        {
-            Window mainWindow = _mainWindowProvider.GetMainWindow();
-
-            var dialog = ViewUtil.CreateView<DialogBase<TResult, TParam>>(dialogName);
-
-            dialog.ViewModel.OnInitialize(param);
-
-            TResult result = await dialog.ShowDialog<TResult>(mainWindow);
-
-            if (dialog is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-
-            observer.OnNext(result);
-            observer.OnCompleted();
-
-            return Disposable.Empty;
-        });
+        return dialog;
     }
 }

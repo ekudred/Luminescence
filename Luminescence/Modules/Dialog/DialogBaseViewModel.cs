@@ -5,39 +5,25 @@ using ReactiveUI;
 
 namespace Luminescence.Dialog;
 
-public class DialogBaseViewModel<TResult, TParam> : BaseViewModel
-    where TResult : DialogBaseResult
-    where TParam : DialogBaseParam
+public class DialogBaseViewModel : BaseViewModel
 {
-    public event EventHandler<DialogResultEventArgs<TResult>> CloseRequested;
+    public event EventHandler<object?> CloseRequested;
 
     public ICommand CloseCommand { get; }
+
+    public bool CanClose = true;
 
     protected DialogBaseViewModel()
     {
         CloseCommand = ReactiveCommand.Create(Close);
     }
 
-    public virtual void OnInitialize(TParam? param)
+    public virtual void Initialize(object data)
     {
-        throw new NotImplementedException();
     }
 
-    protected void Close() => Close(default);
-
-    protected void Close(TResult result)
+    protected void Close()
     {
-        var args = new DialogResultEventArgs<TResult>(result);
-
-        CloseRequested.Invoke(this, args);
+        CloseRequested.Invoke(this, null!);
     }
-}
-
-public class DialogBaseViewModel : DialogBaseViewModel<DialogBaseResult, DialogBaseParam>
-{
-}
-
-public class DialogBaseViewModel<TResult> : DialogBaseViewModel<TResult, DialogBaseParam>
-    where TResult : DialogBaseResult
-{
 }

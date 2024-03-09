@@ -29,13 +29,12 @@ public class ExpDeviceService : HidDeviceService
 
         СonnectionLost
             .Merge(InProcess)
-            // .Select(_ => InProcess)
-            // .Switch()
+            // .Select(_ => InProcess).Switch()
             .Where(inProcess => inProcess)
             .Subscribe(_ => { InProcess.OnNext(false); });
 
         // ReadException
-        //     .Subscribe(_ => _dialogService.ShowDialog(new FailDialog()).Subscribe());
+        //     .Subscribe(_ => _dialogService.ShowDialog("ErrorDialog").Subscribe());
     }
 
     public void RunProcess()
@@ -56,7 +55,7 @@ public class ExpDeviceService : HidDeviceService
                         });
                 }
                 // _ => { },
-                // () => { _dialogService.ShowDialog(new FailDialog()); }
+                // () => { _dialogService.ShowDialog("ErrorDialog"); }
             );
     }
 
@@ -73,7 +72,7 @@ public class ExpDeviceService : HidDeviceService
                     InProcess.OnNext(false);
                 }
                 // _ => { },
-                // () => { _dialogService.ShowDialog(new FailDialog()); }
+                // () => { _dialogService.ShowDialog("ErrorDialog"); }
             );
     }
 
@@ -83,7 +82,7 @@ public class ExpDeviceService : HidDeviceService
             .Subscribe(
                 // _ => { }
                 // _ => { },
-                // () => { _dialogService.ShowDialog(new FailDialog()); }
+                // () => { _dialogService.ShowDialog("ErrorDialog"); }
             );
     }
 }

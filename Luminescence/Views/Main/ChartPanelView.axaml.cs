@@ -16,11 +16,6 @@ public partial class ChartPanelView : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        BindDataContext();
-    }
-
-    private void BindDataContext()
-    {
         DataContext = Locator.Current.GetService<ChartPanelViewModel>();
     }
 }

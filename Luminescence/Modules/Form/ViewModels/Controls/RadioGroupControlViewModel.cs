@@ -29,15 +29,17 @@ public class RadioGroupControlViewModel : FormControlBaseViewModel
 
         SetOptions(options ?? new());
 
-        Items
-            .Select(item => item.ValueChanges)
-            .Merge()
-            .Select(_ => Items.Where(item => (bool)item.Value).ElementAt(0))
-            .Subscribe(item =>
-            {
-                Value = item;
-                ValueChanges.OnNext(item);
-            });
+        // Items
+        //     .Select(item => item.ValueChanges).Merge()
+        //     .Select(_ => Items.Where(item => (bool)item.Value))
+        //     .TakeUntil(destroyControl)
+        //     .Subscribe(item =>
+        //     {
+        //         var value = item.ElementAt(0);
+        //
+        //         Value = value;
+        //         ValueChanges.OnNext(item);
+        //     });
     }
 
     private void SetOptions(RadioControlGroupOptions options)

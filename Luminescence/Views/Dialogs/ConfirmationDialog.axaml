@@ -1,0 +1,47 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Luminescence.ViewModels"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d"
+        x:Class="Luminescence.Views.ConfirmationDialog"
+        x:DataType="vm:ConfirmationDialogViewModel"
+        x:CompileBindings="True"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        Width="500" Height="200"
+        CanResize="False"
+        ShowInTaskbar="False"
+        SystemDecorations="Full"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Confirmation | TlOsl">
+
+    <Design.DataContext>
+        <vm:ConfirmationDialogViewModel />
+    </Design.DataContext>
+
+    <!-- <Window.Styles> -->
+    <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
+    <!-- </Window.Styles> -->
+    <Panel>
+
+        <TextBlock Text="{Binding Text}" />
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Да" Command="{Binding ConfirmCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            <Button Content="Нет" Command="{Binding ConfirmCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+
+    </Panel>
+
+
+</Window>

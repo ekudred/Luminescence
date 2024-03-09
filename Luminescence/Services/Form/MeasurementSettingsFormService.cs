@@ -22,8 +22,7 @@ public class MeasurementSettingsFormService
         base.Initialize(model);
 
         model.Controls
-            .Select(control => control.Value.ValueChanges)
-            .Merge()
+            .Select(control => control.Value.ValueChanges).Merge()
             .Subscribe(_ =>
             {
                 // ExpWriteDto dto = ToDto(model.ToModel());

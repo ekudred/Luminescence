@@ -1,15 +1,14 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Luminescence.Dialog;
-using Luminescence.Models;
 using Luminescence.ViewModels;
 
 namespace Luminescence.Views;
 
-public partial class FailDialog : DialogBase
+public partial class ConfirmationDialog : DialogWindow<ConfirmationDialogViewModel>
 {
-    public FailDialog()
+    public ConfirmationDialog()
     {
         InitializeComponent();
 
@@ -21,13 +20,13 @@ public partial class FailDialog : DialogBase
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
-
-        BindDataContext();
     }
 
-    private void BindDataContext()
+    protected override void OnKeyDown(KeyEventArgs args)
     {
-        DataContext = new FailDialogViewModel(new FailModel(null));
-        // DataContext = Locator.Current.GetService<FailDialogViewModel>();
+        if (args.Key == Key.Escape)
+        {
+            Close();
+        }
     }
 }

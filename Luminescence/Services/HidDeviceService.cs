@@ -43,8 +43,7 @@ public class HidDeviceService
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.CheckInterval))
-            .Select(_ => HidService.Enumerate(_options.VendorId, _options.ProductId))
-            .Switch()
+            .Select(_ => HidService.Enumerate(_options.VendorId, _options.ProductId)).Switch()
             .TakeUntil(_checkOn)
             .Subscribe(
                 data =>
@@ -130,8 +129,7 @@ public class HidDeviceService
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))
-            .Select(_ => HidService.Read(DeviceHandle, _options.ReadReportLength))
-            .Switch()
+            .Select(_ => HidService.Read(DeviceHandle, _options.ReadReportLength)).Switch()
             .TakeUntil(_listenDeviceOn)
             .Subscribe(
                 data => { ReadData.OnNext(data); },

@@ -13,8 +13,6 @@ public class ChartModel : PlotModel
         double min = 0;
         double max = 1e8;
 
-
-
         Axes.Add(new LinearAxis
             {
                 Position = AxisPosition.Left, Minimum = min, Maximum = max, Title = abscissaTitle,

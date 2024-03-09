@@ -11,6 +11,7 @@ public static class Bootstrapper
     {
         RegisterServices(services, resolver);
         RegisterViewModels(services, resolver);
+        RegisterDialogViewModels(services, resolver);
     }
 
     private static void RegisterServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
@@ -18,6 +19,9 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new MainWindowProvider());
         services.RegisterLazySingleton(() => new HidService());
         services.RegisterLazySingleton(() => new DialogService(
+            resolver.GetService<MainWindowProvider>()
+        ));
+        services.RegisterLazySingleton(() => new SystemDialogService(
             resolver.GetService<MainWindowProvider>()
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormService(
@@ -42,16 +46,25 @@ public static class Bootstrapper
             resolver.GetService<ExpDeviceService>(),
             resolver.GetService<HidService>()
         ));
-        services.RegisterLazySingleton(() => new SettingsDialogViewModel(
-            resolver.GetService<MeasurementSettingsFormService>(),
-            resolver.GetService<ExpDeviceService>()
-        ));
         services.RegisterLazySingleton(() => new RosterViewModel(
             resolver.GetService<ExpDeviceService>()
         ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),
+            resolver.GetService<SystemDialogService>(),
             resolver.GetService<ExpDeviceService>()
+        ));
+    }
+
+    private static void RegisterDialogViewModels(
+        IMutableDependencyResolver services,
+        IReadonlyDependencyResolver resolver
+    )
+    {
+        services.Register(() => new SettingsDialogViewModel(
+            resolver.GetService<MeasurementSettingsFormService>(),
+            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<DialogService>()
         ));
     }
 }

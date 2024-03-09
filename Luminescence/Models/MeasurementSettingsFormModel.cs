@@ -154,13 +154,6 @@ public class MeasurementSettingsFormModel : FormBaseModel
                 continue;
             }
 
-            if (field.Name == "HeaterOff")
-            {
-                var a = value;
-                var b = objValue;
-                Console.Write(a);
-            }
-
             if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<string, string>)))
             {
                 equally = ((IDictionary<string, string>)value).SequenceEqual((IDictionary<string, string>)objValue);

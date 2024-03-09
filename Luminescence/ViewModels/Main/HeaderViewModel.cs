@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Reactive;
-using System.Reactive.Linq;
 using Luminescence.Dialog;
 using Luminescence.Services;
-using Luminescence.Views;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;
@@ -50,14 +48,17 @@ public class HeaderViewModel : BaseViewModel
     private bool _inProcess;
 
     private readonly DialogService _dialogService;
+    private readonly SystemDialogService _systemDialogService;
     private readonly ExpDeviceService _expDeviceService;
 
     public HeaderViewModel(
         DialogService dialogService,
+        SystemDialogService systemDialogService,
         ExpDeviceService expDeviceService
     )
     {
         _dialogService = dialogService;
+        _systemDialogService = systemDialogService;
         _expDeviceService = expDeviceService;
 
         _expDeviceService.Connected.Subscribe(connected => { Connected = connected; });
@@ -88,7 +89,11 @@ public class HeaderViewModel : BaseViewModel
 
     public void OpenSettingsDialog()
     {
-        _dialogService.ShowDialog("SettingsDialog").Subscribe();
+        var dialog = _dialogService.Create<SettingsDialogViewModel>();
+
+        _systemDialogService.UseConfirm(dialog);
+
+        dialog.Open();
     }
 
     public void ToggleActive()

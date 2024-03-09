@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
         xmlns:cs="clr-namespace:Luminescence.Form.ViewModels"
         xmlns:converters="clr-namespace:Luminescence.Converters"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         x:Class="Luminescence.Views.SettingsDialog"
         x:DataType="vm:SettingsDialogViewModel"
@@ -13,6 +14,7 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         Width="400" Height="540"
+        ShowInTaskbar="False"
         CanResize="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="TlOsl">
@@ -229,9 +231,10 @@
             <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0"
                     Grid.Row="1" Grid.Column="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="12 0">
-                    <Button Content="Применить" Margin="0 0 6 0" IsEnabled="{Binding ApplyEnabled}"
+                    <Button Content="Применить" Margin="0 0 6 0" IsEnabled="{Binding FormChanged}"
                             Command="{Binding ApplyCommand}" />
-                    <Button Content="Отменить" Command="{Binding CloseCommand}" />
+                    <Button Content="Отменить" IsEnabled="{Binding FormChanged}"
+                            Command="{Binding CancelCommand}" />
                 </StackPanel>
             </Border>
 

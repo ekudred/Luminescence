@@ -10,6 +10,8 @@ namespace Luminescence.Views;
 
 public partial class MainWindow : Window
 {
+    public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext!;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -25,16 +27,15 @@ public partial class MainWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
 
-        BindDataContext();
-
-        ((MainWindowViewModel)DataContext).Initialize();
-
-        Closing += (_, _) => ((MainWindowViewModel)DataContext).Destroy();
+        DataContext = Locator.Current.GetService<MainWindowViewModel>();
+        ViewModel.Initialize();
     }
 
-    private void BindDataContext()
+    protected override void OnClosed(EventArgs args)
     {
-        DataContext = Locator.Current.GetService<MainWindowViewModel>();
+        ViewModel.Destroy();
+
+        base.OnClosed(args);
     }
 
     private void OnChangeSize()

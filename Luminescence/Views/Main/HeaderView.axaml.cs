@@ -16,11 +16,6 @@ public partial class HeaderView : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        BindDataContext();
-    }
-
-    private void BindDataContext()
-    {
         DataContext = Locator.Current.GetService<HeaderViewModel>();
     }
 }

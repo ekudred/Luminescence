@@ -22,7 +22,12 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
 
     public void Apply()
     {
-        UpdateInitialModel();
+        SetInitialModel();
+    }
+
+    public void Cancel()
+    {
+        ResetChanges();
     }
 
     protected override void UpdateModel(MeasurementSettingsFormModel model)
@@ -72,6 +77,11 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             var control = (TextControlViewModel)GetControl("SensitivityCoef" + i);
             model.SensitivityCoefs.Add(control.Label, (string)control.Value);
         }
+    }
+
+    protected override void FromModel(MeasurementSettingsFormModel model)
+    {
+
     }
 
     protected override List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
