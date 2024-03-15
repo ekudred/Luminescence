@@ -2,131 +2,105 @@
 using System.Collections.Generic;
 using System.Linq;
 using Luminescence.Form;
+using Luminescence.Services;
 
 namespace Luminescence.Models;
 
 public class MeasurementSettingsFormModel : FormBaseModel
 {
-    /** Нагреватель выключен */
-    public bool HeaterOff;
+    public static int GetHeaterMode(string mode)
+    {
+        switch (mode)
+        {
+            case "HeaterOff":
+                return 0;
+            case "LinearHeating":
+                return 1;
+            case "TemperatureMaintenance":
+                return 2;
+            default:
+                return 0;
+        }
+    }
 
-    /** Линейный нагрев */
-    public bool LinearHeating;
+    public static int GetLEDMode(string mode)
+    {
+        switch (mode)
+        {
+            case "LedOff":
+                return 0;
+            case "LinearIncreaseCurrent":
+                return 1;
+            case "CurrentMaintenance":
+                return 2;
+            default:
+                return 0;
+        }
+    }
 
-    /** Поддержание температуры */
-    public bool TemperatureMaintenance;
+    public static int GetPEMMode(string mode)
+    {
+        switch (mode)
+        {
+            case "Automatic":
+                return 1;
+            case "Upem":
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
+    /** Режим */
+    public int HeaterMode;
+
+    /** Режим светодиода */
+    public int LEDMode;
+
+    /** Режим ФЭУ */
+    public int PEMMode;
 
     /** Конечная температура, °C */
-    public int EndTemperature;
+    public double EndTemperature;
 
     /** Скорость нагрева, °C/сек */
-    public int HeatingRate;
-
-    /** Светодиод выключен */
-    public bool LedOff;
-
-    /** Линейное увеличение тока */
-    public bool LinearIncreaseCurrent;
-
-    /** Поддержание тока */
-    public bool CurrentMaintenance;
+    public double HeatingRate;
 
     /** Начальный ток, мА */
-    public int StartLEDCurrent;
+    public double StartLEDCurrent;
 
     /** Конечный ток, мА */
-    public int EndLEDCurrent;
+    public double EndLEDCurrent;
 
     /** Скорость роста тока, мА/сек */
-    public int LEDCurrentRate;
-
-    /** Автоматический */
-    public bool Automatic;
-
-    /** Управляющее напряжение, В */
-    public bool Upem;
+    public double LEDCurrentRate;
 
     /** Напряжение на ФЭУ, В */
-    public int Ufeu;
+    public double Ufeu;
 
     /** Смещение нуля ЦАП */
-    public int LedCAPZeroOffset;
+    public double LedCAPZeroOffset;
 
     /** Коэффициент преобразования ЦАП */
-    public int LedCAPCoefTransform;
+    public double LedCAPCoefTransform;
 
     /** Изменение кода ФЭУ */
-    public int CodeChange;
+    public double CodeChange;
 
     /** Изменение температуры */
-    public int TemperatureChange;
+    public double TemperatureChange;
 
     /** Смещение нуля АЦП */
-    public int ThermocoupleACPZeroOffset;
+    public double ThermocoupleACPZeroOffset;
 
     /** Коэффициент преобразования АЦП */
-    public int ThermocoupleACPCoefTransform;
+    public double ThermocoupleACPCoefTransform;
 
     /** Темновой ток Codes */
-    public Dictionary<string, string> DarkCurrentCodes;
+    public Dictionary<string, double> DarkCurrentCodes;
 
     /** Коэффициенты чувствительности Coefs */
-    public Dictionary<string, string> SensitivityCoefs;
-
-    public byte GetHeaterMode()
-    {
-        if (LedOff)
-        {
-            return 0;
-        }
-
-        if (LinearHeating)
-        {
-            return 1;
-        }
-
-        if (TemperatureMaintenance)
-        {
-            return 2;
-        }
-
-        return 0;
-    }
-
-    public byte GetLEDMode()
-    {
-        if (HeaterOff)
-        {
-            return 0;
-        }
-
-        if (LinearIncreaseCurrent)
-        {
-            return 1;
-        }
-
-        if (CurrentMaintenance)
-        {
-            return 2;
-        }
-
-        return 0;
-    }
-
-    public byte GetPEMMode()
-    {
-        if (Automatic)
-        {
-            return 1;
-        }
-
-        if (Upem)
-        {
-            return 2;
-        }
-
-        return 1;
-    }
+    public Dictionary<string, double> SensitivityCoefs;
 
     public override bool Equals(FormBaseModel? obj)
     {
@@ -151,19 +125,66 @@ public class MeasurementSettingsFormModel : FormBaseModel
             {
                 equally = value == objValue;
 
+                if (!equally)
+                {
+                    Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
+                }
+
                 continue;
             }
 
-            if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<string, string>)))
+            if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<string, double>)))
             {
-                equally = ((IDictionary<string, string>)value).SequenceEqual((IDictionary<string, string>)objValue);
+                equally = ((IDictionary<string, double>)value).SequenceEqual((IDictionary<string, double>)objValue);
+
+                if (!equally)
+                {
+                    Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
+                }
 
                 continue;
             }
 
             equally = value.Equals(objValue);
+
+            if (!equally)
+            {
+                Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
+            }
         }
 
+        Console.WriteLine("===========================================");
+
         return equally;
+    }
+
+    public ExpWriteDto ToDto()
+    {
+        ExpWriteDto dto = new();
+        dto.ID_Report = 1;
+        dto.Command = 1;
+        dto.Parameter0 = 0;
+        dto.Parameter1 = 0;
+        dto.HeaterMode = Convert.ToByte(HeaterMode);
+        dto.LEDMode = Convert.ToByte(LEDMode);
+        dto.PEMMode = Convert.ToByte(PEMMode);
+        dto.HeatingRate = Convert.ToByte(HeatingRate * 10); //  0.1 - 10 скорость нагрева
+        dto.TemperatureError = 0;
+        dto.LEDCurrentRate = Convert.ToByte(LEDCurrentRate * 10); // 0.1 - 500
+        dto.StartTemperature = 0;
+        dto.EndTemperature = Convert.ToByte(EndTemperature);
+        dto.StartLEDCurrent = Convert.ToByte(StartLEDCurrent);
+        dto.EndLEDCurrent = Convert.ToByte(EndLEDCurrent);
+        dto.Upem = Convert.ToByte(Ufeu * 100); // default 0.5 (огр: 0.5 до 1.1 включ) (Ufeu*100)
+        dto.KeyControl = 0;
+        dto.PEMError = 0;
+        dto.OffsetADCThermocouple = 0;
+        dto.OffsetDACLED = 0;
+        dto.CoefADCTemperature = 0;
+        dto.CoefDACLED = 0;
+        dto.Data = 0;
+        dto.fError = 0;
+
+        return dto;
     }
 }

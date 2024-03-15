@@ -1,0 +1,140 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel>
+                <NumericUpDown Margin="0 0 0 10" />
+                <NumericUpDown Margin="0 0 0 10" IsEnabled="False" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="NumericUpDown">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ButtonSpinner Name="PART_Spinner"
+                               HorizontalContentAlignment="Stretch"
+                               VerticalContentAlignment="Stretch"
+                               IsTabStop="False"
+                               Padding="0"
+                               Margin="0"
+                               MinHeight="28"
+                               Height="28"
+                               AllowSpin="{TemplateBinding AllowSpin}"
+                               Background="{TemplateBinding Background}"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}"
+                               CornerRadius="{TemplateBinding CornerRadius}"
+                               ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}">
+                    <ButtonSpinner.Styles>
+                        <Style Selector="ButtonSpinner /template/ Path">
+                            <Setter Property="Width" Value="100" />
+                        </Style>
+                    </ButtonSpinner.Styles>
+
+                    <TextBox Name="PART_TextBox"
+                             Margin="0"
+                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                             AcceptsReturn="False"
+                             BorderThickness="0"
+                             MinHeight="26"
+                             Height="26"
+                             Background="Transparent"
+                             DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                             Text="{TemplateBinding Text}"
+                             TextWrapping="NoWrap"
+                             Watermark="{TemplateBinding Watermark}">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                            <Style Selector="TextBox:disabled /template/ Border#PART_BorderElement">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                            <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                            <Style Selector="TextBox:disabled">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
+                </ButtonSpinner>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <!-- <Style Selector="NumericUpDown /template/ ButtonSpinner"> -->
+    <!--     <Setter Property="Template"> -->
+    <!--         <ControlTemplate> -->
+    <!--             <DataValidationErrors> -->
+    <!--                 <Border Background="{TemplateBinding Background}" -->
+    <!--                         BorderBrush="{DynamicResource BorderBrush}" -->
+    <!--                         BorderThickness="{DynamicResource BorderThickness}" -->
+    <!--                         CornerRadius="{DynamicResource CornerRadius}" -->
+    <!--                         MinHeight="28" Height="28"> -->
+    <!--                     <Grid ColumnDefinitions="*, *" RowDefinitions="26"> -->
+    <!--                         <ContentPresenter Name="PART_ContentPresenter" -->
+    <!--                                           Grid.Row="0" Grid.Column="0" -->
+    <!--                                           ContentTemplate="{TemplateBinding ContentTemplate}" -->
+    <!--                                           Content="{TemplateBinding Content}" -->
+    <!--                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" -->
+    <!--                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" /> -->
+    <!-- -->
+    <!--                         <StackPanel Name="PART_SpinnerPanel" -->
+    <!--                                     Grid.Row="0" Grid.Column="1" -->
+    <!--                                     Orientation="Horizontal" -->
+    <!--                                     IsVisible="{TemplateBinding ShowButtonSpinner}"> -->
+    <!--                             <RepeatButton Name="PART_IncreaseButton" -->
+    <!--                                           Classes="ButtonSpinnerRepeatButton" -->
+    <!--                                           Width="20" -->
+    <!--                                           VerticalContentAlignment="Center" -->
+    <!--                                           Foreground="{TemplateBinding Foreground}" -->
+    <!--                                           Background="{TemplateBinding Background}" -->
+    <!--                                           BorderBrush="{DynamicResource BorderBrush}" -->
+    <!--                                           BorderThickness="1 0 0 0" -->
+    <!--                                           Padding="0" -->
+    <!--                                           FontSize="{TemplateBinding FontSize}"> -->
+    <!--                                 <Path Fill="{TemplateBinding Foreground}" -->
+    <!--                                       Width="12" -->
+    <!--                                       Height="8" -->
+    <!--                                       Stretch="Uniform" -->
+    <!--                                       HorizontalAlignment="Center" -->
+    <!--                                       VerticalAlignment="Center" -->
+    <!--                                       Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" /> -->
+    <!--                             </RepeatButton> -->
+    <!-- -->
+    <!--                             <RepeatButton Name="PART_DecreaseButton" -->
+    <!--                                           Classes="ButtonSpinnerRepeatButton" -->
+    <!--                                           Foreground="{TemplateBinding Foreground}" -->
+    <!--                                           Background="{TemplateBinding Background}" -->
+    <!--                                           BorderBrush="{DynamicResource BorderBrush}" -->
+    <!--                                           BorderThickness="1 0 0 0" -->
+    <!--                                           Padding="0" -->
+    <!--                                           VerticalContentAlignment="Center" -->
+    <!--                                           FontSize="{TemplateBinding FontSize}"> -->
+    <!--                                 <Path Fill="{TemplateBinding Foreground}" -->
+    <!--                                       Width="12" -->
+    <!--                                       Height="8" -->
+    <!--                                       Stretch="Uniform" -->
+    <!--                                       HorizontalAlignment="Center" -->
+    <!--                                       VerticalAlignment="Center" -->
+    <!--                                       Data="{StaticResource ButtonSpinnerDecreaseButtonIcon}" /> -->
+    <!--                             </RepeatButton> -->
+    <!--                         </StackPanel> -->
+    <!--                     </Grid> -->
+    <!--                 </Border> -->
+    <!--             </DataValidationErrors> -->
+    <!--         </ControlTemplate> -->
+    <!--     </Setter> -->
+    <!-- </Style> -->
+
+</Styles>

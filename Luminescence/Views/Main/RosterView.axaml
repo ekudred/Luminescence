@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:v="clr-namespace:Luminescence.Views"
              xmlns:vm="clr-namespace:Luminescence.ViewModels"
              xmlns:converters="clr-namespace:Luminescence.Converters"
              mc:Ignorable="d"
@@ -99,12 +98,11 @@
         <!--          Grid.Row="0" Grid.Column="2" -->
         <!--          Text="{Binding Form.Description}" /> -->
         <!-- -->
-        <!-- <TextBox Classes="Info" -->
-        <!--          IsReadOnly="True" -->
-        <!--          IsEnabled="{Binding InProcess}" -->
-        <!--          TextWrapping="Wrap" -->
-        <!--          Grid.Row="0" Grid.Column="3" -->
-        <!--          Text="{Binding Form.Test}" /> -->
+        <TextBox Classes="Info"
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 Grid.Row="0" Grid.Column="3"
+                 Text="{Binding Test}" />
     </Panel>
 
 </UserControl>

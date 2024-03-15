@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="clr-namespace:Luminescence.Views"
              xmlns:vm="clr-namespace:Luminescence.ViewModels"
-             xmlns:oxy="http://oxyplot.org/avalonia"
              mc:Ignorable="d"
              x:Class="Luminescence.Views.ChartPanelView"
              x:DataType="vm:ChartPanelViewModel"
@@ -24,16 +24,22 @@
                 <StackPanel>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" HorizontalAlignment="Stretch">
 
-                        <StackPanel Grid.Row="0" Grid.Column="0">
-                            <oxy:PlotView Model="{Binding ChartTemperatureTimeModel}"
-                                          Width="{Binding HalfWidth}" Height="{Binding Height}"
-                                          Background="Transparent" />
+                        <StackPanel Grid.Row="0" Grid.Column="0"
+                                    Width="{Binding HalfWidth}" Height="{Binding Height}"
+                                    x:Name="Chart0">
+                            <v:ChartView DataContext="{Binding ChartTemperatureTimeViewModel}"
+                                         Width="{Binding #Chart0.Bounds.Width}"
+                                         Height="{Binding #Chart0.Bounds.Height}">
+                            </v:ChartView>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="0" Grid.Column="1">
-                            <oxy:PlotView Model="{Binding ChartIntensityTimeModel}"
-                                          Width="{Binding HalfWidth}" Height="{Binding Height}"
-                                          Background="Transparent" />
+                        <StackPanel Grid.Row="0" Grid.Column="1"
+                                    Width="{Binding HalfWidth}" Height="{Binding Height}"
+                                    x:Name="Chart1">
+                            <v:ChartView DataContext="{Binding ChartIntensityTimeViewModel}"
+                                         Width="{Binding #Chart1.Bounds.Width}"
+                                         Height="{Binding #Chart1.Bounds.Height}">
+                            </v:ChartView>
                         </StackPanel>
 
                     </Grid>
@@ -42,17 +48,22 @@
 
             <TabItem Header="ТЛ кривая">
                 <StackPanel>
-                    <oxy:PlotView Model="{Binding ChartIntensityTemperatureModel}"
-                                  Width="{Binding FullWidth}" Height="{Binding Height}"
-                                  Background="Transparent" />
+
+                    <StackPanel Width="{Binding FullWidth}" Height="{Binding Height}"
+                                x:Name="Chart2">
+                        <v:ChartView DataContext="{Binding ChartIntensityTemperatureViewModel}"
+                                     Width="{Binding #Chart2.Bounds.Width}" Height="{Binding #Chart2.Bounds.Height}">
+                        </v:ChartView>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="ОСЛ">
-                <StackPanel>
-                    <oxy:PlotView Model="{Binding ChartIntensityCurrentModel}"
-                                  Width="{Binding FullWidth}" Height="{Binding Height}"
-                                  Background="Transparent" />
+                <StackPanel Width="{Binding FullWidth}" Height="{Binding Height}"
+                            x:Name="Chart3">
+                    <v:ChartView DataContext="{Binding ChartIntensityCurrentViewModel}"
+                                 Width="{Binding #Chart3.Bounds.Width}" Height="{Binding #Chart3.Bounds.Height}">
+                    </v:ChartView>
                 </StackPanel>
             </TabItem>
 

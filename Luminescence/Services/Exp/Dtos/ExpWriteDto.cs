@@ -7,8 +7,6 @@ namespace Luminescence.Services;
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
 public struct ExpWriteDto
 {
-    public static ExpWriteDto RunDto => new() { ID_Report = 1, Command = 1 };
-
     public static ExpWriteDto StopDto => new() { ID_Report = 1, Command = 0x20 };
 
     /** 00     репорт приема команд и данных от ПК, номер типа репорта repStdOutPC = 1 */
@@ -80,6 +78,14 @@ public struct ExpWriteDto
 
     /** 63     Ошибка */
     public uint fError;
+
+    public ExpWriteDto GetRunDto()
+    {
+        ID_Report = 1;
+        Command = 1;
+
+        return this;
+    }
 
     public byte[] ToBytes()
     {

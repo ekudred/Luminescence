@@ -1,16 +1,22 @@
 ﻿using System;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore.VisualElements;
 using Luminescence.Models;
 using Luminescence.Services;
 using ReactiveUI;
+using SkiaSharp;
 
 namespace Luminescence.ViewModels;
 
 public class ChartPanelViewModel : BaseViewModel
 {
-    public ChartModel ChartTemperatureTimeModel => _expChartService.ChartTemperatureTimeModel;
-    public ChartModel ChartIntensityTimeModel => _expChartService.ChartIntensityTimeModel;
-    public ChartModel ChartIntensityTemperatureModel => _expChartService.ChartIntensityTemperatureModel;
-    public ChartModel ChartIntensityCurrentModel => _expChartService.ChartIntensityCurrentModel;
+    public ChartViewModel ChartTemperatureTimeViewModel => _expChartService.ChartTemperatureTimeViewModel;
+    public ChartViewModel ChartIntensityTimeViewModel => _expChartService.ChartIntensityTimeViewModel;
+    public ChartViewModel ChartIntensityTemperatureViewModel => _expChartService.ChartIntensityTemperatureViewModel;
+    public ChartViewModel ChartIntensityCurrentViewModel => _expChartService.ChartIntensityCurrentViewModel;
 
     public double FullWidth
     {

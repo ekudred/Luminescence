@@ -1,6 +1,7 @@
 ﻿using Luminescence.Dialog;
 using Luminescence.Services;
 using Luminescence.ViewModels;
+using ReactiveUI;
 using Splat;
 
 namespace Luminescence;
@@ -17,6 +18,7 @@ public static class Bootstrapper
     private static void RegisterServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new MainWindowProvider());
+        services.RegisterLazySingleton(() => new StorageService());
         services.RegisterLazySingleton(() => new HidService());
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
@@ -25,7 +27,8 @@ public static class Bootstrapper
             resolver.GetService<MainWindowProvider>()
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormService(
-            resolver.GetService<ExpDeviceService>()
+            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<StorageService>()
         ));
         services.RegisterLazySingleton(() => new ExpDeviceService(
             resolver.GetService<HidService>(),
@@ -44,7 +47,9 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
             resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<HidService>()
+            resolver.GetService<HidService>(),
+            resolver.GetService<MeasurementSettingsFormService>(),
+            resolver.GetService<MeasurementSettingsFormViewModel>()
         ));
         services.RegisterLazySingleton(() => new RosterViewModel(
             resolver.GetService<ExpDeviceService>()
@@ -52,8 +57,10 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),
             resolver.GetService<SystemDialogService>(),
-            resolver.GetService<ExpDeviceService>()
+            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<MeasurementSettingsFormService>()
         ));
+        services.RegisterLazySingleton(() => new MeasurementSettingsFormViewModel());
     }
 
     private static void RegisterDialogViewModels(
@@ -63,8 +70,7 @@ public static class Bootstrapper
     {
         services.Register(() => new SettingsDialogViewModel(
             resolver.GetService<MeasurementSettingsFormService>(),
-            resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<DialogService>()
+            resolver.GetService<MeasurementSettingsFormViewModel>()
         ));
     }
 }

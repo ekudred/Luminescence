@@ -24,7 +24,7 @@
 
             <StackPanel Classes="Menu" DockPanel.Dock="Left" Orientation="Horizontal">
                 <Menu>
-                    <MenuItem>
+                    <MenuItem IsEnabled="False">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
@@ -49,7 +49,6 @@
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
-                    <!-- IsEnabled="{Binding Connected}" -->
                 </Menu>
             </StackPanel>
 

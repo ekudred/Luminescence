@@ -18,7 +18,7 @@ public class DialogBaseViewModel : BaseViewModel
         CloseCommand = ReactiveCommand.Create(Close);
     }
 
-    public virtual void Initialize(object data)
+    public virtual void Initialize(object? data)
     {
     }
 

@@ -6,14 +6,13 @@
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
         xmlns:cs="clr-namespace:Luminescence.Form.ViewModels"
         xmlns:converters="clr-namespace:Luminescence.Converters"
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         x:Class="Luminescence.Views.SettingsDialog"
         x:DataType="vm:SettingsDialogViewModel"
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Width="400" Height="540"
+        Width="400" Height="600"
         ShowInTaskbar="False"
         CanResize="False"
         Icon="/Assets/avalonia-logo.ico"
@@ -32,7 +31,7 @@
     </Window.Resources>
 
     <Panel>
-        <Grid RowDefinitions="500 40" ColumnDefinitions="400">
+        <Grid RowDefinitions="560 40" ColumnDefinitions="400">
 
             <TabControl Grid.Row="0" Grid.Column="0">
 
@@ -48,7 +47,7 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group0'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeaterMode'}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
@@ -74,12 +73,12 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group1'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDMode'}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Classes="Item">
-                                            <v:TextControl
+                                            <v:NumericControl
                                                 DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='StartLEDCurrent'}" />
                                         </StackPanel>
                                         <StackPanel Classes="Item">
@@ -104,7 +103,7 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Group2'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='PEMMode'}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
@@ -195,7 +194,7 @@
                                 <TextBlock Classes="H4" Text="Темновой ток" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical">
-                                <ItemsControl Items="{Binding Form.DarkCurrentCodeControls}">
+                                <ItemsControl ItemsSource="{Binding Form.DarkCurrentCodeControls}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="cs:TextControlViewModel">
                                             <StackPanel Classes="Cell" DataContext="{Binding}">
@@ -212,7 +211,7 @@
                                 <TextBlock Classes="H4" Text="Коэффициенты чувствительности" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical">
-                                <ItemsControl Items="{Binding Form.SensitivityCoefControls}">
+                                <ItemsControl ItemsSource="{Binding Form.SensitivityCoefControls}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="cs:TextControlViewModel">
                                             <StackPanel Classes="Cell" DataContext="{Binding}">
@@ -231,10 +230,14 @@
             <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0"
                     Grid.Row="1" Grid.Column="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="12 0">
-                    <Button Content="Применить" Margin="0 0 6 0" IsEnabled="{Binding FormChanged}"
-                            Command="{Binding ApplyCommand}" />
-                    <Button Content="Отменить" IsEnabled="{Binding FormChanged}"
+                    <!-- <Button Content="Отменить" Margin="0 0 6 0" -->
+                    <!--         Command="{Binding CancelCommand}" /> -->
+                    <!-- <Button Content="Применить" -->
+                    <!--         Command="{Binding ApplyCommand}" /> -->
+                    <Button Content="Отменить" Margin="0 0 6 0" IsEnabled="{Binding FormChanged}"
                             Command="{Binding CancelCommand}" />
+                    <Button Content="Применить" IsEnabled="{Binding FormChanged}"
+                            Command="{Binding ApplyCommand}" />
                 </StackPanel>
             </Border>
 

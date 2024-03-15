@@ -22,11 +22,11 @@
         <Setter Property="Margin" Value="0 0 0 4" />
     </Style>
 
-    <Style Selector="v|TextControl.CellControl > StackPanel.TextControl">
+    <Style Selector="v|TextControl.CellControl /template/ StackPanel.TextControl">
         <Setter Property="Orientation" Value="Horizontal" />
     </Style>
 
-    <Style Selector="v|TextControl.CellControl > TextBox">
+    <Style Selector="v|TextControl.CellControl /template/ TextBox">
         <Setter Property="Margin" Value="0 0 8 0" />
     </Style>
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using Avalonia.Controls;
 using Luminescence.Services;
 using Luminescence.ViewModels;
@@ -46,13 +47,22 @@ public class SystemDialogService : DialogService
         });
     }
 
-    public void UseConfirm<TDialogViewModel>(IDialogWindow<TDialogViewModel> dialog, bool? trigger = null)
+    public void UseConfirm<TDialogViewModel>
+    (
+        IDialogWindow<TDialogViewModel> dialog,
+        ConfirmationDialogParam? data = null,
+        bool? trigger = null
+    )
         where TDialogViewModel : DialogBaseViewModel
     {
+        Subject<object> dialogClosed = new();
+
         dialog.CanClose = trigger ?? dialog.CanClose;
+
         dialog.OnClose
             .Where(_ => !dialog.CanClose)
-            .Select(_ => Confirm(dialog.CurrentWindow)).Switch()
+            .Select(_ => Confirm(data, dialog.CurrentWindow)).Switch()
+            .TakeUntil(dialogClosed)
             .Subscribe(confirm =>
             {
                 dialog.CanClose = confirm;
@@ -60,6 +70,10 @@ public class SystemDialogService : DialogService
                 if (dialog.CanClose)
                 {
                     dialog.Close();
+
+                    dialogClosed.OnNext(null!);
+                    dialogClosed.OnCompleted();
+                    dialogClosed = null;
                 }
             });
     }

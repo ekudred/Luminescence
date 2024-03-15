@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive;
+using System.Reactive.Linq;
 using Luminescence.Dialog;
 using Luminescence.Services;
 using ReactiveUI;
@@ -50,19 +51,25 @@ public class HeaderViewModel : BaseViewModel
     private readonly DialogService _dialogService;
     private readonly SystemDialogService _systemDialogService;
     private readonly ExpDeviceService _expDeviceService;
+    private readonly MeasurementSettingsFormService _measurementSettingsFormService;
 
     public HeaderViewModel(
         DialogService dialogService,
         SystemDialogService systemDialogService,
-        ExpDeviceService expDeviceService
+        ExpDeviceService expDeviceService,
+        MeasurementSettingsFormService measurementSettingsFormService
     )
     {
         _dialogService = dialogService;
         _systemDialogService = systemDialogService;
         _expDeviceService = expDeviceService;
+        _measurementSettingsFormService = measurementSettingsFormService;
 
-        _expDeviceService.Connected.Subscribe(connected => { Connected = connected; });
-        _expDeviceService.InProcess.Subscribe(inProcess => { InProcess = inProcess; });
+        _expDeviceService.Connected
+            .Subscribe(connected => { Connected = connected; });
+        _expDeviceService.InProcess
+            .Throttle(TimeSpan.FromMilliseconds(400))
+            .Subscribe(inProcess => { InProcess = inProcess; });
 
         // Observable.Zip(_expDeviceService.InProcess, _expDeviceService.Connected)
         //     .Subscribe(result =>
@@ -72,6 +79,7 @@ public class HeaderViewModel : BaseViewModel
         //     });
 
         this.WhenAnyValue(x => x.Connected, x => x.InProcess)
+            .Throttle(TimeSpan.FromMilliseconds(400))
             .Subscribe(result =>
             {
                 var (connected, inProcess) = result;
@@ -91,7 +99,8 @@ public class HeaderViewModel : BaseViewModel
     {
         var dialog = _dialogService.Create<SettingsDialogViewModel>();
 
-        _systemDialogService.UseConfirm(dialog);
+        _systemDialogService.UseConfirm(dialog,
+            new ConfirmationDialogParam("Вы уверены, что не хотите применить изменения?"));
 
         dialog.Open();
     }
@@ -100,7 +109,9 @@ public class HeaderViewModel : BaseViewModel
     {
         if (!InProcess)
         {
-            _expDeviceService.RunProcess();
+            _measurementSettingsFormService.GetModelFromStorage()
+                .Where(model => model != null)
+                .Subscribe(model => { _expDeviceService.RunProcess(model.ToDto()); });
 
             return;
         }

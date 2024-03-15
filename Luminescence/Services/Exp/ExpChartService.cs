@@ -1,39 +1,40 @@
 ﻿using System;
 using Luminescence.Models;
+using Luminescence.ViewModels;
 using ReactiveUI;
 
 namespace Luminescence.Services;
 
 public class ExpChartService : ReactiveObject
 {
-    public ChartModel ChartTemperatureTimeModel
+    public ChartViewModel ChartTemperatureTimeViewModel
     {
         get => _chartTemperatureTimeModel;
         private set => this.RaiseAndSetIfChanged(ref _chartTemperatureTimeModel, value);
     }
 
-    public ChartModel ChartIntensityTimeModel
+    public ChartViewModel ChartIntensityTimeViewModel
     {
         get => _chartIntensityTimeModel;
         private set => this.RaiseAndSetIfChanged(ref _chartIntensityTimeModel, value);
     }
 
-    public ChartModel ChartIntensityTemperatureModel
+    public ChartViewModel ChartIntensityTemperatureViewModel
     {
         get => _chartIntensityTemperatureModel;
         private set => this.RaiseAndSetIfChanged(ref _chartIntensityTemperatureModel, value);
     }
 
-    public ChartModel ChartIntensityCurrentModel
+    public ChartViewModel ChartIntensityCurrentViewModel
     {
         get => _chartIntensityCurrentModel;
         private set => this.RaiseAndSetIfChanged(ref _chartIntensityCurrentModel, value);
     }
 
-    public ChartModel _chartTemperatureTimeModel;
-    public ChartModel _chartIntensityTimeModel;
-    public ChartModel _chartIntensityTemperatureModel;
-    public ChartModel _chartIntensityCurrentModel;
+    public ChartViewModel _chartTemperatureTimeModel;
+    public ChartViewModel _chartIntensityTimeModel;
+    public ChartViewModel _chartIntensityTemperatureModel;
+    public ChartViewModel _chartIntensityCurrentModel;
 
     private readonly ExpDeviceService _expDeviceService;
 
@@ -44,12 +45,18 @@ public class ExpChartService : ReactiveObject
 
     public void Initialize()
     {
-        ChartTemperatureTimeModel = new ChartModel("Температура, °C", "Время, сек");
-        ChartIntensityTimeModel = new ChartModel("Интенсивность", "Время, сек");
-        ChartIntensityTemperatureModel = new ChartModel("Интенсивность", "Температура, °C");
-        ChartIntensityCurrentModel = new ChartModel("Интенсивность", "Ток светодиода, мА");
+        ChartTemperatureTimeViewModel = new("Время, сек", "Температура, °C");
+        ChartIntensityTimeViewModel = new("Время, сек", "Интенсивность");
+        ChartIntensityTemperatureViewModel = new("Температура, °C", "Интенсивность");
+        ChartIntensityCurrentViewModel = new("Ток светодиода, мА", "Интенсивность");
 
-        // this.WhenAnyValue(x => x._expUsbDeviceService.CurrentData)
-        // .Subscribe((ReadableDataStructure data) => { });
+        _expDeviceService.CurrentData
+            .Subscribe(data =>
+            {
+                ChartTemperatureTimeViewModel.AddValue("Name", data.Counter, data.Temperature);
+                ChartTemperatureTimeViewModel.AddValue("Name", data.Counter, data.Intensity);
+                ChartIntensityTemperatureViewModel.AddValue("Name", data.Temperature, data.Counter);
+                ChartIntensityCurrentViewModel.AddValue("Name", data.LEDCurrent, data.Intensity);
+            });
     }
 }

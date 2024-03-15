@@ -16,8 +16,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        OnChangeSize();
-
 #if DEBUG
         this.AttachDevTools();
 #endif
@@ -29,6 +27,8 @@ public partial class MainWindow : Window
 
         DataContext = Locator.Current.GetService<MainWindowViewModel>();
         ViewModel.Initialize();
+
+        OnChangeSize();
     }
 
     protected override void OnClosed(EventArgs args)

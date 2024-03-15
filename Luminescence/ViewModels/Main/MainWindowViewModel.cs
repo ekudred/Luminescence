@@ -24,14 +24,20 @@ public class MainWindowViewModel : BaseViewModel
 
     private readonly ExpDeviceService _expDeviceService;
     private readonly HidService _hidService;
+    private readonly MeasurementSettingsFormService _measurementSettingsFormService;
+    private readonly MeasurementSettingsFormViewModel _measurementSettingsFormViewModel;
 
     public MainWindowViewModel(
         ExpDeviceService expDeviceService,
-        HidService hidService
+        HidService hidService,
+        MeasurementSettingsFormService measurementSettingsFormService,
+        MeasurementSettingsFormViewModel measurementSettingsFormViewModel
     )
     {
         _expDeviceService = expDeviceService;
         _hidService = hidService;
+        _measurementSettingsFormService = measurementSettingsFormService;
+        _measurementSettingsFormViewModel = measurementSettingsFormViewModel;
     }
 
     public void Initialize()
@@ -39,6 +45,7 @@ public class MainWindowViewModel : BaseViewModel
         _hidService.Init()
             .Subscribe();
         _expDeviceService.RunAvailableDeviceCheck();
+        _measurementSettingsFormService.Initialize(_measurementSettingsFormViewModel);
     }
 
     public void Destroy()
@@ -47,5 +54,6 @@ public class MainWindowViewModel : BaseViewModel
         _expDeviceService.Disconnect();
         _hidService.Exit()
             .Subscribe();
+        _measurementSettingsFormViewModel.Destroy();
     }
 }

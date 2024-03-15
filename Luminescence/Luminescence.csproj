@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
@@ -10,22 +11,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <TrimmerRootAssembly Include="Avalonia.Themes.Fluent"/>
+        <TrimmerRootAssembly Include="Avalonia.Themes.Fluent" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.18"/>
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.18"/>
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18"/>
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10"/>
-        <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0"/>
-        <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1"/>
+        <PackageReference Include="Avalonia" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="2.1.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0" />
+        <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
     </ItemGroup>
 
     <ItemGroup>
@@ -82,10 +85,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Styles\Views\Dialogs\SettingsDialogStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\ChartPanelViewStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\MainWindowStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\RosterViewStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\HeaderViewStyle.axaml"/>
+        <AdditionalFiles Include="Styles\Views\Dialogs\SettingsDialogStyle.axaml" />
+        <AdditionalFiles Include="Styles\Views\Main\ChartPanelViewStyle.axaml" />
+        <AdditionalFiles Include="Styles\Views\Main\MainWindowStyle.axaml" />
+        <AdditionalFiles Include="Styles\Views\Main\RosterViewStyle.axaml" />
+        <AdditionalFiles Include="Styles\Views\Main\HeaderViewStyle.axaml" />
     </ItemGroup>
+
+    <ItemGroup>
+        <UpToDateCheckInput Remove="Storage\storage.json" />
+    </ItemGroup>
+
 </Project>

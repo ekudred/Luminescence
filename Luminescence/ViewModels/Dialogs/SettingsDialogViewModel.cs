@@ -17,29 +17,31 @@ public class SettingsDialogViewModel : DialogBaseViewModel
         set => this.RaiseAndSetIfChanged(ref _formChanged, value);
     }
 
-    public ICommand ApplyCommand { get; }
+    public bool Loading
+    {
+        get => _loading;
+        set => this.RaiseAndSetIfChanged(ref _loading, value);
+    }
+
     public ICommand CancelCommand { get; }
+    public ICommand ApplyCommand { get; }
 
     private bool _formChanged;
+    private bool _loading;
 
-    private readonly ExpDeviceService _expDeviceService;
-    private readonly DialogService _dialogService;
+    private readonly MeasurementSettingsFormService _measurementSettingsFormService;
 
     public SettingsDialogViewModel(
         MeasurementSettingsFormService measurementSettingsFormService,
-        ExpDeviceService expDeviceService,
-        DialogService dialogService
+        MeasurementSettingsFormViewModel measurementSettingsFormViewModel
     )
     {
-        _expDeviceService = expDeviceService;
-        _dialogService = dialogService;
+        _measurementSettingsFormService = measurementSettingsFormService;
 
-        ApplyCommand = ReactiveCommand.Create(Apply);
+        Form = measurementSettingsFormViewModel;
+
         CancelCommand = ReactiveCommand.Create(Cancel);
-
-        Form = new MeasurementSettingsFormViewModel();
-
-        measurementSettingsFormService.Initialize(Form);
+        ApplyCommand = ReactiveCommand.Create(Apply);
 
         Form.FormChanged
             .TakeUntil(Form.destroyForm)
@@ -52,11 +54,19 @@ public class SettingsDialogViewModel : DialogBaseViewModel
 
     private void Apply()
     {
-        Form.Apply();
+        Loading = true;
+
+        _measurementSettingsFormService.SetModelToStorage(Form.ToModel())
+            .Subscribe(_ =>
+            {
+                Form.Apply();
+
+                Loading = false;
+            });
     }
 
     private void Cancel()
     {
-        // Form.Cancel();
+        Form.Cancel();
     }
 }

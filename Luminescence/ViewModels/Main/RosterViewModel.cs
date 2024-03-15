@@ -1,5 +1,6 @@
 ﻿using System;
 using Luminescence.Services;
+using Newtonsoft.Json;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;
@@ -62,7 +63,10 @@ public class RosterViewModel : BaseViewModel
     {
         _expDeviceService = expDeviceService;
 
-        _expDeviceService.InProcess
-            .Subscribe(inProcess => { InProcess = inProcess; });
+        _expDeviceService.CurrentData
+            .Subscribe(data =>
+            {
+                Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(data)).ToString();
+            });
     }
 }

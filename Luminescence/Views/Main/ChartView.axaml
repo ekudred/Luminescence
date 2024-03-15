@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:vm="clr-namespace:Luminescence.ViewModels"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.ChartView"
+             x:DataType="vm:ChartViewModel"
+             x:CompileBindings="True"
+             x:Name="ChartViewControl">
+
+    <Design.DataContext>
+        <vm:ChartViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartViewStyle.axaml" />
+    </UserControl.Styles>
+
+    <lvc:CartesianChart Series="{Binding Series}"
+                        XAxes="{Binding XAxes}" YAxes="{Binding YAxes}"
+                        ZoomMode="Both"
+                        Width="{Binding #ChartViewControl.Bounds.Width}"
+                        Height="{Binding #ChartViewControl.Bounds.Height}">
+    </lvc:CartesianChart>
+
+</UserControl>

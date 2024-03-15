@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Luminescence.Form.ViewModels"
-             xmlns:converters="clr-namespace:Luminescence.Form.Converters"
              mc:Ignorable="d"
              x:Class="Luminescence.Views.TextControl"
              x:DataType="vm:TextControlViewModel"
@@ -17,14 +16,9 @@
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/TextControlStyle.axaml" />
     </UserControl.Styles>
 
-    <UserControl.Resources>
-        <converters:RegExConverter x:Key="RegExConverter" />
-    </UserControl.Resources>
-
     <StackPanel Classes="TextControl">
         <TextBlock Classes="P" Text="{Binding Label}" />
-        <TextBox Text="{Binding Value}" />
-        <!-- Converter={StaticResource RegExConverter}, ConverterParameter='/^\d+$/gm' -->
+        <TextBox Text="{Binding Value}" Watermark="{Binding Placeholder}" />
     </StackPanel>
 
 </UserControl>

@@ -2,6 +2,7 @@
 
 public class NumericControlOptions : FormControlOptions
 {
+    public string Placeholder = "";
     public NumericControlSpinnerOptions Spinner = new();
 }
 

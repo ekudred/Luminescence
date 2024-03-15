@@ -18,9 +18,10 @@
 
     <StackPanel Classes="NumericControl">
         <TextBlock Classes="P" Text="{Binding Label}" />
-        <NumericUpDown Text="{Binding Value}"
-                       ShowButtonSpinner="{Binding SpinnerOptions.IsEnabled}"
-                       AllowSpin="{Binding SpinnerOptions.IsEnabled}"
+        <NumericUpDown Value="{Binding Value}"
+                       Watermark="{Binding Placeholder}"
+                       ShowButtonSpinner="True"
+                       AllowSpin="True"
                        Increment="{Binding SpinnerOptions.Increment}"
                        FormatString="{Binding SpinnerOptions.FormatString}"
                        Minimum="{Binding SpinnerOptions.Minimum}"

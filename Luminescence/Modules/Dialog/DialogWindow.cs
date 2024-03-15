@@ -36,9 +36,9 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
         base.OnClosed(args);
     }
 
-    protected override void OnClosing(CancelEventArgs args)
+    protected override void OnClosing(WindowClosingEventArgs args)
     {
-        OnClose.OnNext(null!);
+        OnClose.OnNext(default!);
 
         args.Cancel = !CanClose;
         base.OnClosing(args);
@@ -57,20 +57,13 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
     public void Open()
     {
         ShowDialog(ParentWindow).ToObservable()
-            .Subscribe(_ => OnOpen.OnNext(true));
+            .Subscribe(_ => OnOpen.OnNext(null!));
     }
 
-    public new void Close()
-    {
-        // OnClose.OnNext(CanClose);
-        //
-        // if (!CanClose)
-        // {
-        //     return;
-        // }
-
-        base.Close();
-    }
+    // public new void Close()
+    // {
+    //     base.Close();
+    // }
 
     private void CloseRequested(object sender, object? canClose)
     {

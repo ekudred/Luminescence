@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Luminescence.Dialog;
@@ -20,6 +22,13 @@ public partial class ConfirmationDialog : DialogWindow<ConfirmationDialogViewMod
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    protected override void OnOpened(EventArgs args)
+    {
+        this.FindControl<Button>("ButtonConfirmFocus").Focus();
+
+        base.OnOpened(args);
     }
 
     protected override void OnKeyDown(KeyEventArgs args)

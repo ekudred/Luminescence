@@ -29,7 +29,7 @@
         <TextBlock Text="{Binding Text}" />
 
         <StackPanel Orientation="Horizontal">
-            <Button Content="Да" Command="{Binding ConfirmCommand}">
+            <Button Content="Да" Command="{Binding ConfirmCommand}" x:Name="ButtonConfirmFocus">
                 <Button.CommandParameter>
                     <system:Boolean>True</system:Boolean>
                 </Button.CommandParameter>
