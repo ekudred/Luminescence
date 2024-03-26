@@ -9,7 +9,9 @@ public struct ExpReadDto
 {
     public static ExpReadDto FromBytes(byte[] data)
     {
-        return StructUtil.BytesToStruct<ExpReadDto>(data);
+        ExpReadDto a = StructUtil.BytesToStruct<ExpReadDto>(data);
+
+        return a;
     }
 
     /** 00     стандартный репорт передачи данных от МК, номер типа репорта tReportStdInPC = 3 */

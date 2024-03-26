@@ -4,8 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:v="clr-namespace:Luminescence.Views"
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
-        xmlns:cs="clr-namespace:Luminescence.Form.ViewModels"
-        xmlns:converters="clr-namespace:Luminescence.Converters"
+        xmlns:fvm="clr-namespace:Luminescence.Form.ViewModels"
+        xmlns:cs="clr-namespace:Luminescence.Converters"
+        xmlns:s="clr-namespace:Luminescence.Services"
         mc:Ignorable="d"
         x:Class="Luminescence.Views.SettingsDialog"
         x:DataType="vm:SettingsDialogViewModel"
@@ -27,7 +28,7 @@
     </Window.Styles>
 
     <Window.Resources>
-        <converters:DictionaryEntryConverter x:Key="ControlConverter" />
+        <cs:DictionaryEntryConverter x:Key="DictionaryEntryConverter" />
     </Window.Resources>
 
     <Panel>
@@ -47,17 +48,17 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeaterMode'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.HeaterMode}}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Classes="Item">
                                             <v:TextControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndTemperature'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.EndTemperature}}" />
                                         </StackPanel>
                                         <StackPanel Classes="Item">
                                             <v:TextControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='HeatingRate'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.HeatingRate}}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -73,21 +74,21 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDMode'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.LEDMode}}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Classes="Item">
                                             <v:NumericControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='StartLEDCurrent'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.StartLEDCurrent}}" />
                                         </StackPanel>
                                         <StackPanel Classes="Item">
                                             <v:TextControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='EndLEDCurrent'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.EndLEDCurrent}}" />
                                         </StackPanel>
                                         <StackPanel Classes="Item">
                                             <v:TextControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LEDCurrentRate'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.LEDCurrentRate}}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -103,13 +104,13 @@
                                     <StackPanel Margin="0 0 12 0" VerticalAlignment="Top">
                                         <StackPanel Classes="Item">
                                             <v:RadioGroupControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='PEMMode'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.PEMMode}}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Classes="Item">
                                             <v:TextControl
-                                                DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='Ufeu'}" />
+                                                DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.Ufeu}}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -130,11 +131,11 @@
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPZeroOffset'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.LedCAPZeroOffset}}" />
                                     </StackPanel>
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='LedCAPCoefTransform'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.LedCAPCoefTransform}}" />
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -148,11 +149,11 @@
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='CodeChange'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.CodeChange}}" />
                                     </StackPanel>
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='TemperatureChange'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.TemperatureChange}}" />
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -166,11 +167,11 @@
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPZeroOffset'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.ThermocoupleACPZeroOffset}}" />
                                     </StackPanel>
                                     <StackPanel Classes="Item">
                                         <v:TextControl
-                                            DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ThermocoupleACPCoefTransform'}" />
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.ThermocoupleACPCoefTransform}}" />
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -180,7 +181,7 @@
                         <!--     <StackPanel Orientation="Vertical"> -->
                         <!--         <v:CheckboxControlView -->
                         <!--            -->
-                        <!--             DataContext="{Binding Form.Controls, Converter={StaticResource ControlConverter}, ConverterParameter='ClearCharts'}" /> -->
+                        <!--             DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter='ClearCharts'}" /> -->
                         <!--     </StackPanel> -->
                         <!-- </StackPanel> -->
 
@@ -196,7 +197,7 @@
                             <StackPanel Orientation="Vertical">
                                 <ItemsControl ItemsSource="{Binding Form.DarkCurrentCodeControls}">
                                     <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="cs:TextControlViewModel">
+                                        <DataTemplate DataType="fvm:TextControlViewModel">
                                             <StackPanel Classes="Cell" DataContext="{Binding}">
                                                 <v:TextControl DataContext="{Binding}" Classes="CellControl" />
                                             </StackPanel>
@@ -213,7 +214,7 @@
                             <StackPanel Orientation="Vertical">
                                 <ItemsControl ItemsSource="{Binding Form.SensitivityCoefControls}">
                                     <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="cs:TextControlViewModel">
+                                        <DataTemplate DataType="fvm:TextControlViewModel">
                                             <StackPanel Classes="Cell" DataContext="{Binding}">
                                                 <v:TextControl DataContext="{Binding}" Classes="CellControl" />
                                             </StackPanel>

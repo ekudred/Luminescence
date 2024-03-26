@@ -21,6 +21,7 @@ public class ChartViewModel : BaseViewModel
         {
             new LineSeries<ObservablePoint>
             {
+                Name = "Name",
                 Values = new List<ObservablePoint>()
             }
         };
@@ -34,7 +35,7 @@ public class ChartViewModel : BaseViewModel
         };
     }
 
-    public void AddValue(string seriesName, double xValue, double yValue)
+    public void AddPoint(string seriesName, double xValue, double yValue)
     {
         LineSeries<ObservablePoint> series = Series.Find(series => series.Name == seriesName);
 

@@ -5,7 +5,7 @@ namespace Luminescence.Utils;
 
 public static class ParseUtil
 {
-    public static int? ToInt(this string value)
+    public static int ToInt(this string value)
     {
         int.TryParse(value, out int result);
 

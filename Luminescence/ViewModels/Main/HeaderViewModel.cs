@@ -68,7 +68,6 @@ public class HeaderViewModel : BaseViewModel
         _expDeviceService.Connected
             .Subscribe(connected => { Connected = connected; });
         _expDeviceService.InProcess
-            .Throttle(TimeSpan.FromMilliseconds(400))
             .Subscribe(inProcess => { InProcess = inProcess; });
 
         // Observable.Zip(_expDeviceService.InProcess, _expDeviceService.Connected)
@@ -79,7 +78,6 @@ public class HeaderViewModel : BaseViewModel
         //     });
 
         this.WhenAnyValue(x => x.Connected, x => x.InProcess)
-            .Throttle(TimeSpan.FromMilliseconds(400))
             .Subscribe(result =>
             {
                 var (connected, inProcess) = result;

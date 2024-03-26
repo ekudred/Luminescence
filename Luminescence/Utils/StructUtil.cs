@@ -8,25 +8,21 @@ public static class StructUtil
     public static T BytesToStruct<T>(byte[] data)
         where T : struct
     {
-        int size = data.Length;
-        IntPtr memory = Marshal.AllocHGlobal(size);
-        Marshal.Copy(data, 0, memory, size);
-        T structure = (T)Marshal.PtrToStructure(memory, typeof(T));
-        Marshal.FreeHGlobal(memory);
+        var pData = GCHandle.Alloc(data, GCHandleType.Pinned);
+        var result = (T)Marshal.PtrToStructure(pData.AddrOfPinnedObject(), typeof(T));
+        pData.Free();
 
-        return structure;
+        return result;
     }
 
-    public static byte[] StructToBytes<T>(T struc)
+    public static byte[] StructToBytes<T>(T data)
         where T : struct
     {
-        int size = Marshal.SizeOf(struc);
-        IntPtr memory = Marshal.AllocHGlobal(size);
-        Marshal.StructureToPtr(struc, memory, true);
-        byte[] buffer = new byte[size];
-        Marshal.Copy(memory, buffer, 0, size);
-        Marshal.FreeHGlobal(memory);
+        var result = new byte[Marshal.SizeOf(typeof(T))];
+        var pResult = GCHandle.Alloc(result, GCHandleType.Pinned);
+        Marshal.StructureToPtr(data, pResult.AddrOfPinnedObject(), true);
+        pResult.Free();
 
-        return buffer;
+        return result;
     }
 }

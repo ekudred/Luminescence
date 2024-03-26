@@ -2,6 +2,8 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Luminescence.Dialog;
+using Luminescence.ViewModels;
+using Luminescence.Views;
 
 namespace Luminescence.Services;
 
@@ -10,7 +12,7 @@ public class ExpDeviceService : HidDeviceService
     public readonly Subject<ExpReadDto> CurrentData = new();
     public readonly Subject<bool> InProcess = new();
 
-    private Subject<bool> _readDataOn = new();
+    private Subject<bool> _readDataOn;
 
     private readonly DialogService _dialogService;
 
@@ -43,18 +45,25 @@ public class ExpDeviceService : HidDeviceService
             .Subscribe(
                 _ =>
                 {
+                    _readDataOn = new();
+
+                    InProcess.OnNext(true);
+
                     ReadData
-                        .Throttle(TimeSpan.FromMilliseconds(1000))
                         .Select(ExpReadDto.FromBytes)
                         .TakeUntil(_readDataOn)
                         .Subscribe(dto =>
                         {
-                            InProcess.OnNext(dto.Mode == 0x1);
+                            if (dto.Mode == 0x2)
+                            {
+                                InProcess.OnNext(false);
+                            }
+
                             CurrentData.OnNext(dto);
                         });
-                }
-                // _ => { },
-                // () => { _dialogService.ShowDialog("ErrorDialog"); }
+                },
+                _ => { },
+                () => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 
@@ -65,13 +74,12 @@ public class ExpDeviceService : HidDeviceService
                 _ =>
                 {
                     _readDataOn.OnNext(true);
-                    // _readDataOn.OnCompleted();
-                    // _readDataOn = null;
+                    _readDataOn = null;
 
                     InProcess.OnNext(false);
-                }
-                // _ => { },
-                // () => { _dialogService.ShowDialog("ErrorDialog"); }
+                },
+                _ => { },
+                () => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 }

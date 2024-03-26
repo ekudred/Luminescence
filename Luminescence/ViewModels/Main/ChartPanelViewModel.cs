@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
@@ -13,11 +14,6 @@ namespace Luminescence.ViewModels;
 
 public class ChartPanelViewModel : BaseViewModel
 {
-    public ChartViewModel ChartTemperatureTimeViewModel => _expChartService.ChartTemperatureTimeViewModel;
-    public ChartViewModel ChartIntensityTimeViewModel => _expChartService.ChartIntensityTimeViewModel;
-    public ChartViewModel ChartIntensityTemperatureViewModel => _expChartService.ChartIntensityTemperatureViewModel;
-    public ChartViewModel ChartIntensityCurrentViewModel => _expChartService.ChartIntensityCurrentViewModel;
-
     public double FullWidth
     {
         get => _fullWidth;
@@ -39,6 +35,8 @@ public class ChartPanelViewModel : BaseViewModel
     private double _fullWidth = 0;
     private double _halfWidth = 0;
     private double _height = 0;
+
+    public Dictionary<string, ChartViewModel> Charts => _expChartService.ChartViewModels;
 
     private readonly MainWindowViewModel _mainWindowViewModel;
     private readonly ExpChartService _expChartService;

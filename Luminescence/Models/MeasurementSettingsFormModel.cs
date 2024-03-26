@@ -12,11 +12,11 @@ public class MeasurementSettingsFormModel : FormBaseModel
     {
         switch (mode)
         {
-            case "HeaterOff":
+            case MeasurementSettingsFormControl.HeaterOff:
                 return 0;
-            case "LinearHeating":
+            case MeasurementSettingsFormControl.LinearHeating:
                 return 1;
-            case "TemperatureMaintenance":
+            case MeasurementSettingsFormControl.TemperatureMaintenance:
                 return 2;
             default:
                 return 0;
@@ -27,11 +27,11 @@ public class MeasurementSettingsFormModel : FormBaseModel
     {
         switch (mode)
         {
-            case "LedOff":
+            case MeasurementSettingsFormControl.LedOff:
                 return 0;
-            case "LinearIncreaseCurrent":
+            case MeasurementSettingsFormControl.LinearIncreaseCurrent:
                 return 1;
-            case "CurrentMaintenance":
+            case MeasurementSettingsFormControl.CurrentMaintenance:
                 return 2;
             default:
                 return 0;
@@ -42,9 +42,9 @@ public class MeasurementSettingsFormModel : FormBaseModel
     {
         switch (mode)
         {
-            case "Automatic":
+            case MeasurementSettingsFormControl.Automatic:
                 return 1;
-            case "Upem":
+            case MeasurementSettingsFormControl.Upem:
                 return 2;
             default:
                 return 1;
@@ -97,10 +97,10 @@ public class MeasurementSettingsFormModel : FormBaseModel
     public double ThermocoupleACPCoefTransform;
 
     /** Темновой ток Codes */
-    public Dictionary<string, double> DarkCurrentCodes;
+    public Dictionary<int, double> DarkCurrentCodes;
 
     /** Коэффициенты чувствительности Coefs */
-    public Dictionary<string, double> SensitivityCoefs;
+    public Dictionary<int, double> SensitivityCoefs;
 
     public override bool Equals(FormBaseModel? obj)
     {
@@ -125,35 +125,18 @@ public class MeasurementSettingsFormModel : FormBaseModel
             {
                 equally = value == objValue;
 
-                if (!equally)
-                {
-                    Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
-                }
-
                 continue;
             }
 
-            if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<string, double>)))
+            if (value.GetType().GetInterfaces().Contains(typeof(IDictionary<int, double>)))
             {
-                equally = ((IDictionary<string, double>)value).SequenceEqual((IDictionary<string, double>)objValue);
-
-                if (!equally)
-                {
-                    Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
-                }
+                equally = ((IDictionary<int, double>)value).SequenceEqual((IDictionary<int, double>)objValue);
 
                 continue;
             }
 
             equally = value.Equals(objValue);
-
-            if (!equally)
-            {
-                Console.WriteLine($"{field.Name}: value = {value} | objValue = {objValue}");
-            }
         }
-
-        Console.WriteLine("===========================================");
 
         return equally;
     }

@@ -20,6 +20,7 @@
 
     <lvc:CartesianChart Series="{Binding Series}"
                         XAxes="{Binding XAxes}" YAxes="{Binding YAxes}"
+                        AutoUpdateEnabled="True"
                         ZoomMode="Both"
                         Width="{Binding #ChartViewControl.Bounds.Width}"
                         Height="{Binding #ChartViewControl.Bounds.Height}">
