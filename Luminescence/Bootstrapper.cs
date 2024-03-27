@@ -1,7 +1,6 @@
 ﻿using Luminescence.Dialog;
 using Luminescence.Services;
 using Luminescence.ViewModels;
-using ReactiveUI;
 using Splat;
 
 namespace Luminescence;
@@ -13,12 +12,14 @@ public static class Bootstrapper
         RegisterServices(services, resolver);
         RegisterViewModels(services, resolver);
         RegisterDialogViewModels(services, resolver);
+        RegisterValues(services, resolver);
     }
 
     private static void RegisterServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new MainWindowProvider());
         services.RegisterLazySingleton(() => new StorageService());
+        services.RegisterLazySingleton(() => new FileService());
         services.RegisterLazySingleton(() => new HidService());
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
@@ -35,7 +36,9 @@ public static class Bootstrapper
             resolver.GetService<DialogService>()
         ));
         services.RegisterLazySingleton(() => new ExpChartService(
-            resolver.GetService<ExpDeviceService>()
+            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<StorageService>(),
+            resolver.GetService<ExpChartsData>()
         ));
     }
 
@@ -43,7 +46,8 @@ public static class Bootstrapper
     {
         services.RegisterLazySingleton(() => new ChartPanelViewModel(
             resolver.GetService<MainWindowViewModel>(),
-            resolver.GetService<ExpChartService>()
+            resolver.GetService<ExpChartService>(),
+            resolver.GetService<ExpDeviceService>()
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
             resolver.GetService<ExpDeviceService>(),
@@ -51,12 +55,10 @@ public static class Bootstrapper
             resolver.GetService<MeasurementSettingsFormService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>()
         ));
-        services.RegisterLazySingleton(() => new RosterViewModel(
-            resolver.GetService<ExpDeviceService>()
-        ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),
             resolver.GetService<SystemDialogService>(),
+            resolver.GetService<FileService>(),
             resolver.GetService<ExpDeviceService>(),
             resolver.GetService<MeasurementSettingsFormService>()
         ));
@@ -72,5 +74,10 @@ public static class Bootstrapper
             resolver.GetService<MeasurementSettingsFormService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>()
         ));
+    }
+
+    private static void RegisterValues(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
+    {
+        services.RegisterLazySingleton(() => new ExpChartsData());
     }
 }

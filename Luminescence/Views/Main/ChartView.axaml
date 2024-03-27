@@ -18,12 +18,38 @@
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartViewStyle.axaml" />
     </UserControl.Styles>
 
-    <lvc:CartesianChart Series="{Binding Series}"
-                        XAxes="{Binding XAxes}" YAxes="{Binding YAxes}"
-                        AutoUpdateEnabled="True"
-                        ZoomMode="Both"
-                        Width="{Binding #ChartViewControl.Bounds.Width}"
-                        Height="{Binding #ChartViewControl.Bounds.Height}">
-    </lvc:CartesianChart>
+    <Grid RowDefinitions="*,100" ColumnDefinitions="*"
+          Width="{Binding #ChartViewControl.Bounds.Width}" Height="{Binding #ChartViewControl.Bounds.Height}">
+        <lvc:CartesianChart
+            Grid.Row="0" Grid.Column="0"
+            SyncContext="{Binding Sync}"
+            Series="{Binding Series}"
+            XAxes="{Binding XAxes}"
+            YAxes="{Binding YAxes}"
+            AutoUpdateEnabled="True"
+            AnimationsSpeed="00:00:00.100"
+            EasingFunction="{x:Null}"
+            ZoomMode="X"
+
+            UpdateStartedCommand="{Binding ChartUpdatedCommand}">
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart
+            Grid.Row="1" Grid.Column="0"
+            SyncContext="{Binding Sync}"
+            Series="{Binding ScrollbarSeries}"
+            XAxes="{Binding ScrollbarXAxes}"
+            YAxes="{Binding ScrollbarYAxes}"
+            Sections="{Binding Thumbs}"
+            AutoUpdateEnabled="True"
+            AnimationsSpeed="00:00:00.100"
+            EasingFunction="{x:Null}"
+            TooltipPosition="Hidden"
+            DrawMargin="{Binding Margin}"
+            PointerPressedCommand="{Binding PointerDownCommand}"
+            PointerMoveCommand="{Binding PointerMoveCommand}"
+            PointerReleasedCommand="{Binding PointerUpCommand}">
+        </lvc:CartesianChart>
+    </Grid>
 
 </UserControl>

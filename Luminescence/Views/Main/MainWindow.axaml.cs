@@ -1,6 +1,5 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Luminescence.ViewModels;
 using ReactiveUI;
 using System;
@@ -19,16 +18,19 @@ public partial class MainWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
 
         DataContext = Locator.Current.GetService<MainWindowViewModel>();
+
         ViewModel.Initialize();
 
-        OnChangeSize();
+        this.WhenAnyValue(view => view.Width, view => view.Height)
+            .Subscribe(result =>
+            {
+                var (width, height) = result;
+
+                ViewModel.Width = width;
+                ViewModel.Height = height;
+            });
     }
 
     protected override void OnClosed(EventArgs args)
@@ -36,19 +38,5 @@ public partial class MainWindow : Window
         ViewModel.Destroy();
 
         base.OnClosed(args);
-    }
-
-    private void OnChangeSize()
-    {
-        MainWindowViewModel viewModel = Locator.Current.GetService<MainWindowViewModel>();
-
-        this.WhenAnyValue(view => view.Width, view => view.Height)
-            .Subscribe(result =>
-            {
-                var (width, height) = result;
-
-                viewModel.Width = width;
-                viewModel.Height = height;
-            });
     }
 }

@@ -11,6 +11,11 @@ public struct ExpReadDto
     {
         ExpReadDto a = StructUtil.BytesToStruct<ExpReadDto>(data);
 
+        if (a.OpTemperature == 0)
+        {
+            Console.Write(data);
+        }
+
         return a;
     }
 

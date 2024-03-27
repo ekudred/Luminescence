@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Input;
-using Avalonia.Markup.Xaml;
 using Luminescence.Dialog;
 using Luminescence.ViewModels;
 
@@ -16,18 +15,6 @@ public partial class SettingsDialog : DialogWindow<SettingsDialogViewModel>
         this.AttachDevTools();
 #endif
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
-
-    // protected override void Destroy()
-    // {
-    //     ViewModel.Form.Destroy();
-    //
-    //     base.Destroy();
-    // }
 
     protected override void OnKeyDown(KeyEventArgs args)
     {

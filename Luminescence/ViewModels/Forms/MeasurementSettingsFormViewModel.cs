@@ -16,10 +16,10 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
     private List<FormControlBaseViewModel> _darkCurrentCodeControls = new();
     private List<FormControlBaseViewModel> _sensitivityCoefControls = new();
 
-    private readonly double _darkCurrentCodesStartValue = 0.50;
+    private readonly double _darkCurrentCodesStartValue = 0.5;
     private readonly double _darkCurrentCodesIncrementValue = 0.05;
     private readonly int _darkCurrentCodesCount = 13;
-    private readonly double _sensitivityCoefsStartValue = 0.50;
+    private readonly double _sensitivityCoefsStartValue = 0.5;
     private readonly double _sensitivityCoefsIncrementValue = 0.05;
     private readonly int _sensitivityCoefsCount = 13;
 

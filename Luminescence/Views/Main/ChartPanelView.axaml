@@ -75,6 +75,15 @@
                 </StackPanel>
             </TabItem>
 
+            <TabItem Header="Test">
+                <StackPanel Height="600">
+                    <TextBox Height="600"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Text="{Binding Test}" />
+                </StackPanel>
+            </TabItem>
+
         </TabControl>
     </Panel>
 

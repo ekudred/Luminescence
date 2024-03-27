@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Windows.Input;
 using Luminescence.Dialog;
 using Luminescence.Services;
 using ReactiveUI;
@@ -9,8 +10,9 @@ namespace Luminescence.ViewModels;
 
 public class HeaderViewModel : BaseViewModel
 {
-    public ReactiveCommand<Unit, Unit> OpenSettingsDialogCommand { get; }
-    public ReactiveCommand<Unit, Unit> ToggleActiveCommand { get; }
+    public ICommand OpenSettingsDialogCommand { get; }
+    public ICommand ToggleActiveCommand { get; }
+    public ICommand SaveCommand { get; }
 
     public bool PlayEnabled
     {
@@ -50,18 +52,21 @@ public class HeaderViewModel : BaseViewModel
 
     private readonly DialogService _dialogService;
     private readonly SystemDialogService _systemDialogService;
+    private readonly FileService _fileService;
     private readonly ExpDeviceService _expDeviceService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
 
     public HeaderViewModel(
         DialogService dialogService,
         SystemDialogService systemDialogService,
+        FileService fileService,
         ExpDeviceService expDeviceService,
         MeasurementSettingsFormService measurementSettingsFormService
     )
     {
         _dialogService = dialogService;
         _systemDialogService = systemDialogService;
+        _fileService = fileService;
         _expDeviceService = expDeviceService;
         _measurementSettingsFormService = measurementSettingsFormService;
 
@@ -91,9 +96,10 @@ public class HeaderViewModel : BaseViewModel
 
         OpenSettingsDialogCommand = ReactiveCommand.Create(OpenSettingsDialog);
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
+        SaveCommand = ReactiveCommand.Create(Save);
     }
 
-    public void OpenSettingsDialog()
+    private void OpenSettingsDialog()
     {
         var dialog = _dialogService.Create<SettingsDialogViewModel>();
 
@@ -103,7 +109,7 @@ public class HeaderViewModel : BaseViewModel
         dialog.Open();
     }
 
-    public void ToggleActive()
+    private void ToggleActive()
     {
         if (!InProcess)
         {
@@ -115,6 +121,12 @@ public class HeaderViewModel : BaseViewModel
         }
 
         _expDeviceService.StopProcess();
+    }
+
+    private void Save()
+    {
+        _fileService.Save()
+            .Subscribe();
     }
 
     private string GetUsbConnectionStatus(bool connected) =>

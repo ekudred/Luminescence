@@ -27,7 +27,6 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
         <PackageReference Include="Material.Icons.Avalonia" Version="2.1.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0" />
         <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
     </ItemGroup>
 
@@ -38,10 +37,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Views\Main\RosterView.axaml.cs">
-            <DependentUpon>RosterView.axaml</DependentUpon>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Update="Views\Main\HeaderView.axaml.cs">
             <DependentUpon>HeaderView.axaml</DependentUpon>
             <SubType>Code</SubType>

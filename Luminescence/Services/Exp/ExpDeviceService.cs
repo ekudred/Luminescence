@@ -50,6 +50,7 @@ public class ExpDeviceService : HidDeviceService
                     InProcess.OnNext(true);
 
                     ReadData
+                        .Where(data => data.Length != 0)
                         .Select(ExpReadDto.FromBytes)
                         .TakeUntil(_readDataOn)
                         .Subscribe(dto =>

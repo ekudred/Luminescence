@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using Avalonia.Data.Converters;
-using Luminescence.Form.ViewModels;
 
 namespace Luminescence.Converters;
 
@@ -11,20 +9,25 @@ public class DictionaryEntryConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var controls = value as Dictionary<string, FormControlBaseViewModel>;
-        var controlName = parameter as string;
-
-        if (controls == null || controlName == null)
+        if (value is not IDictionary dictionary)
         {
-            return null;
+            throw new Exception($"\"{value}\" is not \"IDictionary\"");
         }
 
-        controls.TryGetValue(controlName, out FormControlBaseViewModel control);
+        if (value == null || parameter == null)
+        {
+            throw new Exception($"Value \"{value}\" or parameter \"{parameter}\" is null");
+        }
 
-        return control;
+        if (!dictionary.Contains(parameter))
+        {
+            throw new Exception($"The dictionary \"{dictionary}\" does not contain a key \"{parameter}\"");
+        }
+
+        return dictionary[parameter];
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? dictionary, Type targetType, object? key, CultureInfo culture)
     {
         throw new NotSupportedException();
     }

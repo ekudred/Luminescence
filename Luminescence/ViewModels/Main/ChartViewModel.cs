@@ -1,49 +1,202 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
+using LiveChartsCore.Kernel.Events;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
-using Axis = LiveChartsCore.SkiaSharpView.Axis;
+using LiveChartsCore.SkiaSharpView.Drawing;
+using LiveChartsCore.SkiaSharpView.Painting;
+using ReactiveUI;
+using SkiaSharp;
 
 namespace Luminescence.ViewModels;
 
 public class ChartViewModel : BaseViewModel
 {
-    public List<LineSeries<ObservablePoint>> Series { get; }
+    public List<ISeries> Series { get; } = new();
 
-    public List<Axis> XAxes { get; }
+    public List<ISeries> ScrollbarSeries { get; } = new();
 
-    public List<Axis> YAxes { get; }
 
-    public ChartViewModel(string xAxisName, string yAxisName)
+    public List<Axis> XAxes { get; } = new()
     {
-        Series = new()
+        new()
         {
-            new LineSeries<ObservablePoint>
-            {
-                Name = "Name",
-                Values = new List<ObservablePoint>()
-            }
-        };
-        XAxes = new()
+            TextSize = 12,
+            NameTextSize = 14,
+            NamePaint = new SolidColorPaint(SKColor.Parse("#333333")),
+            LabelsPaint = new SolidColorPaint(SKColor.Parse("#333333")),
+            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1),
+            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+        }
+    };
+
+    public List<Axis> YAxes { get; } = new()
+    {
+        new()
         {
-            new Axis { Name = xAxisName }
-        };
-        YAxes = new()
+            TextSize = 12,
+            NameTextSize = 14,
+            NamePaint = new SolidColorPaint(SKColor.Parse("#333333")),
+            LabelsPaint = new SolidColorPaint(SKColor.Parse("#333333")),
+            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1),
+            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+        }
+    };
+
+    public Axis[] ScrollbarXAxes { get; } =
+    {
+        new()
         {
-            new Axis { Name = yAxisName }
-        };
+            IsVisible = false,
+            MinStep = TimeSpan.FromMilliseconds(1).Ticks,
+            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+        }
+    };
+
+    public Axis[] ScrollbarYAxes { get; } =
+    {
+        new()
+        {
+            IsVisible = false,
+            MinStep = TimeSpan.FromMilliseconds(1).Ticks,
+            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+        }
+    };
+
+    public Margin Margin { get; } = new(100, Margin.Auto, 50, Margin.Auto);
+
+    public RectangularSection[] Thumbs { get; } =
+    {
+        new()
+        {
+            Fill = new SolidColorPaint(new SKColor(255, 205, 210, 100))
+        }
+    };
+
+    public object Sync { get; } = new();
+
+    public ICommand ChartUpdatedCommand { get; }
+    public ICommand PointerDownCommand { get; }
+    public ICommand PointerMoveCommand { get; }
+    public ICommand PointerUpCommand { get; }
+
+    private readonly int _visiblePoints;
+    private bool _isDown;
+
+    public ChartViewModel(string xAxisName, string yAxisName, int visibledPoints = 100)
+    {
+        XAxes[0].Name = xAxisName;
+        YAxes[0].Name = yAxisName;
+        _visiblePoints = visibledPoints;
+
+        ChartUpdatedCommand = ReactiveCommand.Create<ChartCommandArgs>(ChartUpdated);
+        PointerDownCommand = ReactiveCommand.Create<PointerCommandArgs>(PointerDown);
+        PointerMoveCommand = ReactiveCommand.Create<PointerCommandArgs>(PointerMove);
+        PointerUpCommand = ReactiveCommand.Create<PointerCommandArgs>(PointerUp);
     }
 
     public void AddPoint(string seriesName, double xValue, double yValue)
     {
-        LineSeries<ObservablePoint> series = Series.Find(series => series.Name == seriesName);
+        var series = Series.Find(series => series.Name == seriesName);
+        var scrollbarSeries = ScrollbarSeries.Find(scrollbarSeries => scrollbarSeries.Name == seriesName);
 
-        if (series == null)
+        if (series == null || scrollbarSeries == null)
         {
             throw new Exception($"Series \"{seriesName}\" not found");
         }
 
-        ((List<ObservablePoint>)series.Values).Add(new ObservablePoint(xValue, yValue));
+        lock (Sync)
+        {
+            var seriesValues = (ObservableCollection<ObservablePoint>)series.Values!;
+            var scrollbarSeriesValues = (ObservableCollection<ObservablePoint>)scrollbarSeries.Values!;
+
+            seriesValues.Add(new ObservablePoint(xValue, yValue));
+            scrollbarSeriesValues.Add(new ObservablePoint(xValue, yValue));
+
+            // if (seriesValues.Count > _visiblePoints)
+            // {
+            //     seriesValues.RemoveAt(0);
+            //     scrollbarSeriesValues.RemoveAt(0);
+            // }
+
+            // if (seriesValues.Count > 2 && seriesValues[^2].X <= Thumbs[0].Xj)
+            // {
+            //     XAxes[0].MinLimit = Thumbs[0].Xi + (seriesValues[^1].X - seriesValues[^2].X);
+            //     XAxes[0].MaxLimit = seriesValues[^1].X;
+            // }
+        }
+    }
+
+    public void AddSeries(string seriesName)
+    {
+        Series.Add(new LineSeries<ObservablePoint>
+        {
+            Name = seriesName,
+            Values = new ObservableCollection<ObservablePoint>(),
+            Stroke = new SolidColorPaint(SKColors.Chocolate, 1),
+            Fill = null,
+            GeometrySize = 1,
+            LineSmoothness = 0.5,
+            GeometryFill = null,
+            GeometryStroke = null,
+            IsHoverable = false
+        });
+        ScrollbarSeries.Add(new LineSeries<ObservablePoint>
+        {
+            Name = seriesName,
+            Values = new ObservableCollection<ObservablePoint>(),
+            Stroke = new SolidColorPaint(SKColors.Chocolate, 1),
+            Fill = null,
+            GeometrySize = 1,
+            LineSmoothness = 0.5,
+            GeometryFill = null,
+            GeometryStroke = null,
+            IsHoverable = false
+        });
+    }
+
+    private void ChartUpdated(ChartCommandArgs args)
+    {
+        RectangularSection thumb = Thumbs[0];
+        ICartesianAxis xAxis = ((ICartesianChartView<SkiaSharpDrawingContext>)args.Chart).XAxes.First();
+        thumb.Xi = xAxis.MinLimit;
+        thumb.Xj = xAxis.MaxLimit;
+    }
+
+    private void PointerDown(PointerCommandArgs args)
+    {
+        _isDown = true;
+    }
+
+    private void PointerMove(PointerCommandArgs args)
+    {
+        if (!_isDown)
+        {
+            return;
+        }
+
+        var chart = (ICartesianChartView<SkiaSharpDrawingContext>)args.Chart;
+        var positionInData = chart.ScalePixelsToData(args.PointerPosition);
+
+        RectangularSection thumb = Thumbs[0];
+        double? currentRange = thumb.Xj - thumb.Xi;
+
+        thumb.Xi = positionInData.X - currentRange / 2;
+        thumb.Xj = positionInData.X + currentRange / 2;
+
+        Axis xAxis = XAxes[0];
+        xAxis.MinLimit = thumb.Xi;
+        xAxis.MaxLimit = thumb.Xj;
+    }
+
+    private void PointerUp(PointerCommandArgs args)
+    {
+        _isDown = false;
     }
 }

@@ -7,6 +7,7 @@ using LiveChartsCore.SkiaSharpView.VisualElements;
 using LiveChartsCore.VisualElements;
 using Luminescence.Models;
 using Luminescence.Services;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SkiaSharp;
 
@@ -31,10 +32,16 @@ public class ChartPanelViewModel : BaseViewModel
         get => _height;
         set => this.RaiseAndSetIfChanged(ref _height, value);
     }
+    public string Test
+    {
+        get => _test;
+        set => this.RaiseAndSetIfChanged(ref _test, value);
+    }
 
-    private double _fullWidth = 0;
-    private double _halfWidth = 0;
-    private double _height = 0;
+    private double _fullWidth;
+    private double _halfWidth;
+    private double _height;
+    private string _test;
 
     public Dictionary<string, ChartViewModel> Charts => _expChartService.ChartViewModels;
 
@@ -43,17 +50,25 @@ public class ChartPanelViewModel : BaseViewModel
 
     public ChartPanelViewModel(
         MainWindowViewModel mainWindowViewModel,
-        ExpChartService expChartService
+        ExpChartService expChartService,
+        ExpDeviceService expDeviceService
     )
     {
         _mainWindowViewModel = mainWindowViewModel;
         _expChartService = expChartService;
 
         _expChartService.Initialize();
-        InitializeChartSizes();
+
+        OnChangeChartSizes();
+
+        expDeviceService.CurrentData
+            .Subscribe(data =>
+            {
+                Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(data)).ToString();
+            });
     }
 
-    private void InitializeChartSizes()
+    private void OnChangeChartSizes()
     {
         this.WhenAnyValue(viewModel => viewModel._mainWindowViewModel.Width)
             .Subscribe(width =>

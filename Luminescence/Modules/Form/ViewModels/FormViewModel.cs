@@ -10,7 +10,7 @@ namespace Luminescence.Form.ViewModels;
 public class FormViewModel<TFormModel> : BaseViewModel
     where TFormModel : FormBaseModel
 {
-    public Dictionary<string, FormControlBaseViewModel> Controls => _controls;
+    public Dictionary<string, FormControlBaseViewModel> Controls { get; } = new();
     public readonly Subject<bool> FormChanged = new();
 
     public bool Initialized = false;
@@ -23,14 +23,12 @@ public class FormViewModel<TFormModel> : BaseViewModel
     private TFormModel _model;
     private TFormModel _initialModel;
 
-    private Dictionary<string, FormControlBaseViewModel> _controls = new();
-
     public void Initialize()
     {
         destroyForm = new();
 
         GetControls(new())
-            .ForEach(control => _controls.Add(control.Name, control));
+            .ForEach(control => Controls.Add(control.Name, control));
 
         _model = Activator.CreateInstance<TFormModel>();
         _initialModel = (TFormModel)_model.Clone();
@@ -91,7 +89,7 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
         try
         {
-            _controls.TryGetValue(controlName, out control);
+            Controls.TryGetValue(controlName, out control);
 
             if (control == null)
             {

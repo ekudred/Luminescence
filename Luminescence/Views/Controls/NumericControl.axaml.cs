@@ -15,11 +15,6 @@ public partial class NumericControl : UserControl
     public NumericControl()
     {
         InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
 
         AddHandler(TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
     }

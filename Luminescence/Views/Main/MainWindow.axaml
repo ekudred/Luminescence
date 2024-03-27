@@ -27,8 +27,6 @@
 
             <v:HeaderView />
 
-            <v:RosterView />
-
             <v:ChartPanelView />
 
         </StackPanel>

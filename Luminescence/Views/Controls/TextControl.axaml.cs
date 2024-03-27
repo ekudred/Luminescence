@@ -14,11 +14,6 @@ public partial class TextControl : UserControl
     public TextControl()
     {
         InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
 
         AddHandler(TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
     }

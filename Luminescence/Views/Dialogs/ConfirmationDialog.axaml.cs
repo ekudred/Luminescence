@@ -2,7 +2,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Markup.Xaml;
 using Luminescence.Dialog;
 using Luminescence.ViewModels;
 
@@ -17,11 +16,6 @@ public partial class ConfirmationDialog : DialogWindow<ConfirmationDialogViewMod
 #if DEBUG
         this.AttachDevTools();
 #endif
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 
     protected override void OnOpened(EventArgs args)
