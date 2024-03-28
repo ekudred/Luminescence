@@ -19,7 +19,9 @@ public static class Bootstrapper
     {
         services.RegisterLazySingleton(() => new MainWindowProvider());
         services.RegisterLazySingleton(() => new StorageService());
-        services.RegisterLazySingleton(() => new FileService());
+        services.RegisterLazySingleton(() => new FileService(
+            resolver.GetService<MainWindowProvider>()
+        ));
         services.RegisterLazySingleton(() => new HidService());
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
@@ -60,7 +62,8 @@ public static class Bootstrapper
             resolver.GetService<SystemDialogService>(),
             resolver.GetService<FileService>(),
             resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<MeasurementSettingsFormService>()
+            resolver.GetService<MeasurementSettingsFormService>(),
+            resolver.GetService<ExpChartsData>()
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormViewModel());
     }
@@ -72,7 +75,8 @@ public static class Bootstrapper
     {
         services.Register(() => new SettingsDialogViewModel(
             resolver.GetService<MeasurementSettingsFormService>(),
-            resolver.GetService<MeasurementSettingsFormViewModel>()
+            resolver.GetService<MeasurementSettingsFormViewModel>(),
+            resolver.GetService<SystemDialogService>()
         ));
     }
 

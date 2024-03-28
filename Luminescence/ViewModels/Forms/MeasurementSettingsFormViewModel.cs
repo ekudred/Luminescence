@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Luminescence.Form.ViewModels;
 using Luminescence.Models;
@@ -17,45 +17,45 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
     private List<FormControlBaseViewModel> _sensitivityCoefControls = new();
 
     private readonly double _darkCurrentCodesStartValue = 0.5;
-    private readonly double _darkCurrentCodesIncrementValue = 0.05;
+    private readonly double _darkCurrentCodesIncrementValue = Math.Abs(0.05);
     private readonly int _darkCurrentCodesCount = 13;
     private readonly double _sensitivityCoefsStartValue = 0.5;
-    private readonly double _sensitivityCoefsIncrementValue = 0.05;
+    private readonly double _sensitivityCoefsIncrementValue = Math.Abs(0.05);
     private readonly int _sensitivityCoefsCount = 13;
 
     public override void FromModel(MeasurementSettingsFormModel model)
     {
         SetControlValue(MeasurementSettingsFormControl.HeaterMode, GetHeaterMode(model.HeaterMode));
-        SetControlValue(MeasurementSettingsFormControl.EndTemperature, model.EndTemperature.FromObject());
-        SetControlValue(MeasurementSettingsFormControl.HeatingRate, model.HeatingRate.FromObject());
+        SetControlValue(MeasurementSettingsFormControl.EndTemperature, model.EndTemperature.ToString());
+        SetControlValue(MeasurementSettingsFormControl.HeatingRate, model.HeatingRate.ToString());
 
         SetControlValue(MeasurementSettingsFormControl.LEDMode, GetLEDMode(model.LEDMode));
         SetControlValue(MeasurementSettingsFormControl.StartLEDCurrent, model.StartLEDCurrent);
-        SetControlValue(MeasurementSettingsFormControl.EndLEDCurrent, model.EndLEDCurrent.FromObject());
-        SetControlValue(MeasurementSettingsFormControl.LEDCurrentRate, model.LEDCurrentRate.FromObject());
+        SetControlValue(MeasurementSettingsFormControl.EndLEDCurrent, model.EndLEDCurrent.ToString());
+        SetControlValue(MeasurementSettingsFormControl.LEDCurrentRate, model.LEDCurrentRate.ToString());
 
         SetControlValue(MeasurementSettingsFormControl.PEMMode, GetPEMMode(model.PEMMode));
-        SetControlValue(MeasurementSettingsFormControl.Ufeu, model.Ufeu.FromObject());
+        SetControlValue(MeasurementSettingsFormControl.Ufeu, model.Ufeu.ToString());
 
-        SetControlValue(MeasurementSettingsFormControl.LedCAPZeroOffset, model.LedCAPZeroOffset.FromObject());
-        SetControlValue(MeasurementSettingsFormControl.LedCAPCoefTransform, model.LedCAPCoefTransform.FromObject());
-        SetControlValue(MeasurementSettingsFormControl.CodeChange, model.CodeChange.FromObject());
-        SetControlValue(MeasurementSettingsFormControl.TemperatureChange, model.TemperatureChange.FromObject());
+        SetControlValue(MeasurementSettingsFormControl.LedCAPZeroOffset, model.LedCAPZeroOffset.ToString());
+        SetControlValue(MeasurementSettingsFormControl.LedCAPCoefTransform, model.LedCAPCoefTransform.ToString());
+        SetControlValue(MeasurementSettingsFormControl.CodeChange, model.CodeChange.ToString());
+        SetControlValue(MeasurementSettingsFormControl.TemperatureChange, model.TemperatureChange.ToString());
         SetControlValue(MeasurementSettingsFormControl.ThermocoupleACPZeroOffset,
-            model.ThermocoupleACPZeroOffset.FromObject());
+            model.ThermocoupleACPZeroOffset.ToString());
         SetControlValue(MeasurementSettingsFormControl.ThermocoupleACPCoefTransform,
-            model.ThermocoupleACPCoefTransform.FromObject());
+            model.ThermocoupleACPCoefTransform.ToString());
 
         foreach (var darkCurrentCode in model.DarkCurrentCodes)
         {
             SetControlValue(MeasurementSettingsFormControl.DarkCurrentCodeName(darkCurrentCode.Key),
-                darkCurrentCode.Value.ToString(CultureInfo.InvariantCulture));
+                darkCurrentCode.Value.ToString());
         }
 
         foreach (var sensitivityCoef in model.SensitivityCoefs)
         {
             SetControlValue(MeasurementSettingsFormControl.SensitivityCoefName(sensitivityCoef.Key),
-                sensitivityCoef.Value.ToString(CultureInfo.InvariantCulture));
+                sensitivityCoef.Value.ToString());
         }
     }
 

@@ -30,13 +30,16 @@ public class SettingsDialogViewModel : DialogBaseViewModel
     private bool _loading;
 
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
+    private readonly SystemDialogService _systemDialogService;
 
     public SettingsDialogViewModel(
         MeasurementSettingsFormService measurementSettingsFormService,
-        MeasurementSettingsFormViewModel measurementSettingsFormViewModel
+        MeasurementSettingsFormViewModel measurementSettingsFormViewModel,
+        SystemDialogService systemDialogService
     )
     {
         _measurementSettingsFormService = measurementSettingsFormService;
+        _systemDialogService = systemDialogService;
 
         Form = measurementSettingsFormViewModel;
 
@@ -49,6 +52,21 @@ public class SettingsDialogViewModel : DialogBaseViewModel
             {
                 CanClose = !formChanged;
                 FormChanged = formChanged;
+            });
+    }
+
+    public void UseConfirm(IDialogWindow<SettingsDialogViewModel> dialog)
+    {
+        _systemDialogService.UseConfirm(
+                dialog,
+                new ConfirmationDialogParam("Вы уверены, что не хотите применить изменения?")
+            )
+            .Subscribe(confirm =>
+            {
+                if (confirm)
+                {
+                    Cancel();
+                }
             });
     }
 

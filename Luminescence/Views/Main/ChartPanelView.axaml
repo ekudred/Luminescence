@@ -24,64 +24,47 @@
     </UserControl.Resources>
 
     <Panel Classes="ChartPanel">
-        <TabControl>
+        <TabControl Width="{Binding Width}" Height="{Binding Height}">
 
             <TabItem Header="Температура и люминесценция">
-                <StackPanel>
-                    <Grid RowDefinitions="*" ColumnDefinitions="*,*" HorizontalAlignment="Stretch">
+                <Grid RowDefinitions="*" ColumnDefinitions="*,*">
 
-                        <StackPanel Grid.Row="0" Grid.Column="0"
-                                    Width="{Binding HalfWidth}" Height="{Binding Height}"
-                                    x:Name="Chart0">
-                            <v:ChartView
-                                DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.TemperatureTime}}"
-                                Width="{Binding #Chart0.Bounds.Width}" Height="{Binding #Chart0.Bounds.Height}">
-                            </v:ChartView>
-                        </StackPanel>
+                    <v:ChartView
+                        Grid.Row="0" Grid.Column="0"
+                        DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.TemperatureTime}}">
+                    </v:ChartView>
 
-                        <StackPanel Grid.Row="0" Grid.Column="1"
-                                    Width="{Binding HalfWidth}" Height="{Binding Height}"
-                                    x:Name="Chart1">
-                            <v:ChartView
-                                DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTime}}"
-                                Width="{Binding #Chart1.Bounds.Width}" Height="{Binding #Chart1.Bounds.Height}">
-                            </v:ChartView>
-                        </StackPanel>
+                    <v:ChartView
+                        Grid.Row="0" Grid.Column="1"
+                        DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTime}}">
+                    </v:ChartView>
 
-                    </Grid>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
             <TabItem Header="ТЛ кривая">
-                <StackPanel>
-
-                    <StackPanel Width="{Binding FullWidth}" Height="{Binding Height}"
-                                x:Name="Chart2">
-                        <v:ChartView
-                            DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTemperature}}"
-                            Width="{Binding #Chart2.Bounds.Width}" Height="{Binding #Chart2.Bounds.Height}">
-                        </v:ChartView>
-                    </StackPanel>
-                </StackPanel>
+                <Grid RowDefinitions="*" ColumnDefinitions="*">
+                    <v:ChartView
+                        DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTemperature}}">
+                    </v:ChartView>
+                </Grid>
             </TabItem>
 
             <TabItem Header="ОСЛ">
-                <StackPanel Width="{Binding FullWidth}" Height="{Binding Height}"
-                            x:Name="Chart3">
+                <Grid RowDefinitions="*" ColumnDefinitions="*">
                     <v:ChartView
-                        DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityCurrent}}"
-                        Width="{Binding #Chart3.Bounds.Width}" Height="{Binding #Chart3.Bounds.Height}">
+                        DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityCurrent}}">
                     </v:ChartView>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
             <TabItem Header="Test">
-                <StackPanel Height="600">
+                <Grid RowDefinitions="*" ColumnDefinitions="*">
                     <TextBox Height="600"
                              IsReadOnly="True"
                              TextWrapping="Wrap"
                              Text="{Binding Test}" />
-                </StackPanel>
+                </Grid>
             </TabItem>
 
         </TabControl>

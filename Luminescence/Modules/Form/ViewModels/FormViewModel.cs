@@ -38,7 +38,6 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
         Controls
             .Select(control => control.Value.ValueChanges).Merge()
-            // .Where(_ => Initialized)
             .TakeUntil(destroyForm)
             .Subscribe(_ => { CheckChanges(); });
 
@@ -73,14 +72,14 @@ public class FormViewModel<TFormModel> : BaseViewModel
 
     public void Cancel()
     {
-        CancelModel();
-        FromModel(_model);
+        ResetModel();
+        FromModel(_initialModel);
         CheckChanges();
     }
 
     public void CheckChanges()
     {
-        _onChanges.OnNext(default!);
+        _onChanges.OnNext(default);
     }
 
     public FormControlBaseViewModel? GetControl(string controlName)
@@ -164,14 +163,14 @@ public class FormViewModel<TFormModel> : BaseViewModel
         ChangeModel(_model);
     }
 
+    public void ResetModel()
+    {
+        _model = (TFormModel)_initialModel.Clone();
+    }
+
     public void UpdateInitialModel()
     {
         ChangeModel(_initialModel);
-    }
-
-    public void CancelModel()
-    {
-        _model = (TFormModel)_initialModel.Clone();
     }
 
     public virtual void FromModel(TFormModel model)

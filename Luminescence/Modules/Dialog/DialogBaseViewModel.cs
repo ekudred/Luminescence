@@ -22,7 +22,7 @@ public class DialogBaseViewModel : BaseViewModel
     {
     }
 
-    protected void Close()
+    public void Close()
     {
         CloseRequested.Invoke(this, null!);
     }

@@ -47,7 +47,7 @@ public class SystemDialogService : DialogService
         });
     }
 
-    public void UseConfirm<TDialogViewModel>
+    public IObservable<bool> UseConfirm<TDialogViewModel>
     (
         IDialogWindow<TDialogViewModel> dialog,
         ConfirmationDialogParam? data = null,
@@ -55,26 +55,38 @@ public class SystemDialogService : DialogService
     )
         where TDialogViewModel : DialogBaseViewModel
     {
-        Subject<object> dialogClosed = new();
+        return Observable.Create((IObserver<bool> observer) =>
+        {
+            Subject<object> dialogClosed = new();
 
-        dialog.CanClose = trigger ?? dialog.CanClose;
+            dialog.ViewModel.CanClose = trigger ?? dialog.ViewModel.CanClose;
 
-        dialog.OnClose
-            .Where(_ => !dialog.CanClose)
-            .Select(_ => Confirm(data, dialog.CurrentWindow)).Switch()
-            .TakeUntil(dialogClosed)
-            .Subscribe(confirm =>
-            {
-                dialog.CanClose = confirm;
-
-                if (dialog.CanClose)
+            dialog.OnClose
+                .Where(_ => !dialog.ViewModel.CanClose)
+                .Select(_ => Confirm(data, dialog.CurrentWindow)).Switch()
+                .TakeUntil(dialogClosed)
+                .Subscribe(confirm =>
                 {
-                    dialog.Close();
+                    dialog.ViewModel.CanClose = confirm;
 
-                    dialogClosed.OnNext(null!);
-                    dialogClosed.OnCompleted();
-                    dialogClosed = null;
-                }
-            });
+                    if (dialog.ViewModel.CanClose)
+                    {
+                        dialog.Close();
+
+                        dialogClosed.OnNext(default!);
+                        dialogClosed.OnCompleted();
+                        dialogClosed = null;
+                    }
+
+                    observer.OnNext(confirm);
+
+                    if (dialogClosed == null)
+                    {
+                        observer.OnCompleted();
+                    }
+                });
+
+            return Disposable.Empty;
+        });
     }
 }

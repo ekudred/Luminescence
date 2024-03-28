@@ -1,6 +1,5 @@
 ﻿using System;
 using Luminescence.Services;
-using Luminescence.Views;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;

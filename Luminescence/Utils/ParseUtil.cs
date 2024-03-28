@@ -35,9 +35,4 @@ public static class ParseUtil
     {
         return Convert.ToDecimal(value);
     }
-
-    public static string? FromObject(this object value)
-    {
-        return Convert.ToString(value, CultureInfo.InvariantCulture);
-    }
 }

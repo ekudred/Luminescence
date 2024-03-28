@@ -15,16 +15,10 @@ namespace Luminescence.ViewModels;
 
 public class ChartPanelViewModel : BaseViewModel
 {
-    public double FullWidth
+    public double Width
     {
-        get => _fullWidth;
-        set => this.RaiseAndSetIfChanged(ref _fullWidth, value);
-    }
-
-    public double HalfWidth
-    {
-        get => _halfWidth;
-        set => this.RaiseAndSetIfChanged(ref _halfWidth, value);
+        get => _width;
+        set => this.RaiseAndSetIfChanged(ref _width, value);
     }
 
     public double Height
@@ -32,14 +26,14 @@ public class ChartPanelViewModel : BaseViewModel
         get => _height;
         set => this.RaiseAndSetIfChanged(ref _height, value);
     }
+
     public string Test
     {
         get => _test;
         set => this.RaiseAndSetIfChanged(ref _test, value);
     }
 
-    private double _fullWidth;
-    private double _halfWidth;
+    private double _width;
     private double _height;
     private string _test;
 
@@ -71,14 +65,8 @@ public class ChartPanelViewModel : BaseViewModel
     private void OnChangeChartSizes()
     {
         this.WhenAnyValue(viewModel => viewModel._mainWindowViewModel.Width)
-            .Subscribe(width =>
-                {
-                    FullWidth = width;
-                    HalfWidth = FullWidth / 2;
-                }
-            );
-
+            .Subscribe(width => { Width = width; });
         this.WhenAnyValue(viewModel => viewModel._mainWindowViewModel.Height)
-            .Subscribe(height => { Height = height - 228; });
+            .Subscribe(height => { Height = height - 32; });
     }
 }

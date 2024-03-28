@@ -31,6 +31,6 @@ public abstract class FormService<TFormViewModel, TFormModel>
 
     protected virtual IObservable<TFormModel?> Fill(TFormViewModel model)
     {
-        return Observable.Return<TFormModel?>(default);
+        return Observable.Return<TFormModel?>(null);
     }
 }

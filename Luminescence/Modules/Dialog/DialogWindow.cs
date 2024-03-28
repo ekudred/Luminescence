@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using Avalonia.Controls;
@@ -12,12 +11,6 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
     public TDialogViewModel ViewModel => (TDialogViewModel)DataContext!;
     public Window CurrentWindow => this;
     public Window ParentWindow { get; set; }
-
-    public bool CanClose
-    {
-        get => ViewModel.CanClose;
-        set => ViewModel.CanClose = value;
-    }
 
     public Subject<object> OnOpen { get; } = new();
     public Subject<object> OnClose { get; } = new();
@@ -40,7 +33,7 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
     {
         OnClose.OnNext(default!);
 
-        args.Cancel = !CanClose;
+        args.Cancel = !ViewModel.CanClose;
         base.OnClosing(args);
     }
 
@@ -57,13 +50,8 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
     public void Open()
     {
         ShowDialog(ParentWindow).ToObservable()
-            .Subscribe(_ => OnOpen.OnNext(null!));
+            .Subscribe(_ => OnOpen.OnNext(default!));
     }
-
-    // public new void Close()
-    // {
-    //     base.Close();
-    // }
 
     private void CloseRequested(object sender, object? canClose)
     {

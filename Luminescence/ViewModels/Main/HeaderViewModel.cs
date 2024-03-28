@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Luminescence.Dialog;
 using Luminescence.Services;
 using ReactiveUI;
@@ -55,13 +58,15 @@ public class HeaderViewModel : BaseViewModel
     private readonly FileService _fileService;
     private readonly ExpDeviceService _expDeviceService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
+    private readonly ExpChartsData _expChartsData;
 
     public HeaderViewModel(
         DialogService dialogService,
         SystemDialogService systemDialogService,
         FileService fileService,
         ExpDeviceService expDeviceService,
-        MeasurementSettingsFormService measurementSettingsFormService
+        MeasurementSettingsFormService measurementSettingsFormService,
+        ExpChartsData expChartsData
     )
     {
         _dialogService = dialogService;
@@ -69,6 +74,7 @@ public class HeaderViewModel : BaseViewModel
         _fileService = fileService;
         _expDeviceService = expDeviceService;
         _measurementSettingsFormService = measurementSettingsFormService;
+        _expChartsData = expChartsData;
 
         _expDeviceService.Connected
             .Subscribe(connected => { Connected = connected; });
@@ -101,12 +107,7 @@ public class HeaderViewModel : BaseViewModel
 
     private void OpenSettingsDialog()
     {
-        var dialog = _dialogService.Create<SettingsDialogViewModel>();
-
-        _systemDialogService.UseConfirm(dialog,
-            new ConfirmationDialogParam("Вы уверены, что не хотите применить изменения?"));
-
-        dialog.Open();
+        _dialogService.Create<SettingsDialogViewModel>().Open();
     }
 
     private void ToggleActive()
@@ -123,9 +124,31 @@ public class HeaderViewModel : BaseViewModel
         _expDeviceService.StopProcess();
     }
 
-    private void Save()
+    public void Save()
     {
-        _fileService.Save()
+        string result = "";
+        foreach (var item in _expChartsData.Data)
+        {
+            result += $"{item.Key}\n{string.Concat(item.Value.Select(value => $"{value[0]};{value[1]}\n").ToArray())}";
+        }
+
+        FileSaveOptions options = new()
+        {
+            Title = "Сохранения значений всех графиков",
+            FileName = "data",
+            FileTypeChoices = new[]
+            {
+                new FilePickerFileType("HTL")
+                {
+                    Patterns = new[] { "*.htl" },
+                    AppleUniformTypeIdentifiers = new[] { "public.htl" },
+                    MimeTypes = new[] { "text/htl" }
+                }
+            },
+            DefaultExtension = "htl",
+            StartLocationDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+        };
+        _fileService.Save(result, options)
             .Subscribe();
     }
 

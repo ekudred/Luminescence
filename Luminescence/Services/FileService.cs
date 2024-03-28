@@ -10,26 +10,54 @@ namespace Luminescence.Services;
 
 public class FileService
 {
-    public IObservable<bool> Save(Visual? visual = null)
+    private readonly MainWindowProvider _mainWindowProvider;
+
+    public FileService(MainWindowProvider mainWindowProvider)
+    {
+        _mainWindowProvider = mainWindowProvider;
+    }
+
+    public IObservable<bool> Save(string data, FileSaveOptions options, Visual? visual = null)
     {
         return Observable.Create(async (IObserver<bool> observer) =>
         {
+            visual ??= _mainWindowProvider.GetMainWindow();
+
             var topLevel = TopLevel.GetTopLevel(visual);
 
-            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-            {
-                Title = "Save Text File"
-            });
+            IStorageFolder suggestedStartLocation =
+                await topLevel.StorageProvider.TryGetFolderFromPathAsync(options.StartLocationDirectory);
 
-            if (file is not null)
+            FilePickerSaveOptions saveOptions = new()
             {
-                await using var stream = await file.OpenWriteAsync();
-                using var streamWriter = new StreamWriter(stream);
-                await streamWriter.WriteLineAsync("Hello World!");
+                Title = options.Title,
+                SuggestedFileName = options.FileName,
+                FileTypeChoices = options.FileTypeChoices,
+                DefaultExtension = options.DefaultExtension,
+                SuggestedStartLocation = suggestedStartLocation
+            };
+
+            try
+            {
+                var file = await topLevel.StorageProvider.SaveFilePickerAsync(saveOptions);
+
+                if (file is not null)
+                {
+                    await using var stream = await file.OpenWriteAsync();
+                    using var streamWriter = new StreamWriter(stream);
+                    await streamWriter.WriteLineAsync(data);
+                }
+
+                observer.OnNext(true);
+                observer.OnCompleted();
             }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
 
-            observer.OnNext(true);
-            observer.OnCompleted();
+                observer.OnError(exception);
+                observer.OnCompleted();
+            }
 
             return Disposable.Empty;
         });

@@ -9,7 +9,6 @@ public interface IDialogWindow<TDialogViewModel>
     public TDialogViewModel ViewModel { get; }
     public Window CurrentWindow { get; }
     public Window ParentWindow { get; set; }
-    public bool CanClose { get; set; }
 
     public Subject<object> OnOpen { get; }
     public Subject<object> OnClose { get; }
