@@ -29,8 +29,7 @@
             AutoUpdateEnabled="True"
             AnimationsSpeed="00:00:00.100"
             EasingFunction="{x:Null}"
-            ZoomMode="X"
-
+            ZoomMode="Both"
             UpdateStartedCommand="{Binding ChartUpdatedCommand}">
         </lvc:CartesianChart>
 

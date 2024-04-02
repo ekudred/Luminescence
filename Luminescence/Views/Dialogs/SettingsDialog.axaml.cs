@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Input;
 using Luminescence.Dialog;
 using Luminescence.ViewModels;

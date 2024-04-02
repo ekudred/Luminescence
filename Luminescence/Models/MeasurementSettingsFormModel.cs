@@ -102,6 +102,9 @@ public class MeasurementSettingsFormModel : FormBaseModel
     /** Коэффициенты чувствительности Coefs */
     public Dictionary<int, double> SensitivityCoefs;
 
+    /** Очищение графиков перед измерением */
+    public bool Clear;
+
     public override bool Equals(FormBaseModel? obj)
     {
         if (obj == null)

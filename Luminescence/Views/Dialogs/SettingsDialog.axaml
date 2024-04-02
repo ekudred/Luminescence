@@ -177,13 +177,16 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- <StackPanel Orientation="Vertical"> -->
-                        <!--     <StackPanel Orientation="Vertical"> -->
-                        <!--         <v:CheckboxControlView -->
-                        <!--            -->
-                        <!--             DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter='ClearCharts'}" /> -->
-                        <!--     </StackPanel> -->
-                        <!-- </StackPanel> -->
+                        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0">
+                            <StackPanel Margin="16 12" Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Classes="Item">
+                                        <v:CheckboxControl
+                                            DataContext="{Binding Form.Controls, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:MeasurementSettingsFormControl.Clear}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
 
                     </StackPanel>
                 </TabItem>
@@ -231,10 +234,6 @@
             <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0.5 0 0"
                     Grid.Row="1" Grid.Column="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="12 0">
-                    <!-- <Button Content="Отменить" Margin="0 0 6 0" -->
-                    <!--         Command="{Binding CancelCommand}" /> -->
-                    <!-- <Button Content="Применить" -->
-                    <!--         Command="{Binding ApplyCommand}" /> -->
                     <Button Content="Отменить" Margin="0 0 6 0" IsEnabled="{Binding FormChanged}"
                             Command="{Binding CancelCommand}" />
                     <Button Content="Применить" IsEnabled="{Binding FormChanged}"

@@ -24,7 +24,7 @@
 
             <StackPanel Classes="Menu" DockPanel.Dock="Left" Orientation="Horizontal">
                 <Menu>
-                    <MenuItem IsEnabled="True">
+                    <MenuItem>
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
@@ -34,11 +34,16 @@
                             </StackPanel>
                         </MenuItem.Header>
 
-                        <MenuItem Header="Новый" />
-                        <MenuItem Header="Открыть" />
+                        <MenuItem Header="Новый" IsEnabled="False" />
+                        <MenuItem Header="Открыть"
+                                  IsEnabled="{Binding OpenEnabled}"
+                                  HotKey="Ctrl+V"
+                                  Command="{Binding OpenCommand}" />
                         <Separator />
-                        <!-- <MenuItem Header="Сохранить" IsEnabled="{Binding Connected}" /> -->
-                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}" />
+                        <MenuItem Header="Сохранить"
+                                  IsEnabled="{Binding SaveEnabled}"
+                                  HotKey="Ctrl+S"
+                                  Command="{Binding SaveCommand}" />
                     </MenuItem>
                     <MenuItem Command="{Binding OpenSettingsDialogCommand}" HotKey="Ctrl+Alt+S">
                         <MenuItem.Header>

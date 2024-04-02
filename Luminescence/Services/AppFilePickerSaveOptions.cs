@@ -2,7 +2,7 @@
 
 namespace Luminescence.Services;
 
-public interface IFilePickerSaveOptions
+public class AppFilePickerSaveOptions
 {
     public string Title { get; set; }
     public string? FileName { get; set; }

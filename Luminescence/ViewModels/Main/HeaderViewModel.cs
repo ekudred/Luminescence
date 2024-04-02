@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using Avalonia.Platform.Storage;
 using Luminescence.Dialog;
 using Luminescence.Services;
 using ReactiveUI;
@@ -13,6 +12,7 @@ public class HeaderViewModel : BaseViewModel
 {
     public ICommand OpenSettingsDialogCommand { get; }
     public ICommand ToggleActiveCommand { get; }
+    public ICommand OpenCommand { get; }
     public ICommand SaveCommand { get; }
 
     public bool PlayEnabled
@@ -27,10 +27,16 @@ public class HeaderViewModel : BaseViewModel
         set => this.RaiseAndSetIfChanged(ref _stopEnabled, value);
     }
 
-    public string ConnectionStatus
+    public bool OpenEnabled
     {
-        get => _connectionStatus;
-        set => this.RaiseAndSetIfChanged(ref _connectionStatus, value);
+        get => _openEnabled;
+        set => this.RaiseAndSetIfChanged(ref _openEnabled, value);
+    }
+
+    public bool SaveEnabled
+    {
+        get => _saveEnabled;
+        set => this.RaiseAndSetIfChanged(ref _saveEnabled, value);
     }
 
     public bool Connected
@@ -47,44 +53,38 @@ public class HeaderViewModel : BaseViewModel
 
     private bool _playEnabled;
     private bool _stopEnabled;
-    private string _connectionStatus;
+    private bool _openEnabled;
+    private bool _saveEnabled;
     private bool _connected;
     private bool _inProcess;
 
     private readonly DialogService _dialogService;
-    private readonly SystemDialogService _systemDialogService;
-    private readonly FilePickerService _filePickerService;
     private readonly ExpDeviceService _expDeviceService;
+    private readonly ExpChartService _expChartService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
-    private readonly ExpChartsData _expChartsData;
 
     public HeaderViewModel(
         DialogService dialogService,
-        SystemDialogService systemDialogService,
-        FilePickerService filePickerService,
         ExpDeviceService expDeviceService,
-        MeasurementSettingsFormService measurementSettingsFormService,
-        ExpChartsData expChartsData
+        ExpChartService expChartService,
+        MeasurementSettingsFormService measurementSettingsFormService
     )
     {
         _dialogService = dialogService;
-        _systemDialogService = systemDialogService;
-        _filePickerService = filePickerService;
         _expDeviceService = expDeviceService;
+        _expChartService = expChartService;
         _measurementSettingsFormService = measurementSettingsFormService;
-        _expChartsData = expChartsData;
 
         _expDeviceService.Connected
             .Subscribe(connected => { Connected = connected; });
         _expDeviceService.InProcess
-            .Subscribe(inProcess => { InProcess = inProcess; });
+            .Subscribe(inProcess =>
+            {
+                InProcess = inProcess;
 
-        // Observable.Zip(_expDeviceService.InProcess, _expDeviceService.Connected)
-        //     .Subscribe(result =>
-        //     {
-        //         Connected = result[1];
-        //         InProcess = result[0];
-        //     });
+                OpenEnabled = !InProcess;
+                SaveEnabled = !InProcess && _expChartService.Data.Count > 0;
+            });
 
         this.WhenAnyValue(x => x.Connected, x => x.InProcess)
             .Subscribe(result =>
@@ -95,17 +95,13 @@ public class HeaderViewModel : BaseViewModel
                 StopEnabled = connected && inProcess;
 
                 Connected = connected;
-                ConnectionStatus = GetUsbConnectionStatus(Connected);
             });
 
-        OpenSettingsDialogCommand = ReactiveCommand.Create(OpenSettingsDialog);
+        OpenSettingsDialogCommand =
+            ReactiveCommand.Create<Unit>(_ => _dialogService.Create<SettingsDialogViewModel>().Open());
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
-        SaveCommand = ReactiveCommand.Create(Save);
-    }
-
-    private void OpenSettingsDialog()
-    {
-        _dialogService.Create<SettingsDialogViewModel>().Open();
+        OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
+        SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());
     }
 
     private void ToggleActive()
@@ -121,35 +117,4 @@ public class HeaderViewModel : BaseViewModel
 
         _expDeviceService.StopProcess();
     }
-
-    public void Save()
-    {
-        string result = "";
-        foreach (var item in _expChartsData.Data)
-        {
-            result += $"{item.Key}\n{string.Concat(item.Value.Select(value => $"{value[0]};{value[1]}\n").ToArray())}";
-        }
-
-        dynamic options = new
-        {
-            Title = "Сохранения значений всех графиков",
-            FileName = "data",
-            FileTypeChoices = new[]
-            {
-                new FilePickerFileType("HTL")
-                {
-                    Patterns = new[] { "*.htl" },
-                    AppleUniformTypeIdentifiers = new[] { "public.htl" },
-                    MimeTypes = new[] { "text/htl" }
-                }
-            },
-            DefaultExtension = "htl",
-            StartLocationDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
-        };
-        _filePickerService.Save(result, (IFilePickerSaveOptions)options)
-            .Subscribe();
-    }
-
-    private string GetUsbConnectionStatus(bool connected) =>
-        connected ? "Устройство подключено" : "Устройство не подключено";
 }

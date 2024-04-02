@@ -93,14 +93,12 @@ public class ChartViewModel : BaseViewModel
         xAxis.Name = xAxisOptions.Name;
         xAxis.MinLimit = xAxisOptions.MinLimit;
         xAxis.MaxLimit = xAxisOptions.MaxLimit;
-        xAxis.MinStep = xAxisOptions.MinStep;
         xAxis.MinZoomDelta = xAxis.MinStep;
 
         var yAxis = YAxes[0];
         yAxis.Name = yAxisOptions.Name;
         yAxis.MinLimit = yAxisOptions.MinLimit;
         yAxis.MaxLimit = yAxisOptions.MaxLimit;
-        yAxis.MinStep = yAxisOptions.MinStep;
         yAxis.MinZoomDelta = yAxis.MinStep;
 
         ChartUpdatedCommand = ReactiveCommand.Create<ChartCommandArgs>(ChartUpdated);
@@ -169,12 +167,34 @@ public class ChartViewModel : BaseViewModel
         });
     }
 
+    public void Clear()
+    {
+        Series.ForEach(s => ((ObservableCollection<ObservablePoint>)s.Values!).Clear());
+        ScrollbarSeries.ForEach(s => ((ObservableCollection<ObservablePoint>)s.Values!).Clear());
+    }
+
     private void ChartUpdated(ChartCommandArgs args)
     {
         RectangularSection thumb = Thumbs[0];
         ICartesianAxis xAxis = ((ICartesianChartView<SkiaSharpDrawingContext>)args.Chart).XAxes.First();
+        ICartesianAxis yAxis = ((ICartesianChartView<SkiaSharpDrawingContext>)args.Chart).YAxes.First();
+
         thumb.Xi = xAxis.MinLimit;
         thumb.Xj = xAxis.MaxLimit;
+        thumb.Yi = yAxis.MinLimit;
+        thumb.Yj = yAxis.MaxLimit;
+
+        if (xAxis.MaxLimit != null && xAxis.MinLimit != null)
+        {
+            var xRange = (double)(xAxis.MaxLimit - xAxis.MinLimit);
+            xAxis.MinStep = xRange / 10;
+        }
+
+        if (yAxis.MaxLimit != null && yAxis.MinLimit != null)
+        {
+            var yRange = (double)(yAxis.MaxLimit - yAxis.MinLimit);
+            yAxis.MinStep = yRange / 10;
+        }
     }
 
     private void PointerDown(PointerCommandArgs args)
@@ -193,14 +213,20 @@ public class ChartViewModel : BaseViewModel
         var positionInData = chart.ScalePixelsToData(args.PointerPosition);
 
         RectangularSection thumb = Thumbs[0];
-        double? currentRange = thumb.Xj - thumb.Xi;
+        double? currentXRange = thumb.Xj - thumb.Xi;
+        double? currentYRange = thumb.Yj - thumb.Yi;
 
-        thumb.Xi = positionInData.X - currentRange / 2;
-        thumb.Xj = positionInData.X + currentRange / 2;
+        thumb.Xi = positionInData.X - currentXRange / 2;
+        thumb.Xj = positionInData.X + currentXRange / 2;
+        thumb.Yi = positionInData.Y - currentYRange / 2;
+        thumb.Yj = positionInData.Y + currentYRange / 2;
 
         Axis xAxis = XAxes[0];
         xAxis.MinLimit = thumb.Xi;
         xAxis.MaxLimit = thumb.Xj;
+        Axis yAxis = YAxes[0];
+        yAxis.MinLimit = thumb.Yi;
+        yAxis.MaxLimit = thumb.Yj;
     }
 
     private void PointerUp(PointerCommandArgs args)

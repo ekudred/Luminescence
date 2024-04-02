@@ -12,14 +12,13 @@ public static class Bootstrapper
         RegisterServices(services, resolver);
         RegisterViewModels(services, resolver);
         RegisterDialogViewModels(services, resolver);
-        RegisterValues(services, resolver);
     }
 
     private static void RegisterServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new MainWindowProvider());
         services.RegisterLazySingleton(() => new StorageService());
-        services.RegisterLazySingleton(() => new FilePickerService(
+        services.RegisterLazySingleton(() => new AppFilePickerService(
             resolver.GetService<MainWindowProvider>()
         ));
         services.RegisterLazySingleton(() => new HidService());
@@ -39,8 +38,8 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new ExpChartService(
             resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<StorageService>(),
-            resolver.GetService<ExpChartsData>()
+            resolver.GetService<MeasurementSettingsFormViewModel>(),
+            resolver.GetService<AppFilePickerService>()
         ));
     }
 
@@ -59,11 +58,9 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),
-            resolver.GetService<SystemDialogService>(),
-            resolver.GetService<FilePickerService>(),
             resolver.GetService<ExpDeviceService>(),
-            resolver.GetService<MeasurementSettingsFormService>(),
-            resolver.GetService<ExpChartsData>()
+            resolver.GetService<ExpChartService>(),
+            resolver.GetService<MeasurementSettingsFormService>()
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormViewModel());
     }
@@ -78,10 +75,5 @@ public static class Bootstrapper
             resolver.GetService<MeasurementSettingsFormViewModel>(),
             resolver.GetService<SystemDialogService>()
         ));
-    }
-
-    private static void RegisterValues(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
-    {
-        services.RegisterLazySingleton(() => new ExpChartsData());
     }
 }

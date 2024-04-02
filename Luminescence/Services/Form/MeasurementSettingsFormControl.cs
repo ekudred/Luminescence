@@ -33,4 +33,5 @@ public static class MeasurementSettingsFormControl
     public const string SensitivityCoef = "SensitivityCoef";
     public static string SensitivityCoefName(int i) => $"{SensitivityCoef}{i}";
     public static int SensitivityCoefKey(string coef) => coef.Replace(SensitivityCoef, string.Empty).ToInt();
+    public const string Clear = "Clear";
 }

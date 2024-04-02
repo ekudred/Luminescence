@@ -24,8 +24,10 @@ public class HidDeviceService
 
     private readonly IHidDeviceOptions _options;
 
-    public bool TestActive = true;
-    private readonly bool IsTest = true;
+    // test
+    public bool TestActive = false;
+    public readonly bool IsTest = true;
+    // end test
 
     protected HidDeviceService(
         IHidDeviceOptions options,
@@ -38,19 +40,19 @@ public class HidDeviceService
 
     public void RunAvailableDeviceCheck()
     {
-        if (_checkOn != null)
-        {
-            return;
-        }
-
-        _checkOn = new();
-
         if (IsTest)
         {
             Connect();
 
             return;
         }
+        // end test
+        if (_checkOn != null)
+        {
+            return;
+        }
+
+        _checkOn = new();
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.CheckInterval))
@@ -99,15 +101,15 @@ public class HidDeviceService
 
     private void ConnectDevice()
     {
-        if (_opened)
-        {
-            return;
-        }
-
         if (IsTest)
         {
             Connected.OnNext(true);
 
+            return;
+        }
+        // end test
+        if (_opened)
+        {
             return;
         }
 
@@ -124,12 +126,13 @@ public class HidDeviceService
 
     private void DisconnectDevice()
     {
-        if (!_opened)
+        if (IsTest)
         {
             return;
         }
+        // end test
 
-        if (IsTest)
+        if (!_opened)
         {
             return;
         }
@@ -143,17 +146,17 @@ public class HidDeviceService
 
     private void StartListenDevice()
     {
-        if (!_opened || _listenDeviceOn != null)
-        {
-            return;
-        }
-
-        _listenDeviceOn = new();
-
         if (IsTest)
         {
+            if (_listenDeviceOn != null)
+            {
+                return;
+            }
+
+            _listenDeviceOn = new();
+
             Random random = new Random();
-            double counter = 0.5;
+            double counter = 0;
 
             Observable
                 .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))
@@ -161,9 +164,9 @@ public class HidDeviceService
                 .TakeUntil(_listenDeviceOn)
                 .Subscribe(_ =>
                 {
-                    var temperature = random.NextDouble() * 1000;
-                    var intensity = random.NextDouble() * 500;
-                    var LEDCurrent = random.NextDouble() * 0.5;
+                    var temperature = Math.Truncate(random.NextSingle() * 1000);
+                    var intensity = Math.Truncate(random.NextDouble() * 500);
+                    var LEDCurrent = Math.Truncate(random.NextDouble());
 
                     var structure = new ExpReadDto();
                     structure.Counter += UInt32.Parse(counter.ToString());
@@ -173,11 +176,19 @@ public class HidDeviceService
 
                     ReadData.OnNext(StructUtil.StructToBytes(structure));
 
-                    counter += 0.5;
+                    counter += 1;
                 });
 
             return;
         }
+        // end test
+
+        if (!_opened || _listenDeviceOn != null)
+        {
+            return;
+        }
+
+        _listenDeviceOn = new();
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))

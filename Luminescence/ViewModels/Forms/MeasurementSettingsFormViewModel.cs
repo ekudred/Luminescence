@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Luminescence.Form.ViewModels;
 using Luminescence.Models;
@@ -17,10 +16,10 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
     private List<FormControlBaseViewModel> _sensitivityCoefControls = new();
 
     private readonly double _darkCurrentCodesStartValue = 0.5;
-    private readonly double _darkCurrentCodesIncrementValue = Math.Abs(0.05);
+    private readonly double _darkCurrentCodesIncrementValue = 0.05;
     private readonly int _darkCurrentCodesCount = 13;
     private readonly double _sensitivityCoefsStartValue = 0.5;
-    private readonly double _sensitivityCoefsIncrementValue = Math.Abs(0.05);
+    private readonly double _sensitivityCoefsIncrementValue = 0.05;
     private readonly int _sensitivityCoefsCount = 13;
 
     public override void FromModel(MeasurementSettingsFormModel model)
@@ -57,6 +56,8 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             SetControlValue(MeasurementSettingsFormControl.SensitivityCoefName(sensitivityCoef.Key),
                 sensitivityCoef.Value.ToString());
         }
+
+        SetControlValue(MeasurementSettingsFormControl.Clear, model.Clear);
     }
 
     protected override void ChangeModel(MeasurementSettingsFormModel model)
@@ -107,6 +108,7 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             var value = ((string)control.Value).ToDouble() ?? 0;
             model.SensitivityCoefs.Add(key, value);
         });
+        model.Clear = GetControlValue<bool>(MeasurementSettingsFormControl.Clear);
     }
 
     protected override List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
@@ -182,6 +184,9 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
                 "0",
                 new() { Label = $"{_sensitivityCoefsStartValue + _sensitivityCoefsIncrementValue * i}" }));
         }
+
+        list.Add(new CheckboxControlViewModel(MeasurementSettingsFormControl.Clear, true,
+            new() { Label = "Очищение графиков перед измерением" }));
 
         return list
             .Concat(_darkCurrentCodeControls)

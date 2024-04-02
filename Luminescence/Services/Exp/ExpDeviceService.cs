@@ -39,9 +39,24 @@ public class ExpDeviceService : HidDeviceService
 
     public void RunProcess(ExpWriteDto dto)
     {
-        var dt2o = new ExpWriteDto();
+        if (IsTest)
+        {
+            _readDataOn = new();
 
-        HidService.Write(DeviceHandle, dt2o.GetRunDto().ToBytes())
+            InProcess.OnNext(true);
+            TestActive = true;
+
+            ReadData
+                .Where(data => data.Length != 0)
+                .Select(ExpReadDto.FromBytes)
+                .TakeUntil(_readDataOn)
+                .Subscribe(dto => { CurrentData.OnNext(dto); });
+
+            return;
+        }
+        // end test
+
+        HidService.Write(DeviceHandle, dto.GetRunDto().ToBytes())
             .Subscribe(
                 _ =>
                 {
@@ -70,6 +85,18 @@ public class ExpDeviceService : HidDeviceService
 
     public void StopProcess()
     {
+        if (IsTest)
+        {
+            _readDataOn.OnNext(true);
+            _readDataOn = null;
+
+            InProcess.OnNext(false);
+            TestActive = false;
+
+            return;
+        }
+        // end test
+
         HidService.Write(DeviceHandle, ExpWriteDto.StopDto.ToBytes())
             .Subscribe(
                 _ =>
