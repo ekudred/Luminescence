@@ -24,6 +24,7 @@ public class HidDeviceService
 
     private readonly IHidDeviceOptions _options;
 
+    public bool TestActive = true;
     private readonly bool IsTest = true;
 
     protected HidDeviceService(
@@ -156,23 +157,26 @@ public class HidDeviceService
 
             Observable
                 .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))
+                .Where(_ => TestActive)
                 .TakeUntil(_listenDeviceOn)
                 .Subscribe(_ =>
                 {
                     var temperature = random.NextDouble() * 1000;
-                    var intesity = random.NextDouble() * 500;
+                    var intensity = random.NextDouble() * 500;
                     var LEDCurrent = random.NextDouble() * 0.5;
 
                     var structure = new ExpReadDto();
                     structure.Counter += UInt32.Parse(counter.ToString());
                     structure.Temperature = float.Parse(temperature.ToString());
-                    structure.Intensity = UInt32.Parse(intesity.ToString());
+                    structure.Intensity = UInt32.Parse(intensity.ToString());
                     structure.LEDCurrent = UInt32.Parse(LEDCurrent.ToString());
 
                     ReadData.OnNext(StructUtil.StructToBytes(structure));
 
                     counter += 0.5;
                 });
+
+            return;
         }
 
         Observable
