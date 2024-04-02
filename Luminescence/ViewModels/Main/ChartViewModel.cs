@@ -31,8 +31,7 @@ public class ChartViewModel : BaseViewModel
             NameTextSize = 14,
             NamePaint = new SolidColorPaint(SKColor.Parse("#333333")),
             LabelsPaint = new SolidColorPaint(SKColor.Parse("#333333")),
-            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1),
-            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1)
         }
     };
 
@@ -44,8 +43,7 @@ public class ChartViewModel : BaseViewModel
             NameTextSize = 14,
             NamePaint = new SolidColorPaint(SKColor.Parse("#333333")),
             LabelsPaint = new SolidColorPaint(SKColor.Parse("#333333")),
-            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1),
-            MinZoomDelta = TimeSpan.FromMilliseconds(1).Ticks
+            SeparatorsPaint = new SolidColorPaint(SKColor.Parse("#d0d0d9"), 1)
         }
     };
 
@@ -75,7 +73,7 @@ public class ChartViewModel : BaseViewModel
     {
         new()
         {
-            Fill = new SolidColorPaint(new SKColor(255, 205, 210, 100))
+            Fill = new SolidColorPaint(SKColor.Parse("#d0d0d9"))
         }
     };
 
@@ -89,11 +87,21 @@ public class ChartViewModel : BaseViewModel
     private readonly int _visiblePoints;
     private bool _isDown;
 
-    public ChartViewModel(string xAxisName, string yAxisName, int visibledPoints = 100)
+    public ChartViewModel(ChartAxisOptions xAxisOptions, ChartAxisOptions yAxisOptions)
     {
-        XAxes[0].Name = xAxisName;
-        YAxes[0].Name = yAxisName;
-        _visiblePoints = visibledPoints;
+        var xAxis = XAxes[0];
+        xAxis.Name = xAxisOptions.Name;
+        xAxis.MinLimit = xAxisOptions.MinLimit;
+        xAxis.MaxLimit = xAxisOptions.MaxLimit;
+        xAxis.MinStep = xAxisOptions.MinStep;
+        xAxis.MinZoomDelta = xAxis.MinStep;
+
+        var yAxis = YAxes[0];
+        yAxis.Name = yAxisOptions.Name;
+        yAxis.MinLimit = yAxisOptions.MinLimit;
+        yAxis.MaxLimit = yAxisOptions.MaxLimit;
+        yAxis.MinStep = yAxisOptions.MinStep;
+        yAxis.MinZoomDelta = yAxis.MinStep;
 
         ChartUpdatedCommand = ReactiveCommand.Create<ChartCommandArgs>(ChartUpdated);
         PointerDownCommand = ReactiveCommand.Create<PointerCommandArgs>(PointerDown);
@@ -133,13 +141,13 @@ public class ChartViewModel : BaseViewModel
         }
     }
 
-    public void AddSeries(string seriesName)
+    public void AddSeries(ChartSeriesOptions seriesOptions)
     {
         Series.Add(new LineSeries<ObservablePoint>
         {
-            Name = seriesName,
+            Name = seriesOptions.Name,
             Values = new ObservableCollection<ObservablePoint>(),
-            Stroke = new SolidColorPaint(SKColors.Chocolate, 1),
+            Stroke = new SolidColorPaint(seriesOptions.Color, 1),
             Fill = null,
             GeometrySize = 1,
             LineSmoothness = 0.5,
@@ -149,9 +157,9 @@ public class ChartViewModel : BaseViewModel
         });
         ScrollbarSeries.Add(new LineSeries<ObservablePoint>
         {
-            Name = seriesName,
+            Name = seriesOptions.Name,
             Values = new ObservableCollection<ObservablePoint>(),
-            Stroke = new SolidColorPaint(SKColors.Chocolate, 1),
+            Stroke = new SolidColorPaint(seriesOptions.Color, 1),
             Fill = null,
             GeometrySize = 1,
             LineSmoothness = 0.5,

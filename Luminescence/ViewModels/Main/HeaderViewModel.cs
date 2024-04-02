@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Luminescence.Dialog;
 using Luminescence.Services;
@@ -55,7 +53,7 @@ public class HeaderViewModel : BaseViewModel
 
     private readonly DialogService _dialogService;
     private readonly SystemDialogService _systemDialogService;
-    private readonly FileService _fileService;
+    private readonly FilePickerService _filePickerService;
     private readonly ExpDeviceService _expDeviceService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
     private readonly ExpChartsData _expChartsData;
@@ -63,7 +61,7 @@ public class HeaderViewModel : BaseViewModel
     public HeaderViewModel(
         DialogService dialogService,
         SystemDialogService systemDialogService,
-        FileService fileService,
+        FilePickerService filePickerService,
         ExpDeviceService expDeviceService,
         MeasurementSettingsFormService measurementSettingsFormService,
         ExpChartsData expChartsData
@@ -71,7 +69,7 @@ public class HeaderViewModel : BaseViewModel
     {
         _dialogService = dialogService;
         _systemDialogService = systemDialogService;
-        _fileService = fileService;
+        _filePickerService = filePickerService;
         _expDeviceService = expDeviceService;
         _measurementSettingsFormService = measurementSettingsFormService;
         _expChartsData = expChartsData;
@@ -132,7 +130,7 @@ public class HeaderViewModel : BaseViewModel
             result += $"{item.Key}\n{string.Concat(item.Value.Select(value => $"{value[0]};{value[1]}\n").ToArray())}";
         }
 
-        FileSaveOptions options = new()
+        dynamic options = new
         {
             Title = "Сохранения значений всех графиков",
             FileName = "data",
@@ -148,7 +146,7 @@ public class HeaderViewModel : BaseViewModel
             DefaultExtension = "htl",
             StartLocationDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
         };
-        _fileService.Save(result, options)
+        _filePickerService.Save(result, (IFilePickerSaveOptions)options)
             .Subscribe();
     }
 

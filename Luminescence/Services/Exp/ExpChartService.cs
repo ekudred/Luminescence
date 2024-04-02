@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.Kernel;
 using Luminescence.ViewModels;
 
 namespace Luminescence.Services;
@@ -9,20 +10,15 @@ public class ExpChartService
 {
     public Dictionary<string, ChartViewModel> ChartViewModels = new();
 
-    private readonly string _storageName = "Charts";
-
     private readonly ExpDeviceService _expDeviceService;
-    private readonly StorageService _storageService;
     private readonly ExpChartsData _expChartsData;
 
     public ExpChartService(
         ExpDeviceService expDeviceService,
-        StorageService storageService,
         ExpChartsData expChartsData
     )
     {
         _expDeviceService = expDeviceService;
-        _storageService = storageService;
         _expChartsData = expChartsData;
     }
 
@@ -34,20 +30,20 @@ public class ExpChartService
 
     private void SetCharts()
     {
-        ChartViewModel chartTemperatureTime = new("Время, сек", "Температура, °C");
-        chartTemperatureTime.AddSeries("0");
+        ChartViewModel chartTemperatureTime = new(new("Время, сек"), new("Температура, °C"));
+        chartTemperatureTime.AddSeries(new("0"));
         ChartViewModels.Add(ExpChart.TemperatureTime, chartTemperatureTime);
 
-        ChartViewModel chartIntensityTime = new("Время, сек", "Интенсивность");
-        chartIntensityTime.AddSeries("0");
+        ChartViewModel chartIntensityTime = new(new("Время, сек"), new("Интенсивность"));
+        chartIntensityTime.AddSeries(new("0"));
         ChartViewModels.Add(ExpChart.IntensityTime, chartIntensityTime);
 
-        ChartViewModel chartIntensityTemperature = new("Температура, °C", "Интенсивность");
-        chartIntensityTemperature.AddSeries("0");
+        ChartViewModel chartIntensityTemperature = new(new("Температура, °C"), new("Интенсивность"));
+        chartIntensityTemperature.AddSeries(new("0"));
         ChartViewModels.Add(ExpChart.IntensityTemperature, chartIntensityTemperature);
 
-        ChartViewModel chartIntensityCurrent = new("Ток светодиода, мА", "Интенсивность");
-        chartIntensityCurrent.AddSeries("0");
+        ChartViewModel chartIntensityCurrent = new(new("Ток светодиода, мА"), new("Интенсивность"));
+        chartIntensityCurrent.AddSeries(new("0"));
         ChartViewModels.Add(ExpChart.IntensityCurrent, chartIntensityCurrent);
     }
 
@@ -56,10 +52,10 @@ public class ExpChartService
         _expDeviceService.CurrentData
             .Subscribe(data =>
             {
-                AddPoint(ExpChart.TemperatureTime, "0", data.Counter, data.OpTemperature);
-                AddPoint(ExpChart.IntensityTime, "0", data.Counter, data.Intensity);
-                AddPoint(ExpChart.IntensityTemperature, "0", data.Intensity, data.Temperature);
-                AddPoint(ExpChart.IntensityCurrent, "0", data.Intensity, data.LEDCurrent);
+                AddPoint(ExpChart.TemperatureTime, "0", new ObservablePoint(data.Counter, data.OpTemperature));
+                AddPoint(ExpChart.IntensityTime, "0", new ObservablePoint(data.Counter, data.Intensity));
+                AddPoint(ExpChart.IntensityTemperature, "0", new ObservablePoint(data.Intensity, data.Temperature));
+                AddPoint(ExpChart.IntensityCurrent, "0", new ObservablePoint(data.Intensity, data.LEDCurrent));
             });
 
         // Random random = new Random();
@@ -77,7 +73,7 @@ public class ExpChartService
         //     });
     }
 
-    private void AddPoint(string chartName, string seriesName, double xValue, double yValue)
+    private void AddPoint(string chartName, string seriesName, IChartEntity chartEntity)
     {
         ChartViewModels.TryGetValue(chartName, out ChartViewModel chart);
 
@@ -86,12 +82,13 @@ public class ExpChartService
             throw new Exception($"Chart \"{chartName}\" not found");
         }
 
-        chart.AddPoint(seriesName, xValue, yValue);
+        double[] point = { chartEntity.Coordinate.PrimaryValue, chartEntity.Coordinate.SecondaryValue };
+
+        chart.AddPoint(seriesName, point[0], point[1]);
 
         string key = $"{chartName}/{seriesName}";
-        string[] point = { xValue.ToString(), yValue.ToString() };
 
-        _expChartsData.Data.TryGetValue(key, out List<string[]>? value);
+        _expChartsData.Data.TryGetValue(key, out List<double[]>? value);
 
         if (value == null)
         {
