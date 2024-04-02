@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Luminescence.Usb;
+using Luminescence.Utils;
 
 namespace Luminescence.Services;
 
@@ -23,6 +24,8 @@ public class HidDeviceService
 
     private readonly IHidDeviceOptions _options;
 
+    private readonly bool IsTest = true;
+
     protected HidDeviceService(
         IHidDeviceOptions options,
         HidService hidService
@@ -40,6 +43,13 @@ public class HidDeviceService
         }
 
         _checkOn = new();
+
+        if (IsTest)
+        {
+            Connect();
+
+            return;
+        }
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.CheckInterval))
@@ -93,6 +103,13 @@ public class HidDeviceService
             return;
         }
 
+        if (IsTest)
+        {
+            Connected.OnNext(true);
+
+            return;
+        }
+
         HidService.Open(_options.VendorId, _options.ProductId, _options.SerialNumber)
             .Subscribe(
                 deviceHandle =>
@@ -107,6 +124,11 @@ public class HidDeviceService
     private void DisconnectDevice()
     {
         if (!_opened)
+        {
+            return;
+        }
+
+        if (IsTest)
         {
             return;
         }
@@ -126,6 +148,32 @@ public class HidDeviceService
         }
 
         _listenDeviceOn = new();
+
+        if (IsTest)
+        {
+            Random random = new Random();
+            double counter = 0.5;
+
+            Observable
+                .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))
+                .TakeUntil(_listenDeviceOn)
+                .Subscribe(_ =>
+                {
+                    var temperature = random.NextDouble() * 1000;
+                    var intesity = random.NextDouble() * 500;
+                    var LEDCurrent = random.NextDouble() * 0.5;
+
+                    var structure = new ExpReadDto();
+                    structure.Counter += UInt32.Parse(counter.ToString());
+                    structure.Temperature = float.Parse(temperature.ToString());
+                    structure.Intensity = UInt32.Parse(intesity.ToString());
+                    structure.LEDCurrent = UInt32.Parse(LEDCurrent.ToString());
+
+                    ReadData.OnNext(StructUtil.StructToBytes(structure));
+
+                    counter += 0.5;
+                });
+        }
 
         Observable
             .Interval(TimeSpan.FromMilliseconds(_options.ReadInterval))

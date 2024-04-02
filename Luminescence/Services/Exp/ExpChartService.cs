@@ -52,25 +52,11 @@ public class ExpChartService
         _expDeviceService.CurrentData
             .Subscribe(data =>
             {
-                AddPoint(ExpChart.TemperatureTime, "0", new ObservablePoint(data.Counter, data.OpTemperature));
+                AddPoint(ExpChart.TemperatureTime, "0", new ObservablePoint(data.Counter, data.Temperature));
                 AddPoint(ExpChart.IntensityTime, "0", new ObservablePoint(data.Counter, data.Intensity));
                 AddPoint(ExpChart.IntensityTemperature, "0", new ObservablePoint(data.Intensity, data.Temperature));
                 AddPoint(ExpChart.IntensityCurrent, "0", new ObservablePoint(data.Intensity, data.LEDCurrent));
             });
-
-        // Random random = new Random();
-        // double counter = 0.5;
-        //
-        // Observable
-        //     .Interval(TimeSpan.FromMilliseconds(500))
-        //     .Subscribe(_ =>
-        //     {
-        //         var value = random.NextDouble() * 100;
-        //
-        //         AddPoint(ExpChart.TemperatureTime, "0", counter, value);
-        //
-        //         counter += 0.5;
-        //     });
     }
 
     private void AddPoint(string chartName, string seriesName, IChartEntity chartEntity)
