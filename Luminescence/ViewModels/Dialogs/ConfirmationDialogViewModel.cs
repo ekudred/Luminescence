@@ -26,7 +26,7 @@ public class ConfirmationDialogViewModel : DialogBaseViewModel
 
     public override void Initialize(object o)
     {
-        var data = o as ConfirmationDialogParam;
+        var data = o as ConfirmationDialogData;
 
         Text = data.Text;
     }

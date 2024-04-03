@@ -59,7 +59,7 @@ public class SettingsDialogViewModel : DialogBaseViewModel
     {
         _systemDialogService.UseConfirm(
                 dialog,
-                new ConfirmationDialogParam("Вы уверены, что не хотите применить изменения?")
+                new ConfirmationDialogData("Вы уверены, что не хотите применить изменения?")
             )
             .Subscribe(confirm =>
             {

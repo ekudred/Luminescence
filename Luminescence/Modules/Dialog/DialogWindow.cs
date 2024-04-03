@@ -2,6 +2,7 @@ using System;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace Luminescence.Dialog;
 
@@ -14,6 +15,12 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
 
     public Subject<object> OnOpen { get; } = new();
     public Subject<object> OnClose { get; } = new();
+
+    public void Open()
+    {
+        ShowDialog(ParentWindow).ToObservable()
+            .Subscribe(_ => OnOpen.OnNext(default!));
+    }
 
     protected override void OnOpened(EventArgs args)
     {
@@ -37,6 +44,14 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
         base.OnClosing(args);
     }
 
+    protected override void OnKeyDown(KeyEventArgs args)
+    {
+        if (args.Key == Key.Escape)
+        {
+            Close();
+        }
+    }
+
     protected virtual void Initialize()
     {
         ViewModel.CloseRequested += CloseRequested!;
@@ -45,12 +60,6 @@ public class DialogWindow<TDialogViewModel> : Window, IDialogWindow<TDialogViewM
     protected virtual void Destroy()
     {
         ViewModel.CloseRequested -= CloseRequested!;
-    }
-
-    public void Open()
-    {
-        ShowDialog(ParentWindow).ToObservable()
-            .Subscribe(_ => OnOpen.OnNext(default!));
     }
 
     private void CloseRequested(object sender, object? canClose)

@@ -15,7 +15,7 @@ public class ErrorDialogViewModel : DialogBaseViewModel
 
     public override void Initialize(object o)
     {
-        var data = o as ErrorDialogParam;
+        var data = o as ErrorDialogData;
 
         Text = data.Text;
     }

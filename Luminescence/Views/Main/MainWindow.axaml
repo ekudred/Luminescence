@@ -22,6 +22,12 @@
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/MainWindowStyle.axaml" />
     </Window.Styles>
 
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding OpenCommand}" />
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCommand}" />
+        <KeyBinding Gesture="Ctrl+Alt+S" Command="{Binding OpenSettingsDialogCommand}" />
+    </Window.KeyBindings>
+
     <Panel>
         <StackPanel>
 

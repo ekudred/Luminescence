@@ -35,17 +35,11 @@
                         </MenuItem.Header>
 
                         <MenuItem Header="Новый" IsEnabled="False" />
-                        <MenuItem Header="Открыть"
-                                  IsEnabled="{Binding OpenEnabled}"
-                                  HotKey="Ctrl+V"
-                                  Command="{Binding OpenCommand}" />
+                        <MenuItem Header="Открыть" IsEnabled="{Binding OpenEnabled^}" Command="{Binding OpenCommand}" />
                         <Separator />
-                        <MenuItem Header="Сохранить"
-                                  IsEnabled="{Binding SaveEnabled}"
-                                  HotKey="Ctrl+S"
-                                  Command="{Binding SaveCommand}" />
+                        <MenuItem Header="Сохранить" IsEnabled="{Binding SaveEnabled^}" Command="{Binding SaveCommand}" />
                     </MenuItem>
-                    <MenuItem Command="{Binding OpenSettingsDialogCommand}" HotKey="Ctrl+Alt+S">
+                    <MenuItem Command="{Binding OpenSettingsDialogCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"

@@ -8,7 +8,7 @@ namespace Luminescence.Services;
 
 public class HidDeviceService
 {
-    public readonly Subject<bool> Connected = new();
+    public readonly BehaviorSubject<bool> Connected = new(false);
 
     protected nint DeviceHandle;
 
@@ -26,7 +26,7 @@ public class HidDeviceService
 
     // test
     public bool TestActive = false;
-    public readonly bool IsTest = true;
+    public readonly bool IsTest = false;
     // end test
 
     protected HidDeviceService(

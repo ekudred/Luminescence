@@ -90,13 +90,13 @@ public class ChartViewModel : BaseViewModel
     public ChartViewModel(ChartAxisOptions xAxisOptions, ChartAxisOptions yAxisOptions)
     {
         var xAxis = XAxes[0];
-        xAxis.Name = xAxisOptions.Name;
+        xAxis.Name = $"{xAxisOptions.Name}, {xAxisOptions.MeasureName}";
         xAxis.MinLimit = xAxisOptions.MinLimit;
         xAxis.MaxLimit = xAxisOptions.MaxLimit;
         xAxis.MinZoomDelta = xAxis.MinStep;
 
         var yAxis = YAxes[0];
-        yAxis.Name = yAxisOptions.Name;
+        yAxis.Name = $"{yAxisOptions.Name}, {yAxisOptions.MeasureName}";
         yAxis.MinLimit = yAxisOptions.MinLimit;
         yAxis.MaxLimit = yAxisOptions.MaxLimit;
         yAxis.MinZoomDelta = yAxis.MinStep;

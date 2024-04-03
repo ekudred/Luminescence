@@ -10,7 +10,7 @@ namespace Luminescence.Services;
 public class ExpDeviceService : HidDeviceService
 {
     public readonly Subject<ExpReadDto> CurrentData = new();
-    public readonly Subject<bool> InProcess = new();
+    public readonly BehaviorSubject<bool> InProcess = new(false);
 
     private Subject<bool> _readDataOn;
 
@@ -27,6 +27,11 @@ public class ExpDeviceService : HidDeviceService
     )
     {
         _dialogService = dialogService;
+
+        if (IsTest)
+        {
+            return;
+        }
 
         СonnectionLost
             .Merge(InProcess)
@@ -78,8 +83,7 @@ public class ExpDeviceService : HidDeviceService
                             CurrentData.OnNext(dto);
                         });
                 },
-                _ => { },
-                () => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 
@@ -106,8 +110,7 @@ public class ExpDeviceService : HidDeviceService
 
                     InProcess.OnNext(false);
                 },
-                _ => { },
-                () => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 }

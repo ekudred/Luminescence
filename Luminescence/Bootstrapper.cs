@@ -39,7 +39,9 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new ExpChartService(
             resolver.GetService<ExpDeviceService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
-            resolver.GetService<AppFilePickerService>()
+            resolver.GetService<AppFilePickerService>(),
+            resolver.GetService<SystemDialogService>(),
+            resolver.GetService<DialogService>()
         ));
     }
 
@@ -52,9 +54,11 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
             resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<ExpChartService>(),
             resolver.GetService<HidService>(),
             resolver.GetService<MeasurementSettingsFormService>(),
-            resolver.GetService<MeasurementSettingsFormViewModel>()
+            resolver.GetService<MeasurementSettingsFormViewModel>(),
+            resolver.GetService<DialogService>()
         ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
             resolver.GetService<DialogService>(),

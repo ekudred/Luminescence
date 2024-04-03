@@ -1,5 +1,5 @@
 namespace Luminescence.Dialog;
 
-public class DialogBaseParam
+public class DialogBaseData
 {
 }

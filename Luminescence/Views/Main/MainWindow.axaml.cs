@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Luminescence.ViewModels;
 using ReactiveUI;
 using System;
+using Avalonia.Input;
 using Splat;
 
 namespace Luminescence.Views;
@@ -38,5 +39,10 @@ public partial class MainWindow : Window
         ViewModel.Destroy();
 
         base.OnClosed(args);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs args)
+    {
+        Console.Write(args);
     }
 }

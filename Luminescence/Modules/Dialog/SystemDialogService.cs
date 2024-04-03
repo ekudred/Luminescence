@@ -19,7 +19,7 @@ public class SystemDialogService : DialogService
         return Confirm(null, parentWindow);
     }
 
-    public IObservable<bool> Confirm(ConfirmationDialogParam? data = null, Window? parentWindow = null)
+    public IObservable<bool> Confirm(ConfirmationDialogData? data = null, Window? parentWindow = null)
     {
         return Observable.Create((IObserver<bool> observer) =>
         {
@@ -50,7 +50,7 @@ public class SystemDialogService : DialogService
     public IObservable<bool> UseConfirm<TDialogViewModel>
     (
         IDialogWindow<TDialogViewModel> dialog,
-        ConfirmationDialogParam? data = null,
+        ConfirmationDialogData? data = null,
         bool? trigger = null
     )
         where TDialogViewModel : DialogBaseViewModel

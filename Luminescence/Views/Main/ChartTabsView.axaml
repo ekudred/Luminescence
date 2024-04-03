@@ -1,0 +1,63 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="clr-namespace:Luminescence.Views"
+             xmlns:vm="clr-namespace:Luminescence.ViewModels"
+             xmlns:convs="clr-namespace:Luminescence.Converters"
+             xmlns:s="clr-namespace:Luminescence.Services"
+             mc:Ignorable="d"
+             x:Class="Luminescence.Views.ChartTabsView"
+             x:DataType="vm:ChartTabsViewModel"
+             x:CompileBindings="True"
+             x:Name="ChartsTabViewControl">
+
+    <UserControl.Resources>
+        <convs:DictionaryEntryConverter x:Key="DictionaryEntryConverter" />
+    </UserControl.Resources>
+
+    <TabControl Width="{Binding Width}" Height="{Binding Height}">
+
+        <TabItem Header="Температура и люминесценция">
+            <Grid RowDefinitions="*" ColumnDefinitions="*,*">
+
+                <v:ChartView
+                    Grid.Row="0" Grid.Column="0"
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.TemperatureTime}}">
+                </v:ChartView>
+
+                <v:ChartView
+                    Grid.Row="0" Grid.Column="1"
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTime}}">
+                </v:ChartView>
+
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="ТЛ кривая">
+            <Grid RowDefinitions="*" ColumnDefinitions="*">
+                <v:ChartView
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTemperature}}">
+                </v:ChartView>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="ОСЛ">
+            <Grid RowDefinitions="*" ColumnDefinitions="*">
+                <v:ChartView
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityCurrent}}">
+                </v:ChartView>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Test">
+            <Grid RowDefinitions="*" ColumnDefinitions="*">
+                <TextBox Height="600"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         Text="{Binding Test}" />
+            </Grid>
+        </TabItem>
+
+    </TabControl>
+</UserControl>

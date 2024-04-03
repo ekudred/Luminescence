@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows.Input;
 using Luminescence.Dialog;
 using Luminescence.Services;
@@ -10,34 +11,10 @@ namespace Luminescence.ViewModels;
 
 public class HeaderViewModel : BaseViewModel
 {
-    public ICommand OpenSettingsDialogCommand { get; }
     public ICommand ToggleActiveCommand { get; }
     public ICommand OpenCommand { get; }
     public ICommand SaveCommand { get; }
-
-    public bool PlayEnabled
-    {
-        get => _playEnabled;
-        set => this.RaiseAndSetIfChanged(ref _playEnabled, value);
-    }
-
-    public bool StopEnabled
-    {
-        get => _stopEnabled;
-        set => this.RaiseAndSetIfChanged(ref _stopEnabled, value);
-    }
-
-    public bool OpenEnabled
-    {
-        get => _openEnabled;
-        set => this.RaiseAndSetIfChanged(ref _openEnabled, value);
-    }
-
-    public bool SaveEnabled
-    {
-        get => _saveEnabled;
-        set => this.RaiseAndSetIfChanged(ref _saveEnabled, value);
-    }
+    public ICommand OpenSettingsDialogCommand { get; }
 
     public bool Connected
     {
@@ -51,14 +28,29 @@ public class HeaderViewModel : BaseViewModel
         set => this.RaiseAndSetIfChanged(ref _inProcess, value);
     }
 
-    private bool _playEnabled;
-    private bool _stopEnabled;
-    private bool _openEnabled;
-    private bool _saveEnabled;
+    public bool PlayEnabled
+    {
+        get => _playEnabled;
+        set => this.RaiseAndSetIfChanged(ref _playEnabled, value);
+    }
+
+    public bool StopEnabled
+    {
+        get => _stopEnabled;
+        set => this.RaiseAndSetIfChanged(ref _stopEnabled, value);
+    }
+
+    public BehaviorSubject<bool> OpenEnabled => _expChartService.OpenEnabled;
+    public BehaviorSubject<bool> SaveEnabled => _expChartService.SaveEnabled;
+
+    // public BehaviorSubject<bool> Connected => _expDeviceService.Connected;
+
+
     private bool _connected;
     private bool _inProcess;
+    private bool _playEnabled;
+    private bool _stopEnabled;
 
-    private readonly DialogService _dialogService;
     private readonly ExpDeviceService _expDeviceService;
     private readonly ExpChartService _expChartService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
@@ -70,38 +62,41 @@ public class HeaderViewModel : BaseViewModel
         MeasurementSettingsFormService measurementSettingsFormService
     )
     {
-        _dialogService = dialogService;
         _expDeviceService = expDeviceService;
         _expChartService = expChartService;
         _measurementSettingsFormService = measurementSettingsFormService;
 
         _expDeviceService.Connected
             .Subscribe(connected => { Connected = connected; });
-        _expDeviceService.InProcess
-            .Subscribe(inProcess =>
-            {
-                InProcess = inProcess;
 
-                OpenEnabled = !InProcess;
-                SaveEnabled = !InProcess && _expChartService.Data.Count > 0;
-            });
+        _expDeviceService.InProcess
+            .Subscribe(inProcess => { InProcess = inProcess; });
 
         this.WhenAnyValue(x => x.Connected, x => x.InProcess)
             .Subscribe(result =>
             {
-                var (connected, inProcess) = result;
+                var connected = result.Item1;
+                var inProcess = result.Item2;
 
                 PlayEnabled = connected && !inProcess;
                 StopEnabled = connected && inProcess;
-
-                Connected = connected;
             });
 
-        OpenSettingsDialogCommand =
-            ReactiveCommand.Create<Unit>(_ => _dialogService.Create<SettingsDialogViewModel>().Open());
+        // Observable.Merge(new[] { _expDeviceService.Connected, _expDeviceService.InProcess })
+        //     .Subscribe(result =>
+        //     {
+        //         var connected = result[0];
+        //         var inProcess = result[1];
+        //
+        //         PlayEnabled = connected && !inProcess;
+        //         StopEnabled = connected && inProcess;
+        //     });
+
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
         OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
         SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());
+        OpenSettingsDialogCommand =
+            ReactiveCommand.Create<Unit>(_ => dialogService.Create<SettingsDialogViewModel>().Open());
     }
 
     private void ToggleActive()

@@ -20,6 +20,7 @@
 
     <Grid RowDefinitions="*,100" ColumnDefinitions="*"
           Width="{Binding #ChartViewControl.Bounds.Width}" Height="{Binding #ChartViewControl.Bounds.Height}">
+
         <lvc:CartesianChart
             Grid.Row="0" Grid.Column="0"
             SyncContext="{Binding Sync}"
@@ -49,6 +50,7 @@
             PointerMoveCommand="{Binding PointerMoveCommand}"
             PointerReleasedCommand="{Binding PointerUpCommand}">
         </lvc:CartesianChart>
+
     </Grid>
 
 </UserControl>
