@@ -17,7 +17,7 @@ public class ExpDeviceOptions : IHidDeviceOptions
         ProductId = 0x5750;
         SerialNumber = null;
         ReadReportLength = 64;
-        ReadInterval = 500;
+        ReadInterval = 100;
         CheckInterval = 200;
     }
 }

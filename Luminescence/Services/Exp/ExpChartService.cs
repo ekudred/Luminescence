@@ -220,10 +220,9 @@ public class ExpChartService
 
         ChartViewModel chartIntensityTemperature = new(new("Температура", "°C"), new("Интенсивность", "УЕ"));
         chartIntensityTemperature.AddSeries(new("0"));
-        chartIntensityTemperature.AddSeries(new("1", SKColors.Gold));
         chartViewModels.Add(ExpChart.IntensityTemperature, chartIntensityTemperature);
 
-        ChartViewModel chartIntensityCurrent = new(new("Ток светодиода", "мА"), new("Интенсивность", "УЕ"));
+        ChartViewModel chartIntensityCurrent = new(new("Ток светодиода", "мА"), new("Время", "сек"));
         chartIntensityCurrent.AddSeries(new("0"));
         chartViewModels.Add(ExpChart.IntensityCurrent, chartIntensityCurrent);
     }
@@ -244,10 +243,11 @@ public class ExpChartService
 
                 AddPoint(ExpChart.IntensityTime, "0", data.Counter, data.Intensity, ChartViewModels, Data);
 
-                AddPoint(ExpChart.IntensityTemperature, "0", data.Intensity, data.Temperature, ChartViewModels, Data);
-                AddPoint(ExpChart.IntensityTemperature, "1", data.Intensity, data.OpTemperature, ChartViewModels, Data);
+                AddPoint(ExpChart.IntensityTemperature, "0", data.OpTemperature, data.Intensity, ChartViewModels, Data);
 
-                AddPoint(ExpChart.IntensityCurrent, "0", data.Intensity, data.LEDCurrent, ChartViewModels, Data);
+                AddPoint(ExpChart.IntensityCurrent, "0", data.OpLEDCurrent, data.Intensity, ChartViewModels, Data);
+                // + вкладка оплед и лед
+                // AddPoint(ExpChart.IntensityCurrent, "1", data.OpLEDCurrent, data.Counter, ChartViewModels, Data);
             });
     }
 
