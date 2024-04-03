@@ -52,7 +52,13 @@ public class MainWindowViewModel : BaseViewModel
         OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
         SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());
         OpenSettingsDialogCommand =
-            ReactiveCommand.Create<Unit>(_ => dialogService.Create<SettingsDialogViewModel>().Open());
+            ReactiveCommand.Create<Unit>(_ =>
+            {
+                if (!_expDeviceService.InProcess.Value)
+                {
+                    dialogService.Create<SettingsDialogViewModel>().Open();
+                }
+            });
     }
 
     public void Initialize()
