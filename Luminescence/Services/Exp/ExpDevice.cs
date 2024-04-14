@@ -2,31 +2,31 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Luminescence.Dialog;
+using Luminescence.UsbHid;
 using Luminescence.ViewModels;
-using Luminescence.Views;
 
 namespace Luminescence.Services;
 
-public class ExpDeviceService : HidDeviceService
+public class ExpDevice : UsbHidDevice
 {
     public readonly Subject<ExpReadDto> CurrentData = new();
     public readonly BehaviorSubject<bool> InProcess = new(false);
 
     private Subject<bool> _readDataOn;
 
-    private readonly DialogService _dialogService;
+    private readonly DialogBaseService _dialogBaseService;
 
-    public ExpDeviceService
+    public ExpDevice
     (
-        HidService hidService,
-        DialogService dialogService
+        UsbHidService hidService,
+        DialogBaseService dialogBaseService
     ) : base
     (
         new ExpDeviceOptions(),
         hidService
     )
     {
-        _dialogService = dialogService;
+        _dialogBaseService = dialogBaseService;
 
         if (IsTest)
         {
@@ -61,7 +61,7 @@ public class ExpDeviceService : HidDeviceService
         }
         // end test
 
-        HidService.Write(DeviceHandle, dto.GetRunDto().ToBytes())
+        UsbHidService.Write(DeviceHandle, dto.GetRunDto().ToBytes())
             .Subscribe(
                 _ =>
                 {
@@ -83,7 +83,7 @@ public class ExpDeviceService : HidDeviceService
                             CurrentData.OnNext(dto);
                         });
                 },
-                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogBaseService.Create<ErrorDialogViewModel>(); }
             );
     }
 
@@ -101,7 +101,7 @@ public class ExpDeviceService : HidDeviceService
         }
         // end test
 
-        HidService.Write(DeviceHandle, ExpWriteDto.StopDto.ToBytes())
+        UsbHidService.Write(DeviceHandle, ExpWriteDto.StopDto.ToBytes())
             .Subscribe(
                 _ =>
                 {
@@ -110,7 +110,7 @@ public class ExpDeviceService : HidDeviceService
 
                     InProcess.OnNext(false);
                 },
-                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogBaseService.Create<ErrorDialogViewModel>(); }
             );
     }
 }

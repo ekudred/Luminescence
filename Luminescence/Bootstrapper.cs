@@ -1,5 +1,6 @@
 ﻿using Luminescence.Dialog;
 using Luminescence.Services;
+using Luminescence.UsbHid;
 using Luminescence.ViewModels;
 using Splat;
 
@@ -21,27 +22,27 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new AppFilePickerService(
             resolver.GetService<MainWindowProvider>()
         ));
-        services.RegisterLazySingleton(() => new HidService());
+        services.RegisterLazySingleton(() => new UsbHidService());
+        services.RegisterLazySingleton(() => new DialogBaseService(
+            resolver.GetService<MainWindowProvider>()
+        ));
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
         ));
-        services.RegisterLazySingleton(() => new SystemDialogService(
-            resolver.GetService<MainWindowProvider>()
-        ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormService(
-            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<ExpDevice>(),
             resolver.GetService<StorageService>()
         ));
-        services.RegisterLazySingleton(() => new ExpDeviceService(
-            resolver.GetService<HidService>(),
-            resolver.GetService<DialogService>()
+        services.RegisterLazySingleton(() => new ExpDevice(
+            resolver.GetService<UsbHidService>(),
+            resolver.GetService<DialogBaseService>()
         ));
         services.RegisterLazySingleton(() => new ExpChartService(
-            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<ExpDevice>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
             resolver.GetService<AppFilePickerService>(),
-            resolver.GetService<SystemDialogService>(),
-            resolver.GetService<DialogService>()
+            resolver.GetService<DialogService>(),
+            resolver.GetService<DialogBaseService>()
         ));
     }
 
@@ -50,19 +51,19 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new ChartPanelViewModel(
             resolver.GetService<MainWindowViewModel>(),
             resolver.GetService<ExpChartService>(),
-            resolver.GetService<ExpDeviceService>()
+            resolver.GetService<ExpDevice>()
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
-            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<ExpDevice>(),
             resolver.GetService<ExpChartService>(),
-            resolver.GetService<HidService>(),
+            resolver.GetService<UsbHidService>(),
             resolver.GetService<MeasurementSettingsFormService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
-            resolver.GetService<DialogService>()
+            resolver.GetService<DialogBaseService>()
         ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
-            resolver.GetService<DialogService>(),
-            resolver.GetService<ExpDeviceService>(),
+            resolver.GetService<DialogBaseService>(),
+            resolver.GetService<ExpDevice>(),
             resolver.GetService<ExpChartService>(),
             resolver.GetService<MeasurementSettingsFormService>()
         ));
@@ -77,7 +78,7 @@ public static class Bootstrapper
         services.Register(() => new SettingsDialogViewModel(
             resolver.GetService<MeasurementSettingsFormService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
-            resolver.GetService<SystemDialogService>()
+            resolver.GetService<DialogService>()
         ));
     }
 }

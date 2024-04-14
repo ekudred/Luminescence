@@ -1,8 +1,8 @@
-﻿using Luminescence.Usb;
+﻿using Luminescence.UsbHid;
 
 namespace Luminescence.Services;
 
-public class ExpDeviceOptions : IHidDeviceOptions
+public class ExpDeviceOptions : IUsbHidDeviceOptions
 {
     public ushort VendorId { get; }
     public ushort ProductId { get; }

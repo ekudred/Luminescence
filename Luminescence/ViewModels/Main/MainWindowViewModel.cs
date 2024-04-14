@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Windows.Input;
 using Luminescence.Dialog;
 using Luminescence.Services;
+using Luminescence.UsbHid;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;
@@ -28,24 +29,24 @@ public class MainWindowViewModel : BaseViewModel
     private double _width;
     private double _height;
 
-    private readonly ExpDeviceService _expDeviceService;
+    private readonly ExpDevice _expDevice;
     private readonly ExpChartService _expChartService;
-    private readonly HidService _hidService;
+    private readonly UsbHidService _usbHidService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
     private readonly MeasurementSettingsFormViewModel _measurementSettingsFormViewModel;
 
     public MainWindowViewModel(
-        ExpDeviceService expDeviceService,
+        ExpDevice expDevice,
         ExpChartService expChartService,
-        HidService hidService,
+        UsbHidService usbHidService,
         MeasurementSettingsFormService measurementSettingsFormService,
         MeasurementSettingsFormViewModel measurementSettingsFormViewModel,
-        DialogService dialogService
+        DialogBaseService dialogBaseService
     )
     {
-        _expDeviceService = expDeviceService;
+        _expDevice = expDevice;
         _expChartService = expChartService;
-        _hidService = hidService;
+        _usbHidService = usbHidService;
         _measurementSettingsFormService = measurementSettingsFormService;
         _measurementSettingsFormViewModel = measurementSettingsFormViewModel;
 
@@ -54,26 +55,26 @@ public class MainWindowViewModel : BaseViewModel
         OpenSettingsDialogCommand =
             ReactiveCommand.Create<Unit>(_ =>
             {
-                if (!_expDeviceService.InProcess.Value)
+                if (!_expDevice.InProcess.Value)
                 {
-                    dialogService.Create<SettingsDialogViewModel>().Open();
+                    dialogBaseService.Create<SettingsDialogViewModel>().Open();
                 }
             });
     }
 
     public void Initialize()
     {
-        _hidService.Init()
+        _usbHidService.Init()
             .Subscribe();
-        _expDeviceService.RunAvailableDeviceCheck();
+        _expDevice.RunAvailableDeviceCheck();
         _measurementSettingsFormService.Initialize(_measurementSettingsFormViewModel);
     }
 
     public void Destroy()
     {
-        _expDeviceService.StopAvailableDeviceCheck();
-        _expDeviceService.Disconnect();
-        _hidService.Exit()
+        _expDevice.StopAvailableDeviceCheck();
+        _expDevice.Disconnect();
+        _usbHidService.Exit()
             .Subscribe();
         _measurementSettingsFormViewModel.Destroy();
     }

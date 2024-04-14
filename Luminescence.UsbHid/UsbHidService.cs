@@ -1,12 +1,10 @@
-﻿using System;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using Luminescence.Usb;
 
-namespace Luminescence.Services;
+namespace Luminescence.UsbHid;
 
-public class HidService
+public class UsbHidService
 {
     private readonly object _locker = new();
 
@@ -16,7 +14,7 @@ public class HidService
         {
             lock (_locker)
             {
-                int result = HidApi.hid_init();
+                int result = UsbHid.hid_init();
 
                 if (result < 0)
                 {
@@ -40,7 +38,7 @@ public class HidService
         {
             lock (_locker)
             {
-                int result = HidApi.hid_exit();
+                int result = UsbHid.hid_exit();
 
                 if (result < 0)
                 {
@@ -64,7 +62,7 @@ public class HidService
         {
             lock (_locker)
             {
-                nint result = HidApi.hid_open(vendorId, productId, serialNumber);
+                nint result = UsbHid.hid_open(vendorId, productId, serialNumber);
 
                 if (result == null)
                 {
@@ -88,7 +86,7 @@ public class HidService
         {
             lock (_locker)
             {
-                HidApi.hid_close(deviceHandle);
+                UsbHid.hid_close(deviceHandle);
 
                 observer.OnNext(true);
                 observer.OnCompleted();
@@ -107,7 +105,7 @@ public class HidService
                 byte[] report = new byte[data.Length];
                 Array.Copy(data, report, report.Length);
 
-                int result = HidApi.hid_write(deviceHandle, report, (uint)report.Length);
+                int result = UsbHid.hid_write(deviceHandle, report, (uint)report.Length);
 
                 if (result < 0)
                 {
@@ -148,7 +146,7 @@ public class HidService
 
                 byte[] report = new byte[reportLength];
 
-                int result = HidApi.hid_read_timeout(deviceHandle, report, (uint)report.Length, 1);
+                int result = UsbHid.hid_read_timeout(deviceHandle, report, (uint)report.Length, 1);
 
                 if (result < 0)
                 {
@@ -175,7 +173,7 @@ public class HidService
         {
             lock (_locker)
             {
-                nint result = HidApi.hid_enumerate(vendorId, productId);
+                nint result = UsbHid.hid_enumerate(vendorId, productId);
 
                 if (result == null)
                 {
@@ -199,7 +197,7 @@ public class HidService
         {
             StringBuilder builder = new StringBuilder(1024);
 
-            int result = HidApi.hid_get_manufacturer_string(deviceHandle, builder, (uint)builder.Capacity / 4);
+            int result = UsbHid.hid_get_manufacturer_string(deviceHandle, builder, (uint)builder.Capacity / 4);
 
             if (result < 0)
             {
@@ -222,7 +220,7 @@ public class HidService
         {
             StringBuilder builder = new StringBuilder(1024);
 
-            int result = HidApi.hid_get_product_string(deviceHandle, builder, (uint)builder.Capacity / 4);
+            int result = UsbHid.hid_get_product_string(deviceHandle, builder, (uint)builder.Capacity / 4);
 
             if (result < 0)
             {
@@ -245,7 +243,7 @@ public class HidService
         {
             StringBuilder builder = new StringBuilder(1024);
 
-            int result = HidApi.hid_get_serial_number_string(deviceHandle, builder, (uint)builder.Capacity / 4);
+            int result = UsbHid.hid_get_serial_number_string(deviceHandle, builder, (uint)builder.Capacity / 4);
 
             if (result < 0)
             {

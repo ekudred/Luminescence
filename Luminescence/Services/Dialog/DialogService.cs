@@ -3,14 +3,14 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Avalonia.Controls;
-using Luminescence.Services;
+using Luminescence.Dialog;
 using Luminescence.ViewModels;
 
-namespace Luminescence.Dialog;
+namespace Luminescence.Services;
 
-public class SystemDialogService : DialogService
+public class DialogService : DialogBaseService
 {
-    public SystemDialogService(MainWindowProvider mainWindowProvider) : base(mainWindowProvider)
+    public DialogService(MainWindowProvider mainWindowProvider) : base(mainWindowProvider)
     {
     }
 

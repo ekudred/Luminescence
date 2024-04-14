@@ -1,6 +1,6 @@
-﻿namespace Luminescence.Usb;
+﻿namespace Luminescence.UsbHid;
 
-public interface IHidDeviceOptions
+public interface IUsbHidDeviceOptions
 {
     public ushort VendorId { get; }
     public ushort ProductId { get; }

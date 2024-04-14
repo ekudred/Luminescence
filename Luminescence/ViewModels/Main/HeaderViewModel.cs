@@ -51,25 +51,25 @@ public class HeaderViewModel : BaseViewModel
     private bool _playEnabled;
     private bool _stopEnabled;
 
-    private readonly ExpDeviceService _expDeviceService;
+    private readonly ExpDevice _expDevice;
     private readonly ExpChartService _expChartService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
 
     public HeaderViewModel(
-        DialogService dialogService,
-        ExpDeviceService expDeviceService,
+        DialogBaseService dialogBaseService,
+        ExpDevice expDevice,
         ExpChartService expChartService,
         MeasurementSettingsFormService measurementSettingsFormService
     )
     {
-        _expDeviceService = expDeviceService;
+        _expDevice = expDevice;
         _expChartService = expChartService;
         _measurementSettingsFormService = measurementSettingsFormService;
 
-        _expDeviceService.Connected
+        _expDevice.Connected
             .Subscribe(connected => { Connected = connected; });
 
-        _expDeviceService.InProcess
+        _expDevice.InProcess
             .Subscribe(inProcess => { InProcess = inProcess; });
 
         this.WhenAnyValue(x => x.Connected, x => x.InProcess)
@@ -98,9 +98,9 @@ public class HeaderViewModel : BaseViewModel
         OpenSettingsDialogCommand =
             ReactiveCommand.Create<Unit>(_ =>
             {
-                if (!_expDeviceService.InProcess.Value)
+                if (!_expDevice.InProcess.Value)
                 {
-                    dialogService.Create<SettingsDialogViewModel>().Open();
+                    dialogBaseService.Create<SettingsDialogViewModel>().Open();
                 }
             });
     }
@@ -111,11 +111,11 @@ public class HeaderViewModel : BaseViewModel
         {
             _measurementSettingsFormService.GetModelFromStorage()
                 .Where(model => model != null)
-                .Subscribe(model => { _expDeviceService.RunProcess(model.ToDto()); });
+                .Subscribe(model => { _expDevice.RunProcess(model.ToDto()); });
 
             return;
         }
 
-        _expDeviceService.StopProcess();
+        _expDevice.StopProcess();
     }
 }

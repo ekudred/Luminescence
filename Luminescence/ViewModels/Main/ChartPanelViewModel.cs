@@ -23,7 +23,7 @@ public class ChartPanelViewModel : BaseViewModel
     public ChartPanelViewModel(
         MainWindowViewModel mainWindowViewModel,
         ExpChartService expChartService,
-        ExpDeviceService expDeviceService
+        ExpDevice expDevice
     )
     {
         _mainWindowViewModel = mainWindowViewModel;
@@ -35,7 +35,7 @@ public class ChartPanelViewModel : BaseViewModel
 
         ChartTabsViewModel.Charts = _expChartService.ChartViewModels;
 
-        expDeviceService.CurrentData
+        expDevice.CurrentData
             .Subscribe(data =>
             {
                 ChartTabsViewModel.Test = System.Text.Json.Nodes.JsonNode.Parse(JsonConvert.SerializeObject(data)).ToString();

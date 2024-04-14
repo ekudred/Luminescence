@@ -23,12 +23,12 @@
 
                 <v:ChartView
                     Grid.Row="0" Grid.Column="0"
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.TemperatureTime}}">
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tal0}}">
                 </v:ChartView>
 
                 <v:ChartView
                     Grid.Row="0" Grid.Column="1"
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTime}}">
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tal1}}">
                 </v:ChartView>
 
             </Grid>
@@ -37,7 +37,7 @@
         <TabItem Header="ТЛ кривая">
             <Grid RowDefinitions="*" ColumnDefinitions="*">
                 <v:ChartView
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityTemperature}}">
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tl}}">
                 </v:ChartView>
             </Grid>
         </TabItem>
@@ -45,7 +45,15 @@
         <TabItem Header="ОСЛ">
             <Grid RowDefinitions="*" ColumnDefinitions="*">
                 <v:ChartView
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.IntensityCurrent}}">
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Osl}}">
+                </v:ChartView>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Светодиод">
+            <Grid RowDefinitions="*" ColumnDefinitions="*">
+                <v:ChartView
+                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Led}}">
                 </v:ChartView>
             </Grid>
         </TabItem>

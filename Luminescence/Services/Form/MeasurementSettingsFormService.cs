@@ -11,15 +11,15 @@ public class MeasurementSettingsFormService
 {
     private readonly string _storageName = typeof(MeasurementSettingsFormModel).Name;
 
-    private readonly ExpDeviceService _expDeviceService;
+    private readonly ExpDevice _expDevice;
     private readonly StorageService _storageService;
 
     public MeasurementSettingsFormService(
-        ExpDeviceService expDeviceService,
+        ExpDevice expDevice,
         StorageService storageService
     )
     {
-        _expDeviceService = expDeviceService;
+        _expDevice = expDevice;
         _storageService = storageService;
     }
 

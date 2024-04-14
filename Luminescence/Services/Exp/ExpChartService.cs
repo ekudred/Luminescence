@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -20,27 +21,27 @@ public class ExpChartService
 
     private readonly Dictionary<string, List<double[]>> Data = new();
 
-    private readonly ExpDeviceService _expDeviceService;
+    private readonly ExpDevice _expDevice;
     private readonly MeasurementSettingsFormViewModel _measurementSettingsFormViewModel;
     private readonly AppFilePickerService _appFilePickerService;
-    private readonly SystemDialogService _systemDialogService;
     private readonly DialogService _dialogService;
+    private readonly DialogBaseService _dialogBaseService;
 
     public ExpChartService(
-        ExpDeviceService expDeviceService,
+        ExpDevice expDevice,
         MeasurementSettingsFormViewModel measurementSettingsFormViewModel,
         AppFilePickerService appFilePickerService,
-        SystemDialogService systemDialogService,
-        DialogService dialogService
+        DialogService dialogService,
+        DialogBaseService dialogBaseService
     )
     {
-        _expDeviceService = expDeviceService;
+        _expDevice = expDevice;
         _measurementSettingsFormViewModel = measurementSettingsFormViewModel;
         _appFilePickerService = appFilePickerService;
-        _systemDialogService = systemDialogService;
         _dialogService = dialogService;
+        _dialogBaseService = dialogBaseService;
 
-        _expDeviceService.InProcess
+        _expDevice.InProcess
             .Subscribe(inProcess =>
             {
                 OpenEnabled.OnNext(!inProcess);
@@ -78,13 +79,13 @@ public class ExpChartService
         _appFilePickerService.Open(options)
             .Select(data =>
             {
-                return _systemDialogService.Confirm(new ConfirmationDialogData("Открыть в новом окне?"))
+                return _dialogService.Confirm(new ConfirmationDialogData("Открыть в новом окне?"))
                     .Select(confirm =>
                     {
                         if (confirm)
                         {
                             IDialogWindow<ChartPanelDialogViewModel> dialog =
-                                _dialogService.Create<ChartPanelDialogViewModel>();
+                                _dialogBaseService.Create<ChartPanelDialogViewModel>();
 
                             var chartTabsViewModel = new ChartTabsViewModel
                             {
@@ -209,45 +210,51 @@ public class ExpChartService
 
     private void SetCharts(Dictionary<string, ChartViewModel> chartViewModels)
     {
-        ChartViewModel chartTemperatureTime = new(new("Время", "сек"), new("Температура", "°C"));
-        chartTemperatureTime.AddSeries(new("0"));
-        chartTemperatureTime.AddSeries(new("1", SKColors.Gold));
-        chartViewModels.Add(ExpChart.TemperatureTime, chartTemperatureTime);
+        ChartViewModel tal0Chart = new(new("Время", "сек"), new("Температура", "°C"));
+        tal0Chart.AddSeries(new("0"));
+        tal0Chart.AddSeries(new("1", SKColors.Gold));
+        chartViewModels.Add(ExpChart.Tal0, tal0Chart);
 
-        ChartViewModel chartIntensityTime = new(new("Время", "сек"), new("Интенсивность", "УЕ"));
-        chartIntensityTime.AddSeries(new("0"));
-        chartViewModels.Add(ExpChart.IntensityTime, chartIntensityTime);
+        ChartViewModel tal1Chart = new(new("Время", "сек"), new("Интенсивность", "УЕ"));
+        tal1Chart.AddSeries(new("0"));
+        chartViewModels.Add(ExpChart.Tal1, tal1Chart);
 
-        ChartViewModel chartIntensityTemperature = new(new("Температура", "°C"), new("Интенсивность", "УЕ"));
-        chartIntensityTemperature.AddSeries(new("0"));
-        chartViewModels.Add(ExpChart.IntensityTemperature, chartIntensityTemperature);
+        ChartViewModel tlChart = new(new("Температура", "°C"), new("Интенсивность", "УЕ"));
+        tlChart.AddSeries(new("0"));
+        chartViewModels.Add(ExpChart.Tl, tlChart);
 
-        ChartViewModel chartIntensityCurrent = new(new("Ток светодиода", "мА"), new("Время", "сек"));
-        chartIntensityCurrent.AddSeries(new("0"));
-        chartViewModels.Add(ExpChart.IntensityCurrent, chartIntensityCurrent);
+        ChartViewModel oslChart = new(new("Ток светодиода", "мА"), new("Время", "сек"));
+        oslChart.AddSeries(new("0"));
+        chartViewModels.Add(ExpChart.Osl, oslChart);
+
+        ChartViewModel ledChart = new(new("Время", "сек"), new("Ток светодиода", "мА"));
+        ledChart.AddSeries(new("0"));
+        ledChart.AddSeries(new("1", SKColors.Gold));
+        chartViewModels.Add(ExpChart.Led, ledChart);
     }
 
     private void OnChangeData()
     {
-        _expDeviceService.InProcess
+        _expDevice.InProcess
             .CombineWithPrevious()
             .Where(inProcess =>
                 inProcess.Current && !inProcess.Previous && _measurementSettingsFormViewModel.ToModel().Clear)
             .Subscribe(_ => { Clear(); });
 
-        _expDeviceService.CurrentData
+        _expDevice.CurrentData
             .Subscribe(data =>
             {
-                AddPoint(ExpChart.TemperatureTime, "0", data.Counter, data.Temperature, ChartViewModels, Data);
-                AddPoint(ExpChart.TemperatureTime, "1", data.Counter, data.OpTemperature, ChartViewModels, Data);
+                AddPoint(ExpChart.Tal0, "0", data.Counter, data.Temperature, ChartViewModels, Data);
+                AddPoint(ExpChart.Tal0, "1", data.Counter, data.OpTemperature, ChartViewModels, Data);
 
-                AddPoint(ExpChart.IntensityTime, "0", data.Counter, data.Intensity, ChartViewModels, Data);
+                AddPoint(ExpChart.Tal1, "0", data.Counter, data.Intensity, ChartViewModels, Data);
 
-                AddPoint(ExpChart.IntensityTemperature, "0", data.OpTemperature, data.Intensity, ChartViewModels, Data);
+                AddPoint(ExpChart.Tl, "0", data.OpTemperature, data.Intensity, ChartViewModels, Data);
 
-                AddPoint(ExpChart.IntensityCurrent, "0", data.OpLEDCurrent, data.Intensity, ChartViewModels, Data);
-                // + вкладка оплед и лед
-                // AddPoint(ExpChart.IntensityCurrent, "1", data.OpLEDCurrent, data.Counter, ChartViewModels, Data);
+                AddPoint(ExpChart.Osl, "0", data.OpLEDCurrent, data.Intensity, ChartViewModels, Data);
+
+                AddPoint(ExpChart.Led, "0", data.Counter, data.LEDCurrent, ChartViewModels, Data);
+                AddPoint(ExpChart.Led, "1", data.Counter, data.OpLEDCurrent, ChartViewModels, Data);
             });
     }
 

@@ -2,8 +2,9 @@
 
 public static class ExpChart
 {
-    public static readonly string TemperatureTime = "TemperatureTime";
-    public static readonly string IntensityTime = "IntensityTime";
-    public static readonly string IntensityTemperature = "IntensityTemperature";
-    public static readonly string IntensityCurrent = "IntensityCurrent";
+    public static readonly string Tal0 = "Tal0";
+    public static readonly string Tal1 = "Tal1";
+    public static readonly string Tl = "Tl";
+    public static readonly string Osl = "Osl";
+    public static readonly string Led = "Led";
 }
