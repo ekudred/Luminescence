@@ -22,10 +22,10 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new AppFilePickerService(
             resolver.GetService<MainWindowProvider>()
         ));
-        services.RegisterLazySingleton(() => new UsbHidService());
-        services.RegisterLazySingleton(() => new DialogBaseService(
+        services.RegisterLazySingleton(() => new ClipboardService(
             resolver.GetService<MainWindowProvider>()
         ));
+        services.RegisterLazySingleton(() => new UsbHidService());
         services.RegisterLazySingleton(() => new DialogService(
             resolver.GetService<MainWindowProvider>()
         ));
@@ -35,14 +35,14 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new ExpDevice(
             resolver.GetService<UsbHidService>(),
-            resolver.GetService<DialogBaseService>()
+            resolver.GetService<DialogService>()
         ));
         services.RegisterLazySingleton(() => new ExpChartService(
             resolver.GetService<ExpDevice>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
             resolver.GetService<AppFilePickerService>(),
-            resolver.GetService<DialogService>(),
-            resolver.GetService<DialogBaseService>()
+            resolver.GetService<ClipboardService>(),
+            resolver.GetService<DialogService>()
         ));
     }
 
@@ -50,8 +50,7 @@ public static class Bootstrapper
     {
         services.RegisterLazySingleton(() => new ChartPanelViewModel(
             resolver.GetService<MainWindowViewModel>(),
-            resolver.GetService<ExpChartService>(),
-            resolver.GetService<ExpDevice>()
+            resolver.GetService<ExpChartService>()
         ));
         services.RegisterLazySingleton(() => new MainWindowViewModel(
             resolver.GetService<ExpDevice>(),
@@ -59,15 +58,18 @@ public static class Bootstrapper
             resolver.GetService<UsbHidService>(),
             resolver.GetService<MeasurementSettingsFormService>(),
             resolver.GetService<MeasurementSettingsFormViewModel>(),
-            resolver.GetService<DialogBaseService>()
+            resolver.GetService<DialogService>()
         ));
         services.RegisterLazySingleton(() => new HeaderViewModel(
-            resolver.GetService<DialogBaseService>(),
+            resolver.GetService<DialogService>(),
             resolver.GetService<ExpDevice>(),
             resolver.GetService<ExpChartService>(),
             resolver.GetService<MeasurementSettingsFormService>()
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormViewModel());
+        services.RegisterLazySingleton(() => new TestDialogViewModel(
+            resolver.GetService<ExpDevice>()
+        ));
     }
 
     private static void RegisterDialogViewModels(

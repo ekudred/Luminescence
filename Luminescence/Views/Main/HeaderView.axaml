@@ -11,10 +11,6 @@
              Height="32"
              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0.5">
 
-    <Design.DataContext>
-        <vm:HeaderViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/HeaderViewStyle.axaml" />
     </UserControl.Styles>
@@ -33,7 +29,6 @@
                                 <TextBlock Text="Файл" />
                             </StackPanel>
                         </MenuItem.Header>
-
                         <MenuItem Header="Новый" IsEnabled="False" />
                         <MenuItem Header="Открыть" IsEnabled="{Binding OpenEnabled^}" Command="{Binding OpenCommand}" />
                         <Separator />
@@ -46,6 +41,15 @@
                                         VerticalAlignment="Center">
                                 <md:MaterialIcon Kind="Settings" Classes="Settings" Margin="0 0 4 0"></md:MaterialIcon>
                                 <TextBlock Text="Настройки" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding OpenTestDialogCommand}" IsVisible="{Binding TestMode}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="Получаемые данные (Структура)" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>

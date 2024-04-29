@@ -15,10 +15,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TlOsl">
 
-    <Design.DataContext>
-        <vm:ChartPanelDialogViewModel />
-    </Design.DataContext>
-
     <Panel>
         <v:ChartTabsView DataContext="{Binding ChartTabsViewModel}"></v:ChartTabsView>
     </Panel>

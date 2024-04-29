@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Luminescence.Dialog;
-using Luminescence.Utils;
 using Luminescence.ViewModels;
 using Splat;
 

@@ -13,13 +13,9 @@
         Width="500" Height="200"
         CanResize="False"
         ShowInTaskbar="False"
-        SystemDecorations="Full"
+        SystemDecorations="BorderOnly"
         Icon="/Assets/avalonia-logo.ico"
         Title="Confirmation | TlOsl">
-
-    <Design.DataContext>
-        <vm:ConfirmationDialogViewModel />
-    </Design.DataContext>
 
     <!-- <Window.Styles> -->
     <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->

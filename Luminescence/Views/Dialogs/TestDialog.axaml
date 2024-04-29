@@ -4,22 +4,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Luminescence.ViewModels"
         mc:Ignorable="d"
-        x:Class="Luminescence.Views.ErrorDialog"
-        x:DataType="vm:ErrorDialogViewModel"
+        x:Class="Luminescence.Views.TestDialog"
+        x:DataType="vm:TestDialogViewModel"
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Width="500" Height="200"
+        Width="300" Height="400"
         CanResize="False"
         ShowInTaskbar="False"
         SystemDecorations="Full"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Error | TlOsl">
+        Title="Test">
 
-    <!-- <Window.Styles> -->
-    <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
-    <!-- </Window.Styles> -->
-
-    <TextBlock Text="{Binding Text}" />
+    <Panel>
+        <TextBox Width="300"
+                 Height="400"
+                 Padding="8"
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 Text="{Binding Text}" />
+    </Panel>
 
 </Window>

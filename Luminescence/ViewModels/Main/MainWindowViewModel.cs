@@ -30,7 +30,6 @@ public class MainWindowViewModel : BaseViewModel
     private double _height;
 
     private readonly ExpDevice _expDevice;
-    private readonly ExpChartService _expChartService;
     private readonly UsbHidService _usbHidService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
     private readonly MeasurementSettingsFormViewModel _measurementSettingsFormViewModel;
@@ -41,23 +40,22 @@ public class MainWindowViewModel : BaseViewModel
         UsbHidService usbHidService,
         MeasurementSettingsFormService measurementSettingsFormService,
         MeasurementSettingsFormViewModel measurementSettingsFormViewModel,
-        DialogBaseService dialogBaseService
+        DialogService dialogService
     )
     {
         _expDevice = expDevice;
-        _expChartService = expChartService;
         _usbHidService = usbHidService;
         _measurementSettingsFormService = measurementSettingsFormService;
         _measurementSettingsFormViewModel = measurementSettingsFormViewModel;
 
-        OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
-        SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());
+        OpenCommand = ReactiveCommand.Create<Unit>(_ => expChartService.Open());
+        SaveCommand = ReactiveCommand.Create<Unit>(_ => expChartService.Save());
         OpenSettingsDialogCommand =
             ReactiveCommand.Create<Unit>(_ =>
             {
                 if (!_expDevice.InProcess.Value)
                 {
-                    dialogBaseService.Create<SettingsDialogViewModel>().Open();
+                    dialogService.Create<SettingsDialogViewModel>().Open();
                 }
             });
     }

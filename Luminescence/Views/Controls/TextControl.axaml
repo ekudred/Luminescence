@@ -8,10 +8,6 @@
              x:DataType="vm:TextControlViewModel"
              x:CompileBindings="True">
 
-    <Design.DataContext>
-        <vm:TextControlViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/TextControlStyle.axaml" />
     </UserControl.Styles>

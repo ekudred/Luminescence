@@ -4,68 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:v="clr-namespace:Luminescence.Views"
              xmlns:vm="clr-namespace:Luminescence.ViewModels"
-             xmlns:convs="clr-namespace:Luminescence.Converters"
-             xmlns:s="clr-namespace:Luminescence.Services"
              mc:Ignorable="d"
              x:Class="Luminescence.Views.ChartTabsView"
              x:DataType="vm:ChartTabsViewModel"
-             x:CompileBindings="True"
-             x:Name="ChartsTabViewControl">
+             x:CompileBindings="True">
 
-    <UserControl.Resources>
-        <convs:DictionaryEntryConverter x:Key="DictionaryEntryConverter" />
-    </UserControl.Resources>
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartTabsViewStyle.axaml" />
+    </UserControl.Styles>
 
-    <TabControl Width="{Binding Width}" Height="{Binding Height}">
+    <TabControl Width="{Binding Width}" Height="{Binding Height}" ItemsSource="{Binding ChartTabs}">
 
-        <TabItem Header="Температура и люминесценция">
-            <Grid RowDefinitions="*" ColumnDefinitions="*,*">
+        <TabControl.ItemTemplate>
+            <DataTemplate DataType="vm:ChartTab">
+                <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+        </TabControl.ItemTemplate>
 
-                <v:ChartView
-                    Grid.Row="0" Grid.Column="0"
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tal0}}">
-                </v:ChartView>
+        <TabControl.ContentTemplate>
+            <DataTemplate DataType="vm:ChartTab">
+                <ItemsControl ItemsSource="{Binding Charts}">
 
-                <v:ChartView
-                    Grid.Row="0" Grid.Column="1"
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tal1}}">
-                </v:ChartView>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-            </Grid>
-        </TabItem>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="vm:ChartViewModel">
+                            <v:ChartView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-        <TabItem Header="ТЛ кривая">
-            <Grid RowDefinitions="*" ColumnDefinitions="*">
-                <v:ChartView
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Tl}}">
-                </v:ChartView>
-            </Grid>
-        </TabItem>
-
-        <TabItem Header="ОСЛ">
-            <Grid RowDefinitions="*" ColumnDefinitions="*">
-                <v:ChartView
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Osl}}">
-                </v:ChartView>
-            </Grid>
-        </TabItem>
-
-        <TabItem Header="Светодиод">
-            <Grid RowDefinitions="*" ColumnDefinitions="*">
-                <v:ChartView
-                    DataContext="{Binding Charts, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:ExpChart.Led}}">
-                </v:ChartView>
-            </Grid>
-        </TabItem>
-
-        <TabItem Header="Test">
-            <Grid RowDefinitions="*" ColumnDefinitions="*">
-                <TextBox Height="600"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Text="{Binding Test}" />
-            </Grid>
-        </TabItem>
+                </ItemsControl>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
 
     </TabControl>
+
 </UserControl>

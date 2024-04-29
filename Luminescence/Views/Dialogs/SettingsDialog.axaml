@@ -19,10 +19,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TlOsl">
 
-    <Design.DataContext>
-        <vm:SettingsDialogViewModel />
-    </Design.DataContext>
-
     <Window.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/SettingsDialogStyle.axaml" />
     </Window.Styles>

@@ -8,10 +8,6 @@
              x:DataType="vm:CheckboxControlViewModel"
              x:CompileBindings="True">
 
-    <Design.DataContext>
-        <vm:RadioControlViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioControlStyle.axaml" />
     </UserControl.Styles>

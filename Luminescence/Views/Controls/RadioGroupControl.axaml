@@ -9,10 +9,6 @@
              x:DataType="vm:RadioGroupControlViewModel"
              x:CompileBindings="True">
 
-    <Design.DataContext>
-        <vm:RadioGroupControlViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioGroupControlStyle.axaml" />
     </UserControl.Styles>

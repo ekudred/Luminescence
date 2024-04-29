@@ -9,10 +9,6 @@
              x:DataType="vm:ChartPanelViewModel"
              x:CompileBindings="True">
 
-    <Design.DataContext>
-        <vm:ChartPanelViewModel />
-    </Design.DataContext>
-
     <Panel>
         <v:ChartTabsView DataContext="{Binding ChartTabsViewModel}"></v:ChartTabsView>
     </Panel>

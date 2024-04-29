@@ -24,7 +24,7 @@ public class UsbHidDevice
 
     // test
     public bool TestActive = false;
-    public readonly bool IsTest = true;
+    public readonly bool TestMode = true;
     // end test
 
     protected UsbHidDevice(
@@ -38,7 +38,7 @@ public class UsbHidDevice
 
     public void RunAvailableDeviceCheck()
     {
-        if (IsTest)
+        if (TestMode)
         {
             Connect();
 
@@ -100,7 +100,7 @@ public class UsbHidDevice
 
     private void ConnectDevice()
     {
-        if (IsTest)
+        if (TestMode)
         {
             Connected.OnNext(true);
 
@@ -126,7 +126,7 @@ public class UsbHidDevice
 
     private void DisconnectDevice()
     {
-        if (IsTest)
+        if (TestMode)
         {
             return;
         }
@@ -146,7 +146,7 @@ public class UsbHidDevice
 
     private void StartListenDevice()
     {
-        if (IsTest)
+        if (TestMode)
         {
             if (_listenDeviceOn != null)
             {

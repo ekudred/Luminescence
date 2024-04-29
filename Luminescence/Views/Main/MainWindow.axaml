@@ -14,10 +14,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Luminescence">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel />
-    </Design.DataContext>
-
     <Window.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/MainWindowStyle.axaml" />
     </Window.Styles>

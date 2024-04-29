@@ -8,10 +8,6 @@
              x:DataType="vm:NumericControlViewModel"
              x:CompileBindings="True">
 
-    <Design.DataContext>
-        <vm:NumericControlViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/NumericControlStyle.axaml" />
     </UserControl.Styles>

@@ -19,6 +19,4 @@ public class ChartPanelDialogViewModel : DialogBaseViewModel
 
         ChartTabsViewModel = data.ChartTabsViewModel;
     }
-
-
 }

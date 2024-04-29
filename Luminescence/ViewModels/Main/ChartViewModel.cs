@@ -18,10 +18,11 @@ namespace Luminescence.ViewModels;
 
 public class ChartViewModel : BaseViewModel
 {
+    public string Name;
+
     public List<ISeries> Series { get; } = new();
 
     public List<ISeries> ScrollbarSeries { get; } = new();
-
 
     public List<Axis> XAxes { get; } = new()
     {
@@ -87,8 +88,10 @@ public class ChartViewModel : BaseViewModel
     private readonly int _visiblePoints;
     private bool _isDown;
 
-    public ChartViewModel(ChartAxisOptions xAxisOptions, ChartAxisOptions yAxisOptions)
+    public ChartViewModel(string name, ChartAxisOptions xAxisOptions, ChartAxisOptions yAxisOptions)
     {
+        Name = name;
+
         var xAxis = XAxes[0];
         xAxis.Name = $"{xAxisOptions.Name}, {xAxisOptions.MeasureName}";
         xAxis.MinLimit = xAxisOptions.MinLimit;
@@ -107,7 +110,7 @@ public class ChartViewModel : BaseViewModel
         PointerUpCommand = ReactiveCommand.Create<PointerCommandArgs>(PointerUp);
     }
 
-    public void AddPoint(string seriesName, double xValue, double yValue)
+    public void AddPoint(string seriesName, double[] point)
     {
         var series = Series.Find(series => series.Name == seriesName);
         var scrollbarSeries = ScrollbarSeries.Find(scrollbarSeries => scrollbarSeries.Name == seriesName);
@@ -122,8 +125,8 @@ public class ChartViewModel : BaseViewModel
             var seriesValues = (ObservableCollection<ObservablePoint>)series.Values!;
             var scrollbarSeriesValues = (ObservableCollection<ObservablePoint>)scrollbarSeries.Values!;
 
-            seriesValues.Add(new ObservablePoint(xValue, yValue));
-            scrollbarSeriesValues.Add(new ObservablePoint(xValue, yValue));
+            seriesValues.Add(new ObservablePoint(point[0], point[1]));
+            scrollbarSeriesValues.Add(new ObservablePoint(point[0], point[1]));
 
             // if (seriesValues.Count > _visiblePoints)
             // {

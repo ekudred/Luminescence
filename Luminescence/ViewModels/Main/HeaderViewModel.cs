@@ -15,6 +15,7 @@ public class HeaderViewModel : BaseViewModel
     public ICommand OpenCommand { get; }
     public ICommand SaveCommand { get; }
     public ICommand OpenSettingsDialogCommand { get; }
+    public ICommand OpenTestDialogCommand { get; }
 
     public bool Connected
     {
@@ -40,23 +41,28 @@ public class HeaderViewModel : BaseViewModel
         set => this.RaiseAndSetIfChanged(ref _stopEnabled, value);
     }
 
+    public bool TestMode
+    {
+        get => _testMode;
+        set => this.RaiseAndSetIfChanged(ref _testMode, value);
+    }
+
     public BehaviorSubject<bool> OpenEnabled => _expChartService.OpenEnabled;
     public BehaviorSubject<bool> SaveEnabled => _expChartService.SaveEnabled;
-
-    // public BehaviorSubject<bool> Connected => _expDeviceService.Connected;
 
 
     private bool _connected;
     private bool _inProcess;
     private bool _playEnabled;
     private bool _stopEnabled;
+    private bool _testMode;
 
     private readonly ExpDevice _expDevice;
     private readonly ExpChartService _expChartService;
     private readonly MeasurementSettingsFormService _measurementSettingsFormService;
 
     public HeaderViewModel(
-        DialogBaseService dialogBaseService,
+        DialogService dialogService,
         ExpDevice expDevice,
         ExpChartService expChartService,
         MeasurementSettingsFormService measurementSettingsFormService
@@ -65,6 +71,8 @@ public class HeaderViewModel : BaseViewModel
         _expDevice = expDevice;
         _expChartService = expChartService;
         _measurementSettingsFormService = measurementSettingsFormService;
+
+        TestMode = _expDevice.TestMode;
 
         _expDevice.Connected
             .Subscribe(connected => { Connected = connected; });
@@ -95,14 +103,17 @@ public class HeaderViewModel : BaseViewModel
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
         OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
         SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());
-        OpenSettingsDialogCommand =
-            ReactiveCommand.Create<Unit>(_ =>
+        OpenSettingsDialogCommand = ReactiveCommand.Create<Unit>(_ =>
+        {
+            if (!_expDevice.InProcess.Value)
             {
-                if (!_expDevice.InProcess.Value)
-                {
-                    dialogBaseService.Create<SettingsDialogViewModel>().Open();
-                }
-            });
+                dialogService.Create<SettingsDialogViewModel>().Open();
+            }
+        });
+        OpenTestDialogCommand = ReactiveCommand.Create<Unit>(_ =>
+        {
+            dialogService.Create<TestDialogViewModel>().Open();
+        });
     }
 
     private void ToggleActive()

@@ -76,7 +76,6 @@
     <ItemGroup>
         <AdditionalFiles Include="Styles\Views\Dialogs\SettingsDialogStyle.axaml"/>
         <AdditionalFiles Include="Styles\Views\Main\MainWindowStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\RosterViewStyle.axaml"/>
         <AdditionalFiles Include="Styles\Views\Main\HeaderViewStyle.axaml"/>
     </ItemGroup>
 

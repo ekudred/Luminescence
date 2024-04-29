@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia;
@@ -23,13 +24,19 @@ public class AppFilePickerService
             .Select(file => OpenText(file)).Switch();
     }
 
+    public IObservable<Unit> Save(string data, AppFilePickerSaveOptions options, Visual? visual = null)
+    {
+        return SaveStorageFile(options, visual)
+            .Select(file => SaveText(file, data)).Switch();
+    }
+
     private IObservable<IStorageFile> OpenStorageFile(AppFilePickerOpenOptions options, Visual? visual = null)
     {
         return Observable.Create(async (IObserver<IStorageFile> observer) =>
         {
             try
             {
-                var topLevel = GetTopLevel(visual);
+                TopLevel topLevel = GetTopLevel(visual);
 
                 IStorageFolder suggestedStartLocation =
                     await topLevel.StorageProvider.TryGetFolderFromPathAsync(options.StartLocationDirectory);
@@ -49,6 +56,49 @@ public class AppFilePickerService
                 }
 
                 observer.OnNext(files[0]);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+
+                observer.OnError(exception);
+            }
+            finally
+            {
+                observer.OnCompleted();
+            }
+
+            return Disposable.Empty;
+        });
+    }
+
+    private IObservable<IStorageFile> SaveStorageFile(AppFilePickerSaveOptions options, Visual? visual = null)
+    {
+        return Observable.Create(async (IObserver<IStorageFile> observer) =>
+        {
+            try
+            {
+                TopLevel topLevel = GetTopLevel(visual);
+
+                IStorageFolder suggestedStartLocation =
+                    await topLevel.StorageProvider.TryGetFolderFromPathAsync(options.StartLocationDirectory);
+
+                FilePickerSaveOptions saveOptions = new()
+                {
+                    Title = options.Title,
+                    SuggestedFileName = options.FileName,
+                    FileTypeChoices = options.FileTypeChoices,
+                    DefaultExtension = options.DefaultExtension,
+                    SuggestedStartLocation = suggestedStartLocation
+                };
+                var file = await topLevel.StorageProvider.SaveFilePickerAsync(saveOptions);
+
+                if (file == null)
+                {
+                    throw new Exception("File not found");
+                }
+
+                observer.OnNext(file);
             }
             catch (Exception exception)
             {
@@ -92,58 +142,9 @@ public class AppFilePickerService
         });
     }
 
-    public IObservable<object> Save(string data, AppFilePickerSaveOptions options, Visual? visual = null)
+    private IObservable<Unit> SaveText(IStorageFile file, string data)
     {
-        return SaveStorageFile(options, visual)
-            .Select(file => SaveText(file, data)).Switch();
-    }
-
-    private IObservable<IStorageFile> SaveStorageFile(AppFilePickerSaveOptions options, Visual? visual = null)
-    {
-        return Observable.Create(async (IObserver<IStorageFile> observer) =>
-        {
-            try
-            {
-                var topLevel = GetTopLevel(visual);
-
-                IStorageFolder suggestedStartLocation =
-                    await topLevel.StorageProvider.TryGetFolderFromPathAsync(options.StartLocationDirectory);
-
-                FilePickerSaveOptions saveOptions = new()
-                {
-                    Title = options.Title,
-                    SuggestedFileName = options.FileName,
-                    FileTypeChoices = options.FileTypeChoices,
-                    DefaultExtension = options.DefaultExtension,
-                    SuggestedStartLocation = suggestedStartLocation
-                };
-                var file = await topLevel.StorageProvider.SaveFilePickerAsync(saveOptions);
-
-                if (file == null)
-                {
-                    throw new Exception("File not found");
-                }
-
-                observer.OnNext(file);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-
-                observer.OnError(exception);
-            }
-            finally
-            {
-                observer.OnCompleted();
-            }
-
-            return Disposable.Empty;
-        });
-    }
-
-    private IObservable<object> SaveText(IStorageFile file, string data)
-    {
-        return Observable.Create(async (IObserver<object> observer) =>
+        return Observable.Create(async (IObserver<Unit> observer) =>
         {
             try
             {
@@ -151,7 +152,7 @@ public class AppFilePickerService
                 using var streamWriter = new StreamWriter(stream);
                 await streamWriter.WriteLineAsync(data);
 
-                observer.OnNext(default);
+                observer.OnNext(Unit.Default);
             }
             catch (Exception exception)
             {

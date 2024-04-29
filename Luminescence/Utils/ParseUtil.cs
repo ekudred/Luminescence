@@ -12,6 +12,16 @@ public static class ParseUtil
         return result;
     }
 
+    public static int ToInt(this double value)
+    {
+        return Convert.ToInt32(value);
+    }
+
+    public static int ToInt(this decimal value)
+    {
+        return Convert.ToInt32(value);
+    }
+
     public static double? ToDouble(this string value)
     {
         double.TryParse(value, out double result);
@@ -22,6 +32,16 @@ public static class ParseUtil
     public static double? ToDouble(this decimal value)
     {
         return decimal.ToDouble(value);
+    }
+
+    public static double? ToDouble(this float value)
+    {
+        return Convert.ToDouble(value);
+    }
+
+    public static double? ToDouble(this uint value)
+    {
+        return Convert.ToDouble(value);
     }
 
     public static decimal? ToDecimal(this string value)

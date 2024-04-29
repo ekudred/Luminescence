@@ -10,10 +10,6 @@
              x:CompileBindings="True"
              x:Name="ChartViewControl">
 
-    <Design.DataContext>
-        <vm:ChartViewModel />
-    </Design.DataContext>
-
     <UserControl.Styles>
         <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartViewStyle.axaml" />
     </UserControl.Styles>

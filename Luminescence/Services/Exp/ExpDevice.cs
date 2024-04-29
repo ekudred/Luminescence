@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using Luminescence.Dialog;
 using Luminescence.UsbHid;
 using Luminescence.ViewModels;
 
@@ -14,21 +13,21 @@ public class ExpDevice : UsbHidDevice
 
     private Subject<bool> _readDataOn;
 
-    private readonly DialogBaseService _dialogBaseService;
+    private readonly DialogService _dialogService;
 
     public ExpDevice
     (
         UsbHidService hidService,
-        DialogBaseService dialogBaseService
+        DialogService dialogService
     ) : base
     (
         new ExpDeviceOptions(),
         hidService
     )
     {
-        _dialogBaseService = dialogBaseService;
+        _dialogService = dialogService;
 
-        if (IsTest)
+        if (TestMode)
         {
             return;
         }
@@ -38,13 +37,13 @@ public class ExpDevice : UsbHidDevice
             .Where(inProcess => inProcess)
             .Subscribe(_ => { InProcess.OnNext(false); });
 
-        // ReadException
-        //     .Subscribe(_ => _dialogService.ShowDialog("ErrorDialog").Subscribe());
+        ReadException
+            .Subscribe(_ => { _dialogService.Create<ErrorDialogViewModel>(); });
     }
 
     public void RunProcess(ExpWriteDto dto)
     {
-        if (IsTest)
+        if (TestMode)
         {
             _readDataOn = new();
 
@@ -83,13 +82,13 @@ public class ExpDevice : UsbHidDevice
                             CurrentData.OnNext(dto);
                         });
                 },
-                _ => { _dialogBaseService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 
     public void StopProcess()
     {
-        if (IsTest)
+        if (TestMode)
         {
             _readDataOn.OnNext(true);
             _readDataOn = null;
@@ -110,7 +109,7 @@ public class ExpDevice : UsbHidDevice
 
                     InProcess.OnNext(false);
                 },
-                _ => { _dialogBaseService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
             );
     }
 }
