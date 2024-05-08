@@ -44,7 +44,7 @@
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Command="{Binding OpenTestDialogCommand}" IsVisible="{Binding TestMode}">
+                    <MenuItem Command="{Binding OpenTestDialogCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"

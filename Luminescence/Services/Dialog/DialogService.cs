@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -14,12 +15,44 @@ public class DialogService : DialogBaseService
     {
     }
 
-    public IObservable<bool> Confirm(Window parentWindow)
+    public IObservable<Unit> ShowError()
     {
-        return Confirm(null, parentWindow);
+        return ShowError(null, null);
     }
 
-    public IObservable<bool> Confirm(ConfirmationDialogData? data = null, Window? parentWindow = null)
+    public IObservable<Unit> ShowError(Window parentWindow)
+    {
+        return ShowError(null, parentWindow);
+    }
+
+    public IObservable<Unit> ShowError(ErrorDialogData? data = null, Window? parentWindow = null)
+    {
+        return Observable.Create((IObserver<Unit> observer) =>
+        {
+            var dialog = Create<ErrorDialogViewModel>();
+
+            dialog.ViewModel.Initialize(data ??= new());
+
+            dialog.Open();
+
+            observer.OnNext(Unit.Default);
+            observer.OnCompleted();
+
+            return Disposable.Empty;
+        });
+    }
+
+    public IObservable<bool> ShowConfirm()
+    {
+        return ShowConfirm(null, null);
+    }
+
+    public IObservable<bool> ShowConfirm(Window parentWindow)
+    {
+        return ShowConfirm(null, parentWindow);
+    }
+
+    public IObservable<bool> ShowConfirm(ConfirmationDialogData? data = null, Window? parentWindow = null)
     {
         return Observable.Create((IObserver<bool> observer) =>
         {
@@ -63,7 +96,7 @@ public class DialogService : DialogBaseService
 
             dialog.OnClose
                 .Where(_ => !dialog.ViewModel.CanClose)
-                .Select(_ => Confirm(data, dialog.CurrentWindow)).Switch()
+                .Select(_ => ShowConfirm(data, dialog.CurrentWindow)).Switch()
                 .TakeUntil(dialogClosed)
                 .Subscribe(confirm =>
                 {

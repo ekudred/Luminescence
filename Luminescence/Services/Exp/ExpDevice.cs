@@ -38,7 +38,8 @@ public class ExpDevice : UsbHidDevice
             .Subscribe(_ => { InProcess.OnNext(false); });
 
         ReadException
-            .Subscribe(_ => { _dialogService.Create<ErrorDialogViewModel>(); });
+            .Select(_ => _dialogService.ShowError()).Switch()
+            .Subscribe();
     }
 
     public void RunProcess(ExpWriteDto dto)
@@ -82,7 +83,7 @@ public class ExpDevice : UsbHidDevice
                             CurrentData.OnNext(dto);
                         });
                 },
-                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.ShowError().Subscribe(); }
             );
     }
 
@@ -109,7 +110,7 @@ public class ExpDevice : UsbHidDevice
 
                     InProcess.OnNext(false);
                 },
-                _ => { _dialogService.Create<ErrorDialogViewModel>(); }
+                _ => { _dialogService.ShowError().Subscribe(); }
             );
     }
 }

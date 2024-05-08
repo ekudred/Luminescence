@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using DynamicData;
 using Luminescence.Form;
 using Luminescence.Services;
 
@@ -156,11 +158,11 @@ public class MeasurementSettingsFormModel : FormBaseModel
         dto.PEMMode = Convert.ToByte(PEMMode);
         dto.HeatingRate = Convert.ToByte(HeatingRate * 10); //  0.1 - 10 скорость нагрева
         dto.TemperatureError = 0;
-        dto.LEDCurrentRate = Convert.ToByte(LEDCurrentRate * 10); // 0.1 - 500
+        dto.LEDCurrentRate = Convert.ToUInt16(LEDCurrentRate * 10); // 0.1 - 500
         dto.StartTemperature = 0;
-        dto.EndTemperature = Convert.ToByte(EndTemperature);
-        dto.StartLEDCurrent = Convert.ToByte(StartLEDCurrent);
-        dto.EndLEDCurrent = Convert.ToByte(EndLEDCurrent);
+        dto.EndTemperature = Convert.ToUInt16(EndTemperature);
+        dto.StartLEDCurrent = Convert.ToUInt16(StartLEDCurrent);
+        dto.EndLEDCurrent = Convert.ToUInt16(EndLEDCurrent);
         dto.Upem = Convert.ToByte(Ufeu * 100); // default 0.5 (огр: 0.5 до 1.1 включ) (Ufeu*100)
         dto.KeyControl = 0;
         dto.PEMError = 0;
@@ -172,5 +174,38 @@ public class MeasurementSettingsFormModel : FormBaseModel
         dto.fError = 0;
 
         return dto;
+    }
+
+    public override string ToString()
+    {
+        var a = GetType().GetFields()
+            .Select(info =>
+            {
+                if (
+                    info.GetValue(this) != null &&
+                    info.GetValue(this)!.GetType().GetInterfaces().Contains(typeof(IDictionary<int, double>))
+                )
+                {
+                    var value = "";
+                    var dictionary = (Dictionary<int, double>)info.GetValue(this)!;
+
+                    foreach (var item in dictionary)
+                    {
+                        var end = dictionary.IndexOf(item) == dictionary.Count ? "" : ".";
+                        value += $"{item.Key}:{item.Value}{end}";
+                    }
+
+                    return (info.Name, Value: value);
+                }
+
+                return (info.Name, Value: info.GetValue(this) ?? "(null)");
+            })
+            .Aggregate(
+                new StringBuilder(),
+                (acc, pair) => acc.AppendLine($"{pair.Name};{pair.Value}"),
+                acc => acc.ToString()
+            );
+
+        return a;
     }
 }

@@ -15,30 +15,33 @@ public class ExpChartsModel
     public static readonly string Osl = "Osl";
     public static readonly string Led = "Led";
 
+    public static readonly string CurrentSeriesName = "Текущий";
+    public static readonly string OpSeriesName = "Опорный";
+
     public readonly Dictionary<string, ChartViewModel> ChartViewModels = new();
 
     public void Initialize()
     {
         ChartViewModel tal0Chart = new(Tal0, new("Время", "сек"), new("Температура", "°C"));
-        tal0Chart.AddSeries(new("0"));
-        tal0Chart.AddSeries(new("1", SKColors.Gold));
+        tal0Chart.AddSeries(new(CurrentSeriesName));
+        tal0Chart.AddSeries(new(OpSeriesName, SKColors.Gold));
         ChartViewModels.Add(tal0Chart.Name, tal0Chart);
 
         ChartViewModel tal1Chart = new(Tal1, new("Время", "сек"), new("Интенсивность", "УЕ"));
-        tal1Chart.AddSeries(new("0"));
+        tal1Chart.AddSeries(new(CurrentSeriesName));
         ChartViewModels.Add(tal1Chart.Name, tal1Chart);
 
         ChartViewModel tlChart = new(Tl, new("Температура", "°C"), new("Интенсивность", "УЕ"));
-        tlChart.AddSeries(new("0"));
+        tlChart.AddSeries(new(CurrentSeriesName));
         ChartViewModels.Add(tlChart.Name, tlChart);
 
-        ChartViewModel oslChart = new(Osl, new("Ток светодиода", "мА"), new("Время", "сек"));
-        oslChart.AddSeries(new("0"));
+        ChartViewModel oslChart = new(Osl, new("Ток светодиода", "мА"), new("Интенсивность", "УЕ"));
+        oslChart.AddSeries(new(CurrentSeriesName));
         ChartViewModels.Add(oslChart.Name, oslChart);
 
         ChartViewModel ledChart = new(Led, new("Время", "сек"), new("Ток светодиода", "мА"));
-        ledChart.AddSeries(new("0"));
-        ledChart.AddSeries(new("1", SKColors.Gold));
+        ledChart.AddSeries(new(CurrentSeriesName));
+        ledChart.AddSeries(new(OpSeriesName, SKColors.Gold));
         ChartViewModels.Add(ledChart.Name, ledChart);
     }
 

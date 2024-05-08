@@ -24,10 +24,14 @@
             XAxes="{Binding XAxes}"
             YAxes="{Binding YAxes}"
             AutoUpdateEnabled="True"
+            LegendPosition="Top"
             AnimationsSpeed="00:00:00.100"
             EasingFunction="{x:Null}"
             ZoomMode="Both"
             UpdateStartedCommand="{Binding ChartUpdatedCommand}">
+            <lvc:CartesianChart.Legend>
+                <vm:CustomLegend />
+            </lvc:CartesianChart.Legend>
         </lvc:CartesianChart>
 
         <lvc:CartesianChart

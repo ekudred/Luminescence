@@ -89,17 +89,24 @@ public class ExpChartService
         expDevice.CurrentData
             .Subscribe(data =>
             {
-                ExpChartsModel.AddPoint(ExpChartsModel.Tal0, "0", new double[] { data.Counter, data.Temperature });
-                ExpChartsModel.AddPoint(ExpChartsModel.Tal0, "1", new double[] { data.Counter, data.OpTemperature });
+                ExpChartsModel.AddPoint(ExpChartsModel.Tal0, ExpChartsModel.CurrentSeriesName,
+                    new double[] { data.Counter, data.Temperature });
+                ExpChartsModel.AddPoint(ExpChartsModel.Tal0, ExpChartsModel.OpSeriesName,
+                    new double[] { data.Counter, data.OpTemperature });
 
-                ExpChartsModel.AddPoint(ExpChartsModel.Tal1, "0", new double[] { data.Counter, data.Intensity });
+                ExpChartsModel.AddPoint(ExpChartsModel.Tal1, ExpChartsModel.CurrentSeriesName,
+                    new double[] { data.Counter, data.Intensity });
 
-                ExpChartsModel.AddPoint(ExpChartsModel.Tl, "0", new double[] { data.OpTemperature, data.Intensity });
+                ExpChartsModel.AddPoint(ExpChartsModel.Tl, ExpChartsModel.CurrentSeriesName,
+                    new double[] { data.OpTemperature, data.Intensity });
 
-                ExpChartsModel.AddPoint(ExpChartsModel.Osl, "0", new double[] { data.OpLEDCurrent, data.Intensity });
+                ExpChartsModel.AddPoint(ExpChartsModel.Osl, ExpChartsModel.CurrentSeriesName,
+                    new double[] { data.OpLEDCurrent, data.Intensity });
 
-                ExpChartsModel.AddPoint(ExpChartsModel.Led, "0", new double[] { data.Counter, data.LEDCurrent });
-                ExpChartsModel.AddPoint(ExpChartsModel.Led, "1", new double[] { data.Counter, data.OpLEDCurrent });
+                ExpChartsModel.AddPoint(ExpChartsModel.Led, ExpChartsModel.CurrentSeriesName,
+                    new double[] { data.Counter, data.LEDCurrent });
+                ExpChartsModel.AddPoint(ExpChartsModel.Led, ExpChartsModel.OpSeriesName,
+                    new double[] { data.Counter, data.OpLEDCurrent });
             });
     }
 
@@ -113,7 +120,7 @@ public class ExpChartService
         _appFilePickerService.Open(_openOptions)
             .Select(text =>
             {
-                return _dialogService.Confirm(new ConfirmationDialogData("Открыть в новом окне?"))
+                return _dialogService.ShowConfirm(new ConfirmationDialogData("Открыть в новом окне?"))
                     .Select(confirm =>
                     {
                         if (!confirm)
@@ -145,10 +152,12 @@ public class ExpChartService
             return;
         }
 
-        _dialogService.Confirm(new ConfirmationDialogData("Сохранить в буфер обмена?"))
+        string text = ExpChartsModel.GetData().ToText() + "\n" + _measurementSettingsFormViewModel.ToModel().ToString();
+
+        _dialogService.ShowConfirm(new ConfirmationDialogData("Сохранить в буфер обмена?"))
             .Select(value => value
-                ? _clipboardService.SetText(ExpChartsModel.GetData().ToText())
-                : _appFilePickerService.Save(ExpChartsModel.GetData().ToText(), _saveOptions)
+                ? _clipboardService.SetText(text)
+                : _appFilePickerService.Save(text, _saveOptions)
             ).Switch()
             .Subscribe();
     }

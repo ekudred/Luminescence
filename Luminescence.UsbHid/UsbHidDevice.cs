@@ -24,7 +24,7 @@ public class UsbHidDevice
 
     // test
     public bool TestActive = false;
-    public readonly bool TestMode = false;
+    public readonly bool TestMode = true;
     // end test
 
     protected UsbHidDevice(
