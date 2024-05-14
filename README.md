@@ -74,7 +74,7 @@ Luminescence (solution)/
         ├── UsbHid/         
         ├── Utils/          
         └── ...  
-    ├── Luminescence.ViewModels (project)/  
+    └── Luminescence.ViewModels (project)/  
         ├── Dialogs/
         ├── Main/                   
         └── ...  
