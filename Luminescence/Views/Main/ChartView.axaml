@@ -25,13 +25,19 @@
             YAxes="{Binding YAxes}"
             AutoUpdateEnabled="True"
             LegendPosition="Top"
+            TooltipPosition="Auto"
+            TooltipFindingStrategy="Automatic"
+            TooltipTextSize="16"
             AnimationsSpeed="00:00:00.100"
             EasingFunction="{x:Null}"
             ZoomMode="Both"
             UpdateStartedCommand="{Binding ChartUpdatedCommand}">
             <lvc:CartesianChart.Legend>
-                <vm:CustomLegend />
+                <vm:ChartCustomLegend />
             </lvc:CartesianChart.Legend>
+            <lvc:CartesianChart.Tooltip>
+                <vm:ChartCustomTooltip />
+            </lvc:CartesianChart.Tooltip>
         </lvc:CartesianChart>
 
         <lvc:CartesianChart

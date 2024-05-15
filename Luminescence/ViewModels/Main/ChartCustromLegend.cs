@@ -15,16 +15,10 @@ using SkiaSharp;
 
 namespace Luminescence.ViewModels;
 
-public class CustomLegend : IChartLegend<SkiaSharpDrawingContext>
+public class ChartCustomLegend : IChartLegend<SkiaSharpDrawingContext>
 {
     private static readonly int s_zIndex = 10050;
     private readonly StackPanel<RoundedRectangleGeometry, SkiaSharpDrawingContext> _stackPanel = new();
-
-    private readonly SolidColorPaint _fontPaint = new(new SKColor(30, 20, 30))
-    {
-        SKTypeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Normal),
-        ZIndex = s_zIndex + 1
-    };
 
     public void Draw(Chart<SkiaSharpDrawingContext> chart)
     {
@@ -69,20 +63,15 @@ public class CustomLegend : IChartLegend<SkiaSharpDrawingContext>
                 HorizontalAlignment = Align.Middle,
                 Children =
                 {
-                    new SVGVisual
-                    {
-                        Path = SKPath.ParseSvgPathData(SVGPoints.Square),
-                        Width = 12,
-                        Height = 12,
-                        Fill = new SolidColorPaint(((SolidColorPaint)series.Stroke!).Color)
-                        {
-                            ZIndex = s_zIndex + 1
-                        }
-                    },
+                    series.GetMiniaturesSketch().AsDrawnControl(s_zIndex),
                     new LabelVisual
                     {
                         Text = series.Name ?? string.Empty,
-                        Paint = _fontPaint,
+                        Paint = new SolidColorPaint(new SKColor(30, 20, 30))
+                        {
+                            SKTypeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Normal),
+                            ZIndex = s_zIndex + 1
+                        },
                         TextSize = 12,
                         Padding = new Padding(8, 0, 0, 0),
                         VerticalAlignment = Align.Start,

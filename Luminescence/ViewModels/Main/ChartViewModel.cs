@@ -154,7 +154,7 @@ public class ChartViewModel : BaseViewModel
             LineSmoothness = 0.5,
             GeometryFill = null,
             GeometryStroke = null,
-            IsHoverable = false
+            IsHoverable = true
         });
         ScrollbarSeries.Add(new LineSeries<ObservablePoint>
         {

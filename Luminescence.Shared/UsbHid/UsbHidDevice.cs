@@ -164,15 +164,13 @@ public class UsbHidDevice
                 .TakeUntil(_listenDeviceOn)
                 .Subscribe(_ =>
                 {
-                    var temperature = Math.Truncate(random.NextSingle() * 1000);
-                    var intensity = Math.Truncate(random.NextDouble() * 500);
-                    var LEDCurrent = Math.Truncate(random.NextDouble());
-
                     var structure = new ExpReadDto();
                     structure.Counter += UInt32.Parse(counter.ToString());
-                    structure.Temperature = float.Parse(temperature.ToString());
-                    structure.Intensity = UInt32.Parse(intensity.ToString());
-                    structure.LEDCurrent = UInt32.Parse(LEDCurrent.ToString());
+                    structure.Temperature = float.Parse(Math.Truncate(random.NextSingle() * 1000).ToString());
+                    structure.OpTemperature = float.Parse(Math.Truncate(random.NextSingle() * 1100).ToString());
+                    structure.Intensity = UInt32.Parse(Math.Truncate(random.NextDouble() * 500).ToString());
+                    structure.LEDCurrent = UInt32.Parse(Math.Truncate(random.NextDouble()).ToString());
+                    structure.OpLEDCurrent = UInt32.Parse(Math.Truncate(random.NextDouble() * 1.1).ToString());
 
                     ReadData.OnNext(StructUtil.StructToBytes(structure));
 
@@ -213,6 +211,7 @@ public class UsbHidDevice
     }
 }
 
+// Для TestMode
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
 public struct ExpReadDto
 {
