@@ -58,3 +58,46 @@ typedef struct {        //стандартный репорт передачи �
 	uint8_t fError;					//63	//Ошибка
 } tReportStdInPC;
 #pragma pack(pop)
+
+Luminescence (solution)/               
+    ├── Luminescence (project)/ 
+    	├── Assets/
+        ├── Styles/          
+        ├── Views/                
+        └── ...  
+    ├── Luminescence.Services (project)/
+    	├── App/    
+        └── ...  
+    ├── Luminescence.Shared (project)/
+        ├── Dialog/
+	├── Form/
+        ├── UsbHid/         
+        ├── Utils/          
+        └── ...  
+    └── Luminescence.ViewModels (project)/  
+        ├── Dialogs/
+        ├── Main/                   
+        └── ...  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
