@@ -1,11 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Luminescence.UsbHid;
+namespace Luminescence.Shared.UsbHid;
 
 internal class UsbHid
 {
-    private const string DllFilename = "UsbHid";
+    private const string DllFilename = "UsbHid/UsbHid.dll";
 
     #region Native Methods
 

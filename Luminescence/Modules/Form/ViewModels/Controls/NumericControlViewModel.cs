@@ -1,4 +1,4 @@
-﻿using Luminescence.Utils;
+﻿using Luminescence.Shared.Utils;
 using ReactiveUI;
 
 namespace Luminescence.Form.ViewModels;

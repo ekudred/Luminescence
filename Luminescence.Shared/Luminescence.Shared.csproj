@@ -11,9 +11,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="UsbHid.dll">
+        <Content Include="UsbHid\UsbHid.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="App\" />
+      <Folder Include="Dialog\" />
     </ItemGroup>
 
 </Project>

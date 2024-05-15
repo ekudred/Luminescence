@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using Luminescence.UsbHid;
-using Luminescence.ViewModels;
+using Luminescence.Shared.UsbHid;
 
 namespace Luminescence.Services;
 
@@ -82,8 +81,8 @@ public class ExpDevice : UsbHidDevice
 
                             CurrentData.OnNext(dto);
                         });
-                },
-                _ => { _dialogService.ShowError().Subscribe(); }
+                }
+                // _ => { _dialogService.ShowError().Subscribe(); }
             );
     }
 
@@ -109,8 +108,8 @@ public class ExpDevice : UsbHidDevice
                     _readDataOn = null;
 
                     InProcess.OnNext(false);
-                },
-                _ => { _dialogService.ShowError().Subscribe(); }
+                }
+                // _ => { _dialogService.ShowError().Subscribe(); }
             );
     }
 }

@@ -2,7 +2,7 @@
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
 
-namespace Luminescence.UsbHid;
+namespace Luminescence.Shared.UsbHid;
 
 public class UsbHidDevice
 {

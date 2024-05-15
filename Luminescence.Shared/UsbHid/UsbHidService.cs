@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Text;
 
-namespace Luminescence.UsbHid;
+namespace Luminescence.Shared.UsbHid;
 
 public class UsbHidService
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Luminescence.Utils;
+using Luminescence.Shared.Utils;
 
 namespace Luminescence.Services;
 

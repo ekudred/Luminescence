@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Reactive;
 using System.Windows.Input;
-using Luminescence.Dialog;
 using Luminescence.Services;
-using Luminescence.UsbHid;
+using Luminescence.Shared.UsbHid;
 using ReactiveUI;
 
 namespace Luminescence.ViewModels;

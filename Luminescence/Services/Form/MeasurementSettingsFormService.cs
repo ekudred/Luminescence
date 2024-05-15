@@ -9,7 +9,7 @@ namespace Luminescence.Services;
 public class MeasurementSettingsFormService
     : FormService<MeasurementSettingsFormViewModel, MeasurementSettingsFormModel>
 {
-    private readonly string _storageName = typeof(MeasurementSettingsFormModel).Name;
+    private readonly string _storageName = nameof(MeasurementSettingsFormModel);
 
     private readonly ExpDevice _expDevice;
     private readonly StorageService _storageService;

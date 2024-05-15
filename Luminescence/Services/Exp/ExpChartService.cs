@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Avalonia.Platform.Storage;
 using Luminescence.Dialog;
-using Luminescence.Utils;
+using Luminescence.Shared.Utils;
 using Luminescence.ViewModels;
 
 namespace Luminescence.Services;

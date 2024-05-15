@@ -13,7 +13,7 @@
         Width="500" Height="200"
         CanResize="False"
         ShowInTaskbar="False"
-        SystemDecorations="BorderOnly"
+        SystemDecorations="Full"
         Icon="/Assets/avalonia-logo.ico"
         Title="Confirmation | TlOsl">
 

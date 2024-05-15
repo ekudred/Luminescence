@@ -1,6 +1,5 @@
-﻿using Luminescence.Dialog;
-using Luminescence.Services;
-using Luminescence.UsbHid;
+﻿using Luminescence.Services;
+using Luminescence.Shared.UsbHid;
 using Luminescence.ViewModels;
 using Splat;
 

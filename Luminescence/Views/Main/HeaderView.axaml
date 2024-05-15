@@ -49,7 +49,7 @@
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="Получаемые данные (Структура)" />
+                                <TextBlock Text="Данные" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>

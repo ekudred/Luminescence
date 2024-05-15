@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Luminescence.Utils;
+using Luminescence.Shared.Utils;
 
 namespace Luminescence.ViewModels;
 

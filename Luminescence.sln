@@ -2,7 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminescence", "Luminescence\Luminescence.csproj", "{E640C3D3-3D73-415A-A2A8-FEA11172D09E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminescence.UsbHid", "Luminescence.UsbHid\Luminescence.UsbHid.csproj", "{101D89BC-7DEA-44EA-B3B1-5909C28FC9AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminescence.Shared", "Luminescence.Shared\Luminescence.Shared.csproj", "{F091D096-AA91-4FAB-B83B-5D268940E08D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminescence.Services", "Luminescence.Services\Luminescence.Services.csproj", "{AFE2BF58-E4D2-4509-8675-07ACD543173A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminescence.ViewModels", "Luminescence.ViewModels\Luminescence.ViewModels.csproj", "{17CE3E53-D9FD-44F8-92F3-0F762C9E30BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +18,17 @@ Global
 		{E640C3D3-3D73-415A-A2A8-FEA11172D09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E640C3D3-3D73-415A-A2A8-FEA11172D09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E640C3D3-3D73-415A-A2A8-FEA11172D09E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{101D89BC-7DEA-44EA-B3B1-5909C28FC9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{101D89BC-7DEA-44EA-B3B1-5909C28FC9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{101D89BC-7DEA-44EA-B3B1-5909C28FC9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{101D89BC-7DEA-44EA-B3B1-5909C28FC9AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F091D096-AA91-4FAB-B83B-5D268940E08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F091D096-AA91-4FAB-B83B-5D268940E08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F091D096-AA91-4FAB-B83B-5D268940E08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F091D096-AA91-4FAB-B83B-5D268940E08D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE2BF58-E4D2-4509-8675-07ACD543173A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE2BF58-E4D2-4509-8675-07ACD543173A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE2BF58-E4D2-4509-8675-07ACD543173A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE2BF58-E4D2-4509-8675-07ACD543173A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17CE3E53-D9FD-44F8-92F3-0F762C9E30BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17CE3E53-D9FD-44F8-92F3-0F762C9E30BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17CE3E53-D9FD-44F8-92F3-0F762C9E30BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17CE3E53-D9FD-44F8-92F3-0F762C9E30BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

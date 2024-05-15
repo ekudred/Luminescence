@@ -1,4 +1,4 @@
-﻿namespace Luminescence.UsbHid;
+﻿namespace Luminescence.Shared.UsbHid;
 
 public interface IUsbHidDeviceOptions
 {

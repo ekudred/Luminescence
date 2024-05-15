@@ -2,7 +2,7 @@
 using System.Data;
 using System.Text;
 
-namespace Luminescence.Utils;
+namespace Luminescence.Shared.Utils;
 
 public static class DataTableUtil
 {

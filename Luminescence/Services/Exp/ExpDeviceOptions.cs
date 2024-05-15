@@ -1,4 +1,4 @@
-﻿using Luminescence.UsbHid;
+﻿using Luminescence.Shared.UsbHid;
 
 namespace Luminescence.Services;
 

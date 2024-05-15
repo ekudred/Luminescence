@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Luminescence.Utils;
+namespace Luminescence.Shared.Utils;
 
 public static class StructUtil
 {

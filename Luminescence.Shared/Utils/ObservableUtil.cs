@@ -1,7 +1,6 @@
-﻿using System;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 
-namespace Luminescence.Utils;
+namespace Luminescence.Shared.Utils;
 
 public static class ObservableUtil
 {
