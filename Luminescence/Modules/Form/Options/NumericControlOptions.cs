@@ -8,9 +8,9 @@ public class NumericControlOptions : FormControlOptions
 
 public class NumericControlSpinnerOptions
 {
-    public bool IsEnabled { get; set; } = false;
-    public double Increment { get; set; } = 0.05;
+    public bool IsEnabled { get; set; } = true;
+    public decimal Increment { get; set; } = new(0.05);
     public string FormatString { get; set; } = "0.00";
-    public double Minimum { get; set; } = 0;
-    public double Maximum { get; set; } = 1;
+    public decimal Minimum { get; set; } = 0;
+    public decimal Maximum { get; set; } = 1;
 }

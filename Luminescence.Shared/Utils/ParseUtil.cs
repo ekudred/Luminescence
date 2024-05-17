@@ -48,6 +48,16 @@ public static class ParseUtil
         return result;
     }
 
+    public static decimal? ToDecimal(this uint value)
+    {
+        return Convert.ToDecimal(value);
+    }
+
+    public static decimal? ToDecimal(this int value)
+    {
+        return Convert.ToDecimal(value);
+    }
+
     public static decimal? ToDecimal(this double value)
     {
         return Convert.ToDecimal(value);

@@ -18,6 +18,7 @@ public class NumericControlViewModel : FormControlBaseViewModel
             {
                 value = doubleValue.ToDecimal()!;
             }
+
             if (value is string stringValue)
             {
                 value = stringValue.ToDecimal()!;
@@ -28,6 +29,8 @@ public class NumericControlViewModel : FormControlBaseViewModel
             ValueChanges.OnNext(value);
         }
     }
+
+    private NumericControlSpinnerOptions _spinnerOptions;
 
     public NumericControlViewModel(string name, decimal defaultValue = 0, NumericControlOptions? options = null)
         : base(name)
@@ -41,6 +44,18 @@ public class NumericControlViewModel : FormControlBaseViewModel
     {
         Placeholder = options.Placeholder;
         SpinnerOptions = options.Spinner;
+
+        decimal.TryParse(Value.ToString(), out decimal value);
+
+        if (value < SpinnerOptions.Minimum)
+        {
+            Value = SpinnerOptions.Minimum;
+        }
+
+        if (value > SpinnerOptions.Maximum)
+        {
+            Value = SpinnerOptions.Maximum;
+        }
 
         base.SetOptions(options);
     }
