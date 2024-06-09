@@ -10,7 +10,7 @@
              x:CompileBindings="True">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioGroupControlStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Controls/RadioGroupControlStyle.axaml" />
     </UserControl.Styles>
 
     <ItemsControl ItemsSource="{Binding Items}">

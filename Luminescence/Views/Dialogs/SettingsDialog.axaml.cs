@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Input;
 using Luminescence.Dialog;
 using Luminescence.ViewModels;
 
@@ -20,5 +21,16 @@ public partial class SettingsDialog : DialogWindow<SettingsDialogViewModel>
         base.Initialize();
 
         ViewModel.UseConfirm(this);
+    }
+
+    protected override void OnKeyUp(KeyEventArgs args)
+    {
+        if (args.Key == Key.Enter)
+        {
+            if (ViewModel.FormChanged)
+            {
+                ViewModel.ApplyCommand.Execute(null);
+            }
+        }
     }
 }

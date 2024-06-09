@@ -1,0 +1,24 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="StackPanel > StackPanel.Item:not(:nth-last-child())">
+        <Setter Property="Margin" Value="0 0 12 8" />
+    </Style>
+
+    <Style Selector="StackPanel.Cell:not(:nth-last-child())">
+        <Setter Property="Margin" Value="0 0 0 4" />
+    </Style>
+
+    <Style Selector="StackPanel.Cell StackPanel.NumericControl">
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style Selector="StackPanel.Cell TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="LineHeight" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 0 12 0" />
+    </Style>
+
+</Styles>

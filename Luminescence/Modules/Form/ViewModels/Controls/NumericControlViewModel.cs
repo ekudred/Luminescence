@@ -24,13 +24,13 @@ public class NumericControlViewModel : FormControlBaseViewModel
                 value = stringValue.ToDecimal()!;
             }
 
-            this.RaiseAndSetIfChanged(ref refValue, value);
-
-            ValueChanges.OnNext(value);
+            if (value is decimal decimalValue)
+            {
+                this.RaiseAndSetIfChanged(ref refValue, decimalValue);
+                ValueChanges.OnNext(value);
+            }
         }
     }
-
-    private NumericControlSpinnerOptions _spinnerOptions;
 
     public NumericControlViewModel(string name, decimal defaultValue = 0, NumericControlOptions? options = null)
         : base(name)
@@ -45,7 +45,7 @@ public class NumericControlViewModel : FormControlBaseViewModel
         Placeholder = options.Placeholder;
         SpinnerOptions = options.Spinner;
 
-        decimal.TryParse(Value.ToString(), out decimal value);
+        var value = (decimal)Value;
 
         if (value < SpinnerOptions.Minimum)
         {

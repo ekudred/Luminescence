@@ -18,7 +18,7 @@
         Title="Confirmation | TlOsl">
 
     <!-- <Window.Styles> -->
-    <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
+    <!--     <StyleInclude Source="avares://Luminescence/Styles/Dialogs/OptionsDialogStyle.axaml" /> -->
     <!-- </Window.Styles> -->
 
     <Panel>

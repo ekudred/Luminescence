@@ -11,7 +11,7 @@
              x:Name="ChartViewControl">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartViewStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Main/ChartViewStyle.axaml" />
     </UserControl.Styles>
 
     <Grid RowDefinitions="*,100" ColumnDefinitions="*"

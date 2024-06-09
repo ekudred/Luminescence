@@ -10,7 +10,7 @@
              x:CompileBindings="True">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/ChartTabsViewStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Main/ChartTabsViewStyle.axaml" />
     </UserControl.Styles>
 
     <TabControl Width="{Binding Width}" Height="{Binding Height}" ItemsSource="{Binding ChartTabs}">

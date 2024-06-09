@@ -6,7 +6,7 @@ namespace Luminescence.Form;
 
 public abstract class FormService<TFormViewModel, TFormModel>
     where TFormViewModel : FormViewModel<TFormModel>
-    where TFormModel : FormBaseModel
+    where TFormModel : FormModel
 {
     public virtual void Initialize(TFormViewModel formViewModel)
     {

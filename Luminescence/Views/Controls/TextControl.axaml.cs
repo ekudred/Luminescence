@@ -2,8 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Luminescence.Form.ViewModels;
+using Luminescence.Shared.Utils;
 
 namespace Luminescence.Views;
 
@@ -15,14 +15,12 @@ public partial class TextControl : UserControl
     {
         InitializeComponent();
 
-        AddHandler(TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
+        AddHandler(TextBox.TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
     }
 
     private void OnTextInput(object? sender, TextInputEventArgs args)
     {
-        TextBox control = (TextBox)args.Source!;
-        string text = control.Text ?? string.Empty;
-        string value = text.Substring(0, control.CaretIndex) + args.Text + text.Substring(control.CaretIndex);
+        string value = TextInputUtil.GetValueFromEventArgs(args);
 
         if (ViewModel.RegExMask.IsMatch(value))
         {

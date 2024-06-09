@@ -1,0 +1,10 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StyleInclude Source="avares://Luminescence/Styles/Controls/CheckboxControlStyle.axaml" />
+    <StyleInclude Source="avares://Luminescence/Styles/Controls/NumericControlStyle.axaml" />
+    <StyleInclude Source="avares://Luminescence/Styles/Controls/RadioControlStyle.axaml" />
+    <StyleInclude Source="avares://Luminescence/Styles/Controls/RadioGroupControlStyle.axaml" />
+    <StyleInclude Source="avares://Luminescence/Styles/Controls/TextControlStyle.axaml" />
+
+</Styles>

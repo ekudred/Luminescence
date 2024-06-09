@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Luminescence.Form;
 using Luminescence.Form.ViewModels;
 using Luminescence.Models;
 using Luminescence.Services;
@@ -18,10 +17,10 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
 
     private readonly double _darkCurrentCodesStartValue = 0.5;
     private readonly double _darkCurrentCodesIncrementValue = 0.05;
-    private readonly int _darkCurrentCodesCount = 13;
+    private readonly int _darkCurrentCodesCount = 14;
     private readonly double _sensitivityCoefsStartValue = 0.5;
     private readonly double _sensitivityCoefsIncrementValue = 0.05;
-    private readonly int _sensitivityCoefsCount = 13;
+    private readonly int _sensitivityCoefsCount = 14;
 
     public override void FromModel(MeasurementSettingsFormModel model)
     {
@@ -63,23 +62,20 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
 
     protected override void ChangeModel(MeasurementSettingsFormModel model)
     {
-        model.HeaterMode =
-            MeasurementSettingsFormModel.GetHeaterMode(
-                GetControlValue<string>(MeasurementSettingsFormControl.HeaterMode)!);
+        model.HeaterMode = MeasurementSettingsFormModel.GetHeaterMode(
+            GetControlValue<string>(MeasurementSettingsFormControl.HeaterMode)!);
         model.EndTemperature = GetControlValue<decimal>(MeasurementSettingsFormControl.EndTemperature).ToDouble() ?? 0;
         model.HeatingRate = GetControlValue<decimal>(MeasurementSettingsFormControl.HeatingRate).ToDouble() ?? 0;
 
-        model.LEDMode =
-            MeasurementSettingsFormModel.GetLEDMode(GetControlValue<string>(MeasurementSettingsFormControl.LEDMode)!);
-
+        model.LEDMode = MeasurementSettingsFormModel.GetLEDMode(
+            GetControlValue<string>(MeasurementSettingsFormControl.LEDMode)!);
         model.StartLEDCurrent =
             GetControlValue<decimal>(MeasurementSettingsFormControl.StartLEDCurrent).ToDouble() ?? 0;
         model.EndLEDCurrent = GetControlValue<decimal>(MeasurementSettingsFormControl.EndLEDCurrent).ToDouble() ?? 0;
         model.LEDCurrentRate = GetControlValue<decimal>(MeasurementSettingsFormControl.LEDCurrentRate).ToDouble() ?? 0;
 
-        model.PEMMode =
-            MeasurementSettingsFormModel.GetPEMMode(GetControlValue<string>(MeasurementSettingsFormControl.PEMMode)!);
-
+        model.PEMMode = MeasurementSettingsFormModel.GetPEMMode(
+            GetControlValue<string>(MeasurementSettingsFormControl.PEMMode)!);
         model.Ufeu = GetControlValue<decimal>(MeasurementSettingsFormControl.Ufeu).ToDouble() ?? 0;
 
         model.LedCAPZeroOffset =
@@ -123,17 +119,19 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         list.Add(new RadioGroupControlViewModel(MeasurementSettingsFormControl.HeaterMode,
             heaterModeControlGroup[0].Name, heaterModeControlGroup));
 
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.EndTemperature, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.EndTemperature,
+            100,
             new()
             {
                 Label = "Конечная температура, °C",
                 Spinner = new() { Minimum = 0, Maximum = 700, Increment = 10 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.HeatingRate, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.HeatingRate,
+            new(0.1),
             new()
             {
                 Label = "Скорость нагрева, °C/сек",
-                Spinner = new() { Minimum = new(0.1), Maximum = 20, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 20, Increment = new(0.1) }
             }));
 
         List<RadioControlViewModel> LEDModeControlGroup = new()
@@ -145,23 +143,26 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         list.Add(new RadioGroupControlViewModel(MeasurementSettingsFormControl.LEDMode,
             LEDModeControlGroup[0].Name, LEDModeControlGroup));
 
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.StartLEDCurrent, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.StartLEDCurrent,
+            0,
             new()
             {
                 Label = "Начальный ток, мА",
                 Spinner = new() { Minimum = 0, Maximum = 1000, Increment = 50 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.EndLEDCurrent, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.EndLEDCurrent,
+            0,
             new()
             {
                 Label = "Конечный ток, мА",
                 Spinner = new() { Minimum = 0, Maximum = 1000, Increment = 50 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LEDCurrentRate, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LEDCurrentRate,
+            new(0.1),
             new()
             {
                 Label = "Скорость роста тока, мА/сек",
-                Spinner = new() { Minimum = new(0.1), Maximum = 20, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 20, Increment = new(0.1) }
             }));
 
         List<RadioControlViewModel> PEMModeControlGroup = new()
@@ -172,59 +173,66 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         list.Add(new RadioGroupControlViewModel(MeasurementSettingsFormControl.PEMMode,
             PEMModeControlGroup[0].Name, PEMModeControlGroup));
 
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.Ufeu, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.Ufeu,
+            new(0.5),
             new()
             {
                 Label = "Напряжение на ФЭУ, В",
-                Spinner = new() { Minimum = new(0.5), Maximum = 20, Increment = new(0.05) }
+                Spinner = new() { Minimum = 0, Maximum = 20, Increment = new(0.05) }
             }));
 
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LedCAPZeroOffset, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LedCAPZeroOffset,
+            0,
             new()
             {
                 Label = "Смещение нуля ЦАП",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 4000, Increment = 1 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LedCAPCoefTransform, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LedCAPCoefTransform,
+            0,
             new()
             {
                 Label = "Коэффициент преобразования ЦАП",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 100, Increment = new(0.01) }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.CodeChange, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.CodeChange,
+            0,
             new()
             {
                 Label = "Изменение кода ФЭУ",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 4000, Increment = 1 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.TemperatureChange, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.TemperatureChange,
+            0,
             new()
             {
                 Label = "Изменение температуры",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 700, Increment = new(0.01) }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.ThermocoupleACPZeroOffset, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.ThermocoupleACPZeroOffset,
+            0,
             new()
             {
                 Label = "Смещение нуля АЦП",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 4000, Increment = 1 }
             }));
-        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.ThermocoupleACPCoefTransform, 0,
+        list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.ThermocoupleACPCoefTransform,
+            0,
             new()
             {
                 Label = "Коэффициент преобразования АЦП",
-                Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                Spinner = new() { Minimum = 0, Maximum = 100, Increment = new(0.01) }
             }));
         for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
         {
             _darkCurrentCodeControls.Add(
                 new NumericControlViewModel(
                     MeasurementSettingsFormControl.DarkCurrentCodeName(i),
-                    0,
+                    new(0.5),
                     new()
                     {
-                        Label = $"{_darkCurrentCodesStartValue + _darkCurrentCodesIncrementValue * i}",
-                        Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                        Label = $"{_darkCurrentCodesStartValue + _darkCurrentCodesIncrementValue * i:0.00}",
+                        Spinner = new() { Minimum = 0, Increment = new(0.01) }
                     })
             );
         }
@@ -233,11 +241,11 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
         {
             _sensitivityCoefControls.Add(new NumericControlViewModel(
                 MeasurementSettingsFormControl.SensitivityCoefName(i),
-                0,
+                new(0.5),
                 new()
                 {
-                    Label = $"{_sensitivityCoefsStartValue + _sensitivityCoefsIncrementValue * i}",
-                    Spinner = new() { Minimum = 0, Maximum = 1, Increment = new(0.1) }
+                    Label = $"{_sensitivityCoefsStartValue + _sensitivityCoefsIncrementValue * i:0.00}",
+                    Spinner = new() { Minimum = 0, Increment = new(0.01) }
                 }));
         }
 

@@ -9,7 +9,7 @@
              x:CompileBindings="True">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/TextControlStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Controls/TextControlStyle.axaml" />
     </UserControl.Styles>
 
     <StackPanel Classes="TextControl">

@@ -7,8 +7,8 @@ using Luminescence.ViewModels;
 
 namespace Luminescence.Form.ViewModels;
 
-public class FormViewModel<TFormModel> : BaseViewModel
-    where TFormModel : FormBaseModel
+public abstract class FormViewModel<TFormModel> : BaseViewModel
+    where TFormModel : FormModel
 {
     public Dictionary<string, FormControlBaseViewModel> Controls { get; } = new();
     public readonly Subject<bool> FormChanged = new();
@@ -173,18 +173,9 @@ public class FormViewModel<TFormModel> : BaseViewModel
         ChangeModel(_initialModel);
     }
 
-    public virtual void FromModel(TFormModel model)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void FromModel(TFormModel model);
 
-    protected virtual void ChangeModel(TFormModel model)
-    {
-        throw new NotImplementedException();
-    }
+    protected abstract void ChangeModel(TFormModel model);
 
-    protected virtual List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list)
-    {
-        throw new NotImplementedException();
-    }
+    protected abstract List<FormControlBaseViewModel> GetControls(List<FormControlBaseViewModel> list);
 }

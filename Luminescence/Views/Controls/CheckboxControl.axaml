@@ -9,7 +9,7 @@
              x:CompileBindings="True">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/RadioControlStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Controls/RadioControlStyle.axaml" />
     </UserControl.Styles>
 
     <CheckBox IsChecked="{Binding Value}" Content="{Binding Label}" />

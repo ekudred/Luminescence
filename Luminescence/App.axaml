@@ -16,10 +16,10 @@
 
         <!-- Packages Styles -->
         <materialIcons:MaterialIconStyles />
-        <!-- <StyleInclude Source="resm:OxyPlot.Avalonia.Themes.Default.xaml?assembly=OxyPlot.Avalonia" /> -->
 
-        <!-- Common Styles -->
+        <!-- Common Styles (сan be overridden) -->
         <StyleInclude Source="avares://Luminescence/Styles/Common/Index.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Controls/Index.axaml" />
 
         <!-- Variables -->
         <StyleInclude Source="avares://Luminescence/Styles/VariablesStyle.axaml" />

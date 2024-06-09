@@ -12,7 +12,7 @@
              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0 0 0 0.5">
 
     <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Main/HeaderViewStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Main/HeaderViewStyle.axaml" />
     </UserControl.Styles>
 
     <Panel Classes="Header">

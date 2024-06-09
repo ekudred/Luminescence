@@ -17,7 +17,7 @@
         Title="Error | TlOsl">
 
     <!-- <Window.Styles> -->
-    <!--     <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/OptionsDialogStyle.axaml" /> -->
+    <!--     <StyleInclude Source="avares://Luminescence/Styles/Dialogs/OptionsDialogStyle.axaml" /> -->
     <!-- </Window.Styles> -->
 
     <TextBlock Text="{Binding Text}" />

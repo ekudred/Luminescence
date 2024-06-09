@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Luminescence.Form.ViewModels;
+using Luminescence.Shared.Utils;
 
 namespace Luminescence.Views;
 
@@ -16,20 +16,49 @@ public partial class NumericControl : UserControl
     {
         InitializeComponent();
 
-        AddHandler(TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
+        AddHandler(NumericUpDown.TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
+        AddHandler(NumericUpDown.ValueChangedEvent, OnValueChanged, RoutingStrategies.Bubble);
     }
 
     private void OnTextInput(object? sender, TextInputEventArgs args)
     {
-        // NumericUpDown control = (NumericUpDown)args.Source!;
-        // string text = control.Text ?? string.Empty;
-        // string value = text.Substring(0, control.CaretIndex) + args.Text + text.Substring(control.CaretIndex);
-        //
-        // if (new Regex(@"^\d+$").IsMatch(value))
-        // {
-        //     return;
-        // }
-        //
-        // args.Text = "";
+        string value = TextInputUtil.GetValueFromEventArgs(args);
+
+        if (value == "")
+        {
+            args.Text = ViewModel.SpinnerOptions.Minimum.ToString();
+
+            return;
+        }
+
+        if (!new Regex(@"^\d+$").IsMatch(value))
+        {
+            return;
+        }
+
+        if (value.ToDecimal() < ViewModel.SpinnerOptions.Minimum)
+        {
+            args.Text = "";
+            ViewModel.Value = ViewModel.SpinnerOptions.Minimum;
+        }
+
+        if (value.ToDecimal() > ViewModel.SpinnerOptions.Maximum)
+        {
+            args.Text = "";
+            ViewModel.Value = ViewModel.SpinnerOptions.Maximum;
+        }
+    }
+
+    private void OnValueChanged(object? sender, NumericUpDownValueChangedEventArgs args)
+    {
+        if (args.NewValue < ViewModel.SpinnerOptions.Minimum)
+        {
+            ViewModel.Value = ViewModel.SpinnerOptions.Minimum;
+        }
+
+        if (args.NewValue > ViewModel.SpinnerOptions.Maximum)
+        {
+            ViewModel.Value = ViewModel.SpinnerOptions.Maximum;
+        }
     }
 }

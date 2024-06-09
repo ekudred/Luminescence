@@ -1,0 +1,15 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="Panel > StackPanel">
+        <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+        <Setter Property="ZIndex" Value="1" />
+    </Style>
+
+    <Style Selector="Grid#DialogOverlay">
+        <Setter Property="ZIndex" Value="-1" />
+        <Setter Property="Background" Value="#000000" />
+        <Setter Property="Opacity" Value="0.2" />
+    </Style>
+
+</Styles>

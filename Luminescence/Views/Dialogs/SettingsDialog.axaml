@@ -13,14 +13,14 @@
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Width="400" Height="600"
+        Width="440" Height="680"
         ShowInTaskbar="False"
         CanResize="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="TlOsl">
 
     <Window.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Dialogs/SettingsDialogStyle.axaml" />
+        <StyleInclude Source="avares://Luminescence/Styles/Dialogs/SettingsDialogStyle.axaml" />
     </Window.Styles>
 
     <Window.Resources>
@@ -28,7 +28,7 @@
     </Window.Resources>
 
     <Panel>
-        <Grid RowDefinitions="560 40" ColumnDefinitions="400">
+        <Grid RowDefinitions="640 40" ColumnDefinitions="440">
 
             <TabControl Grid.Row="0" Grid.Column="0">
 
@@ -215,7 +215,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="fvm:NumericControlViewModel">
                                             <StackPanel Classes="Cell" DataContext="{Binding}">
-                                                <v:NumericControl DataContext="{Binding}" Classes="CellControl" />
+                                                <v:NumericControl DataContext="{Binding}" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

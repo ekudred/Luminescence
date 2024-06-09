@@ -14,7 +14,7 @@ public class TextControlViewModel : FormControlBaseViewModel
         get => refValue;
         set
         {
-            this.RaiseAndSetIfChanged(ref refValue, value);
+            SetRefValue(value);
 
             ValueChanges.OnNext(value);
         }
@@ -22,7 +22,7 @@ public class TextControlViewModel : FormControlBaseViewModel
 
     public TextControlViewModel(string name, string defaultValue = "", TextControlOptions? options = null) : base(name)
     {
-        Value = defaultValue;
+        SetRefValue(defaultValue);
 
         SetOptions(options ?? new());
     }
@@ -33,5 +33,10 @@ public class TextControlViewModel : FormControlBaseViewModel
         RegExMask = options.RegExMask;
 
         base.SetOptions(options);
+    }
+
+    private void SetRefValue(object value)
+    {
+        this.RaiseAndSetIfChanged(ref refValue, value);
     }
 }

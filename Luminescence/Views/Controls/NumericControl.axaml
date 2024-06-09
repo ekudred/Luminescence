@@ -8,10 +8,6 @@
              x:DataType="vm:NumericControlViewModel"
              x:CompileBindings="True">
 
-    <UserControl.Styles>
-        <StyleInclude Source="avares://Luminescence/Styles/Views/Controls/NumericControlStyle.axaml" />
-    </UserControl.Styles>
-
     <StackPanel Classes="NumericControl">
         <TextBlock Classes="P" Text="{Binding Label}" />
         <NumericUpDown Value="{Binding Value}"

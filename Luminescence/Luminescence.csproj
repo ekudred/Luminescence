@@ -74,13 +74,27 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Styles\Views\Dialogs\SettingsDialogStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\MainWindowStyle.axaml"/>
-        <AdditionalFiles Include="Styles\Views\Main\HeaderViewStyle.axaml"/>
+        <AdditionalFiles Include="Styles\Controls\CheckboxControlStyle.axaml" />
+        <AdditionalFiles Include="Styles\Controls\Index.axaml" />
+        <AdditionalFiles Include="Styles\Controls\NumericControlStyle.axaml" />
+        <AdditionalFiles Include="Styles\Controls\RadioControlStyle.axaml" />
+        <AdditionalFiles Include="Styles\Controls\RadioGroupControlStyle.axaml" />
+        <AdditionalFiles Include="Styles\Controls\TextControlStyle.axaml" />
+        <AdditionalFiles Include="Styles\Main\ChartTabsViewStyle.axaml" />
+        <AdditionalFiles Include="Styles\Main\ChartViewStyle.axaml" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Luminescence.Shared\Luminescence.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Styles\Views\Controls\CheckboxControlStyle.axaml" />
+      <UpToDateCheckInput Remove="Styles\Views\Controls\Index.axaml" />
+      <UpToDateCheckInput Remove="Styles\Views\Controls\NumericControlStyle.axaml" />
+      <UpToDateCheckInput Remove="Styles\Views\Controls\RadioControlStyle.axaml" />
+      <UpToDateCheckInput Remove="Styles\Views\Controls\RadioGroupControlStyle.axaml" />
+      <UpToDateCheckInput Remove="Styles\Views\Controls\TextControlStyle.axaml" />
     </ItemGroup>
 
 </Project>

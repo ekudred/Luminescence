@@ -18,6 +18,6 @@ public class ExpDeviceOptions : IUsbHidDeviceOptions
         SerialNumber = null;
         ReadReportLength = 64;
         ReadInterval = 100;
-        CheckInterval = 200;
+        CheckInterval = 100;
     }
 }

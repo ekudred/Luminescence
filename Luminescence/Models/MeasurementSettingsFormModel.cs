@@ -8,7 +8,7 @@ using Luminescence.Services;
 
 namespace Luminescence.Models;
 
-public class MeasurementSettingsFormModel : FormBaseModel
+public class MeasurementSettingsFormModel : FormModel
 {
     public static int GetHeaterMode(string mode)
     {
@@ -107,7 +107,7 @@ public class MeasurementSettingsFormModel : FormBaseModel
     /** Очищение графиков перед измерением */
     public bool Clear;
 
-    public override bool Equals(FormBaseModel? obj)
+    public override bool Equals(FormModel? obj)
     {
         if (obj == null)
         {
