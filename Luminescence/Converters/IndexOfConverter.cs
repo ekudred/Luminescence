@@ -7,12 +7,10 @@ using Avalonia.Data.Converters;
 
 namespace Luminescence.Converters;
 
-/**
-    <MultiBinding Converter="{StaticResource IndexOfConverter}">
-        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-        <Binding Path="." />
-    </MultiBinding>
- */
+///    <MultiBinding Converter="{StaticResource IndexOfConverter}">
+///        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+///        <Binding Path="." />
+///    </MultiBinding>
 public class IndexOfConverter : IMultiValueConverter
 {
     public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)

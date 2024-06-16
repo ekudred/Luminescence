@@ -28,6 +28,12 @@ public static class MeasurementSettingsFormControl
     public const string ThermocoupleACPZeroOffset = "ThermocoupleACPZeroOffset";
     public const string ThermocoupleACPCoefTransform = "ThermocoupleACPCoefTransform";
     public const string DarkCurrentCode = "DarkCurrentCode";
+    public const double DarkCurrentCodesStartValue = 0.5;
+    public const double DarkCurrentCodesIncrementValue = 0.05;
+    public const int DarkCurrentCodesCount = 14;
+    public const double SensitivityCoefsStartValue = 0.5;
+    public const double SensitivityCoefsIncrementValue = 0.05;
+    public const int SensitivityCoefsCount = 14;
     public static string DarkCurrentCodeName(int i) => $"{DarkCurrentCode}{i}";
     public static int DarkCurrentCodeKey(string code) => code.Replace(DarkCurrentCode, string.Empty).ToInt();
     public const string SensitivityCoef = "SensitivityCoef";

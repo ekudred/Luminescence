@@ -87,26 +87,27 @@ public class ExpChartService
             });
 
         expDevice.CurrentData
+            .Select(PrepareData)
             .Subscribe(data =>
             {
                 ExpChartsModel.AddPoint(ExpChartsModel.Tal0, ExpChartsModel.CurrentSeriesName,
-                    new double[] { data.Counter, data.Temperature });
+                    new[] { data.Counter, data.Temperature });
                 ExpChartsModel.AddPoint(ExpChartsModel.Tal0, ExpChartsModel.OpSeriesName,
-                    new double[] { data.Counter, data.OpTemperature });
+                    new[] { data.Counter, data.OpTemperature });
 
                 ExpChartsModel.AddPoint(ExpChartsModel.Tal1, ExpChartsModel.CurrentSeriesName,
-                    new double[] { data.Counter, data.Intensity });
+                    new[] { data.Counter, data.Intensity });
 
                 ExpChartsModel.AddPoint(ExpChartsModel.Tl, ExpChartsModel.CurrentSeriesName,
-                    new double[] { data.OpTemperature, data.Intensity });
+                    new[] { data.OpTemperature, data.Intensity });
 
                 ExpChartsModel.AddPoint(ExpChartsModel.Osl, ExpChartsModel.CurrentSeriesName,
-                    new double[] { data.OpLEDCurrent, data.Intensity });
+                    new[] { data.OpLEDCurrent, data.Intensity });
 
                 ExpChartsModel.AddPoint(ExpChartsModel.Led, ExpChartsModel.CurrentSeriesName,
-                    new double[] { data.Counter, data.LEDCurrent });
+                    new[] { data.Counter, data.LEDCurrent });
                 ExpChartsModel.AddPoint(ExpChartsModel.Led, ExpChartsModel.OpSeriesName,
-                    new double[] { data.Counter, data.OpLEDCurrent });
+                    new[] { data.Counter, data.OpLEDCurrent });
             });
     }
 
@@ -160,5 +161,13 @@ public class ExpChartService
                 : _appFilePickerService.Save(text, _saveOptions)
             ).Switch()
             .Subscribe();
+    }
+
+    private ExpChartModel PrepareData(ExpReadDto expReadDto)
+    {
+        ExpChartModel model = new ExpChartModel(expReadDto);
+        model.Intensity *= (double)_measurementSettingsFormViewModel.IntensityMultiplier.ToDouble()!;
+
+        return model;
     }
 }

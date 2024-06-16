@@ -5,9 +5,7 @@ using Avalonia.Data.Converters;
 
 namespace Luminescence.Converters;
 
-/**
-  DataContext="{Binding DictionaryEntries, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:DictionaryEntryKey}}"
- */
+/// DataContext="{Binding DictionaryEntries, Converter={StaticResource DictionaryEntryConverter}, ConverterParameter={x:Static s:DictionaryEntryKey}}"
 public class DictionaryEntryConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

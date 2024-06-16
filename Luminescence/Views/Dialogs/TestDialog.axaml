@@ -9,7 +9,7 @@
         x:CompileBindings="True"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Width="300" Height="400"
+        Width="300" Height="450"
         CanResize="False"
         ShowInTaskbar="False"
         SystemDecorations="Full"
@@ -17,12 +17,18 @@
         Title="Test">
 
     <Panel>
-        <TextBox Width="300"
-                 Height="400"
-                 Padding="8"
-                 IsReadOnly="True"
-                 TextWrapping="Wrap"
-                 Text="{Binding Text}" />
+        <StackPanel Orientation="Vertical">
+            <TextBox Width="300"
+                     Height="400"
+                     Padding="8"
+                     IsReadOnly="True"
+                     TextWrapping="Wrap"
+                     Text="{Binding Text}" />
+            <StackPanel Width="300" Height="50" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Padding="12" Text="UPem множитель:" />
+                <TextBlock Padding="12" Text="{Binding IntensityMultiplier}" />
+            </StackPanel>
+        </StackPanel>
     </Panel>
 
 </Window>

@@ -90,16 +90,6 @@ public class HeaderViewModel : BaseViewModel
                 StopEnabled = connected && inProcess;
             });
 
-        // Observable.Merge(new[] { _expDeviceService.Connected, _expDeviceService.InProcess })
-        //     .Subscribe(result =>
-        //     {
-        //         var connected = result[0];
-        //         var inProcess = result[1];
-        //
-        //         PlayEnabled = connected && !inProcess;
-        //         StopEnabled = connected && inProcess;
-        //     });
-
         ToggleActiveCommand = ReactiveCommand.Create(ToggleActive);
         OpenCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Open());
         SaveCommand = ReactiveCommand.Create<Unit>(_ => _expChartService.Save());

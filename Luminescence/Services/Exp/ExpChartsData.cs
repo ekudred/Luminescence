@@ -45,10 +45,10 @@ public class ExpChartsData
         return data;
     }
 
-    /**
-     * key = chartName & seriesName & xAxisName & yAxisName
-     * value = point[]
-     */
+    /// <summary>
+    ///     key = chartName & seriesName & xAxisName & yAxisName
+    ///     value = point[]
+    /// </summary>
     public Dictionary<string, List<double[]>> Result { get; } = new();
 
     public void AddPoint(string chartName, string seriesName, string xAxisName, string yAxisName, double[] point)

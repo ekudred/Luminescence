@@ -9,18 +9,13 @@ namespace Luminescence.ViewModels;
 
 public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSettingsFormModel>
 {
+    public decimal IntensityMultiplier = 1;
+
     public List<FormControlBaseViewModel> DarkCurrentCodeControls => _darkCurrentCodeControls;
     public List<FormControlBaseViewModel> SensitivityCoefControls => _sensitivityCoefControls;
 
     private List<FormControlBaseViewModel> _darkCurrentCodeControls = new();
     private List<FormControlBaseViewModel> _sensitivityCoefControls = new();
-
-    private readonly double _darkCurrentCodesStartValue = 0.5;
-    private readonly double _darkCurrentCodesIncrementValue = 0.05;
-    private readonly int _darkCurrentCodesCount = 14;
-    private readonly double _sensitivityCoefsStartValue = 0.5;
-    private readonly double _sensitivityCoefsIncrementValue = 0.05;
-    private readonly int _sensitivityCoefsCount = 14;
 
     public override void FromModel(MeasurementSettingsFormModel model)
     {
@@ -105,6 +100,9 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             var value = ((decimal)control.Value).ToDouble() ?? 0;
             model.SensitivityCoefs.Add(key, value);
         });
+
+        SetIntensityMultiplier();
+
         model.Clear = GetControlValue<bool>(MeasurementSettingsFormControl.Clear);
     }
 
@@ -178,7 +176,7 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             new()
             {
                 Label = "Напряжение на ФЭУ, В",
-                Spinner = new() { Minimum = 0, Maximum = 20, Increment = new(0.05) }
+                Spinner = new() { Minimum = 0, Maximum = new(1.1), Increment = new(0.05), ManualInputEnabled = false }
             }));
 
         list.Add(new NumericControlViewModel(MeasurementSettingsFormControl.LedCAPZeroOffset,
@@ -223,7 +221,7 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
                 Label = "Коэффициент преобразования АЦП",
                 Spinner = new() { Minimum = 0, Maximum = 100, Increment = new(0.01) }
             }));
-        for (int i = 0; i < _darkCurrentCodesCount - 1; i++)
+        for (int i = 0; i < MeasurementSettingsFormControl.DarkCurrentCodesCount - 1; i++)
         {
             _darkCurrentCodeControls.Add(
                 new NumericControlViewModel(
@@ -231,20 +229,22 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
                     new(0.5),
                     new()
                     {
-                        Label = $"{_darkCurrentCodesStartValue + _darkCurrentCodesIncrementValue * i:0.00}",
+                        Label =
+                            $"{(MeasurementSettingsFormControl.DarkCurrentCodesStartValue + MeasurementSettingsFormControl.DarkCurrentCodesIncrementValue * i):0.00}",
                         Spinner = new() { Minimum = 0, Increment = new(0.01) }
                     })
             );
         }
 
-        for (int i = 0; i < _sensitivityCoefsCount - 1; i++)
+        for (int i = 0; i < MeasurementSettingsFormControl.SensitivityCoefsCount - 1; i++)
         {
             _sensitivityCoefControls.Add(new NumericControlViewModel(
                 MeasurementSettingsFormControl.SensitivityCoefName(i),
                 new(0.5),
                 new()
                 {
-                    Label = $"{_sensitivityCoefsStartValue + _sensitivityCoefsIncrementValue * i:0.00}",
+                    Label =
+                        $"{(MeasurementSettingsFormControl.SensitivityCoefsStartValue + MeasurementSettingsFormControl.SensitivityCoefsIncrementValue * i):0.00}",
                     Spinner = new() { Minimum = 0, Increment = new(0.01) }
                 }));
         }
@@ -256,6 +256,32 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
             .Concat(_darkCurrentCodeControls)
             .Concat(_sensitivityCoefControls)
             .ToList();
+    }
+
+    private void SetIntensityMultiplier()
+    {
+        List<decimal[]> list = new List<decimal[]>();
+
+        SensitivityCoefControls.ForEach(control =>
+        {
+            decimal label = (decimal)control.Label.ToDecimal()!;
+            decimal value = (decimal)control.Value;
+            list.Add(new[] { label, value });
+        });
+
+        decimal result = 1;
+
+        decimal UfeuValue = GetControlValue<decimal>(MeasurementSettingsFormControl.Ufeu);
+
+        list.ForEach(item =>
+        {
+            if (item[0] <= UfeuValue)
+            {
+                result *= item[1];
+            }
+        });
+
+        IntensityMultiplier = result;
     }
 
     private string GetHeaterMode(int mode)

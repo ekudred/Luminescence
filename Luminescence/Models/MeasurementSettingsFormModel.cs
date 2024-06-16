@@ -5,6 +5,7 @@ using System.Text;
 using DynamicData;
 using Luminescence.Form;
 using Luminescence.Services;
+using Luminescence.Shared.Utils;
 
 namespace Luminescence.Models;
 
@@ -53,58 +54,58 @@ public class MeasurementSettingsFormModel : FormModel
         }
     }
 
-    /** Режим */
+    /// Режим
     public int HeaterMode;
 
-    /** Режим светодиода */
+    /// Режим светодиода
     public int LEDMode;
 
-    /** Режим ФЭУ */
+    /// Режим ФЭУ
     public int PEMMode;
 
-    /** Конечная температура, °C */
+    /// Конечная температура, °C
     public double EndTemperature;
 
-    /** Скорость нагрева, °C/сек */
+    /// Скорость нагрева, °C/сек
     public double HeatingRate;
 
-    /** Начальный ток, мА */
+    /// Начальный ток, мА
     public double StartLEDCurrent;
 
-    /** Конечный ток, мА */
+    /// Конечный ток, мА
     public double EndLEDCurrent;
 
-    /** Скорость роста тока, мА/сек */
+    /// Скорость роста тока, мА/сек
     public double LEDCurrentRate;
 
-    /** Напряжение на ФЭУ, В */
+    /// Напряжение на ФЭУ, В
     public double Ufeu;
 
-    /** Смещение нуля ЦАП */
+    /// Смещение нуля ЦАП
     public double LedCAPZeroOffset;
 
-    /** Коэффициент преобразования ЦАП */
+    /// Коэффициент преобразования ЦАП
     public double LedCAPCoefTransform;
 
-    /** Изменение кода ФЭУ */
+    /// Изменение кода ФЭУ
     public double CodeChange;
 
-    /** Изменение температуры */
+    /// Изменение температуры
     public double TemperatureChange;
 
-    /** Смещение нуля АЦП */
+    /// Смещение нуля АЦП
     public double ThermocoupleACPZeroOffset;
 
-    /** Коэффициент преобразования АЦП */
+    /// Коэффициент преобразования АЦП
     public double ThermocoupleACPCoefTransform;
 
-    /** Темновой ток Codes */
+    /// Темновой ток Codes
     public Dictionary<int, double> DarkCurrentCodes;
 
-    /** Коэффициенты чувствительности Coefs */
+    /// Коэффициенты чувствительности Coefs
     public Dictionary<int, double> SensitivityCoefs;
 
-    /** Очищение графиков перед измерением */
+    /// Очищение графиков перед измерением
     public bool Clear;
 
     public override bool Equals(FormModel? obj)
@@ -156,14 +157,14 @@ public class MeasurementSettingsFormModel : FormModel
         dto.HeaterMode = Convert.ToByte(HeaterMode);
         dto.LEDMode = Convert.ToByte(LEDMode);
         dto.PEMMode = Convert.ToByte(PEMMode);
-        dto.HeatingRate = Convert.ToByte(HeatingRate * 10); //  0.1 - 10 скорость нагрева
+        dto.HeatingRate = Convert.ToByte(HeatingRate * 10);
         dto.TemperatureError = 0;
-        dto.LEDCurrentRate = Convert.ToUInt16(LEDCurrentRate * 10); // 0.1 - 500
+        dto.LEDCurrentRate = Convert.ToUInt16(LEDCurrentRate * 10);
         dto.StartTemperature = 0;
         dto.EndTemperature = Convert.ToUInt16(EndTemperature);
         dto.StartLEDCurrent = Convert.ToUInt16(StartLEDCurrent);
         dto.EndLEDCurrent = Convert.ToUInt16(EndLEDCurrent);
-        dto.Upem = Convert.ToByte(Ufeu * 100); // default 0.5 (огр: 0.5 до 1.1 включ) (Ufeu*100)
+        dto.Upem = Convert.ToByte(Ufeu * 100);
         dto.KeyControl = 0;
         dto.PEMError = 0;
         dto.OffsetADCThermocouple = 0;

@@ -43,7 +43,7 @@ public class NumericControlViewModel : FormControlBaseViewModel
     private void SetOptions(NumericControlOptions options)
     {
         Placeholder = options.Placeholder;
-        SpinnerOptions = options.Spinner;
+        SpinnerOptions = options.Spinner ?? new();
 
         var value = (decimal)Value;
 

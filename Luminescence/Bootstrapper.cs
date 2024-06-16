@@ -67,7 +67,8 @@ public static class Bootstrapper
         ));
         services.RegisterLazySingleton(() => new MeasurementSettingsFormViewModel());
         services.RegisterLazySingleton(() => new TestDialogViewModel(
-            resolver.GetService<ExpDevice>()
+            resolver.GetService<ExpDevice>(),
+            resolver.GetService<MeasurementSettingsFormViewModel>()
         ));
     }
 

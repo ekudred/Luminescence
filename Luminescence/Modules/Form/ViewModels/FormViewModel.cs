@@ -151,16 +151,22 @@ public abstract class FormViewModel<TFormModel> : BaseViewModel
         return value;
     }
 
-    public TFormModel ToModel()
+    public TFormModel? ToModel()
     {
-        ChangeModel(_model);
+        if (_model != null)
+        {
+            ChangeModel(_model);
+        }
 
         return _model;
     }
 
     public void UpdateModel()
     {
-        ChangeModel(_model);
+        if (_model != null)
+        {
+            ChangeModel(_model);
+        }
     }
 
     public void ResetModel()
@@ -170,7 +176,10 @@ public abstract class FormViewModel<TFormModel> : BaseViewModel
 
     public void UpdateInitialModel()
     {
-        ChangeModel(_initialModel);
+        if (_initialModel != null)
+        {
+            ChangeModel(_initialModel);
+        }
     }
 
     public abstract void FromModel(TFormModel model);

@@ -19,11 +19,21 @@ public static class ParseUtil
         return Convert.ToInt32(value);
     }
 
+    public static uint ToUInt(this decimal value)
+    {
+        return Convert.ToUInt32(value);
+    }
+
     public static double? ToDouble(this string value)
     {
         double.TryParse(value, out double result);
 
         return result;
+    }
+
+    public static double? ToDouble(this int value)
+    {
+        return Convert.ToDouble(value);
     }
 
     public static double? ToDouble(this decimal value)
@@ -43,9 +53,14 @@ public static class ParseUtil
 
     public static decimal? ToDecimal(this string value)
     {
-        decimal.TryParse(value, out decimal result);
+        var parse = decimal.TryParse(value, out decimal result);
 
-        return result;
+        return parse ? result : 0;
+    }
+
+    public static bool IsDecimal(this string value)
+    {
+        return Decimal.TryParse(value, out _);
     }
 
     public static decimal? ToDecimal(this uint value)
@@ -59,6 +74,11 @@ public static class ParseUtil
     }
 
     public static decimal? ToDecimal(this double value)
+    {
+        return Convert.ToDecimal(value);
+    }
+
+    public static decimal? ToDecimal(this float value)
     {
         return Convert.ToDecimal(value);
     }

@@ -22,6 +22,13 @@ public partial class NumericControl : UserControl
 
     private void OnTextInput(object? sender, TextInputEventArgs args)
     {
+        if (!ViewModel.SpinnerOptions.ManualInputEnabled)
+        {
+            args.Text = "";
+
+            return;
+        }
+
         string value = TextInputUtil.GetValueFromEventArgs(args);
 
         if (value == "")
@@ -31,34 +38,26 @@ public partial class NumericControl : UserControl
             return;
         }
 
-        if (!new Regex(@"^\d+$").IsMatch(value))
+        if (!value.IsDecimal())
         {
+            args.Text = "";
+
             return;
         }
 
-        if (value.ToDecimal() < ViewModel.SpinnerOptions.Minimum)
-        {
-            args.Text = "";
-            ViewModel.Value = ViewModel.SpinnerOptions.Minimum;
-        }
+        var decimalValue = value.ToDecimal();
 
-        if (value.ToDecimal() > ViewModel.SpinnerOptions.Maximum)
+        if (decimalValue < ViewModel.SpinnerOptions.Minimum || decimalValue > ViewModel.SpinnerOptions.Maximum)
         {
             args.Text = "";
-            ViewModel.Value = ViewModel.SpinnerOptions.Maximum;
         }
     }
 
     private void OnValueChanged(object? sender, NumericUpDownValueChangedEventArgs args)
     {
-        if (args.NewValue < ViewModel.SpinnerOptions.Minimum)
+       if (args.NewValue < ViewModel.SpinnerOptions.Minimum || args.NewValue > ViewModel.SpinnerOptions.Maximum)
         {
-            ViewModel.Value = ViewModel.SpinnerOptions.Minimum;
-        }
-
-        if (args.NewValue > ViewModel.SpinnerOptions.Maximum)
-        {
-            ViewModel.Value = ViewModel.SpinnerOptions.Maximum;
+            ViewModel.Value = args.OldValue;
         }
     }
 }

@@ -13,7 +13,7 @@
         <NumericUpDown Value="{Binding Value}"
                        Watermark="{Binding Placeholder}"
                        ShowButtonSpinner="{Binding SpinnerOptions.IsEnabled}"
-                       AllowSpin="{Binding SpinnerOptions.IsEnabled}"
+                       AllowSpin="{Binding SpinnerOptions.IsEnabled}" 
                        Increment="{Binding SpinnerOptions.Increment}"
                        FormatString="{Binding SpinnerOptions.FormatString}"
                        Minimum="{Binding SpinnerOptions.Minimum}"
