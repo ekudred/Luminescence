@@ -275,7 +275,7 @@ public class MeasurementSettingsFormViewModel : FormViewModel<MeasurementSetting
 
         list.ForEach(item =>
         {
-            if (item[0] <= UfeuValue)
+            if (item[0] >= UfeuValue)
             {
                 result *= item[1];
             }
